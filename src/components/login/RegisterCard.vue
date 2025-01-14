@@ -3,17 +3,21 @@
     src="https://images.unsplash.com/photo-1576961453646-b4c376c7021b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     class="fixed top-0 bottom-0 left-0 right-0 object-cover w-full h-full animate-fade -z-10"
     alt="A scenic view of a modern building with a clear sky in the background">
-  <section  class="font-roboto font-poppins ">
-    <section v-if="loadingAnimation" class="fixed top-0 bottom-0 left-0 right-0 z-40 flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out bg-white bg-opacity-100 animate-fade">
-<p class="text-2xl font-semibold text-sky-800 font-poppins ">Creando Cuenta <span class="animate-pulse animate-delay-0">.</span> <span class="animate-pulse animate-delay-300">.</span> <span class="animate-pulse animate-delay-400">.</span></p>
+  <section class="font-roboto font-poppins ">
+    <section v-if="loadingAnimation"
+      class="fixed top-0 bottom-0 left-0 right-0 z-40 flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out bg-white bg-opacity-100 animate-fade">
+      <p class="text-2xl font-semibold text-sky-800 font-poppins ">Creando Cuenta <span
+          class="animate-pulse animate-delay-0">.</span> <span class="animate-pulse animate-delay-300">.</span> <span
+          class="animate-pulse animate-delay-400">.</span></p>
       <!-- /* From Uiverse.io by TamaniPhiri */  -->
-<div class="flex flex-col items-center justify-center w-full gap-4">
-  <div class="flex items-center justify-center text-4xl text-blue-400 border-8 border-gray-300 rounded-full w-28 h-28 animate-spin border-t-blue-400">
-    <!-- <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" class="animate-ping">
+      <div class="flex flex-col items-center justify-center w-full gap-4">
+        <div
+          class="flex items-center justify-center text-4xl text-blue-400 border-8 border-gray-300 rounded-full w-28 h-28 animate-spin border-t-blue-400">
+          <!-- <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" class="animate-ping">
       <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"></path>
     </svg> -->
-  </div>
-</div>
+        </div>
+      </div>
     </section>
 
     <div class="flex items-center justify-center px-3 py-2 bg-white bg-opacity-50 ">
@@ -47,10 +51,35 @@
               <strong>Administrador</strong> si usted es responsable de la administración de un edificio o condominio.
             </div>
           </div>
+          <div v-if="type.toLowerCase() == 'propietario'" class="mb-4 animate-fade-up">
+            <label for="owner" class="block font-medium text-sky-900">Número de departamento</label>
+            <div class="relative">
+              <input v-model="departmentNumber" type="email" id="owner" name="owner"
+                placeholder="Ingresa el número de departamento"
+                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required>
+              <i class="absolute text-sky-800 fas fa-hashtag left-3 top-3"></i>
+            </div>
+          </div>
+          <div v-if="type.toLowerCase() == 'propietario'" class="mb-4 animate-fade-up">
+            <label for="invId" class="block font-medium text-sky-900">Código de invitación</label>
+            <div class="relative">
+              <input v-model="invId" type="email" id="invId" name="invId" placeholder="Ingresa el código de invitación"
+                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required>
+              <i class="absolute text-sky-800 fas fa-address-card left-3 top-3"></i>
+            </div>
+            <div>
+              <small class="text-xs italic text-slate-500"><i class="mr-1 fas fa-info-circle"></i>Ingresa el código de
+                invitación de tu departamento, pregunta al administrador, por el código.</small>
+            </div>
+          </div>
+
           <div v-if="type.toLowerCase() == 'administrador'" class="mb-4 animate-fade-up">
             <label for="condominium" class="block font-medium text-sky-900">Nombre del Condominio</label>
             <div class="relative">
-              <input v-model="condominium" type="email" id="condominium" name="condominium" placeholder="Ingresa el nombre del condominio "
+              <input v-model="condominium" type="email" id="condominium" name="condominium"
+                placeholder="Ingresa el nombre del condominio "
                 class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
               <i class="absolute text-sky-800 fas fa-building left-3 top-3"></i>
@@ -148,7 +177,7 @@ const handleCreation = async () => {
 <script lang="ts" setup>
 import { ref } from "vue";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, Timestamp, query, where, doc, setDoc, updateDoc } from "firebase/firestore";
 // animations for toast
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
@@ -173,9 +202,10 @@ const condominium = ref("");
 const password = ref("");
 const cPassword = ref("");
 const invitationId = ref("");
-
+const departmentNumber = ref("");
 const auth = getAuth();
 const db = getFirestore();
+const invId = ref("");
 
 // funciton that generates a random string of characters with uppercase and lowercase letters, numbers with a length of 8 characters
 const generateRandomString = () => {
@@ -188,6 +218,9 @@ const generateRandomString = () => {
   return randomString;
 }
 
+
+const condominiosRef = collection(db, "condominios");
+const usersGeneralRef = collection(db, "usersGeneral");
 
 const handleCreation = async () => {
   try {
@@ -206,59 +239,73 @@ const handleCreation = async () => {
     // generating a random invitationId but verifying that it doesn't exist on the database
     invitationId.value = generateRandomString();
     // invitationId.value = 'F3tvpbj3';
-    const condominiosRef = collection(db, "condominios");
     const condominioSnapshot = await getDocs(condominiosRef);
     const condominios = condominioSnapshot.docs.map((doc) => doc.data());
     if (condominios.some(condominio => condominio.invitationId === invitationId.value)) {
-      notyf.error("Error al generar el ID de invitación. Intentandolo de nuevo.");
+      notyf.error("Error al generar el ID de invitación. Inténtelo de nuevo");
       invitationId.value = generateRandomString();
-    loadingAnimation.value = false;
+      loadingAnimation.value = false;
       return;
     }
 
     // Crear el usuario en Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    if( user && type.value.toLowerCase() == 'administrador'){
+    if (user && type.value.toLowerCase() == 'administrador') {
       // Actualizar el perfil del usuario
       await updateProfile(user, { displayName: `${type.value} ${name.value}` });  //En base al type el nombre se concatena en el displayName del user
       await sendEmailVerification(user);
 
-      // Crear un documento en la colección `condominios`
+     // Crear un documento en la colección `condominios`
       const condominioRef = await addDoc(collection(db, "condominios"), {
-        nombre: condominium.value, // Cambiar dinámicamente según el formulario
-        creadoPor: user.uid, // Asociar con el ID del admin
-        tipo: type.value,
-        invitationId: invitationId.value
+        name: condominium.value, // Cambiar dinámicamente según el formulario
+        createdBy: user.uid, // Asociar con el ID del admin
+        type: type.value,
+        invitationId: invitationId.value,
+        dateCreated: Timestamp.fromDate(new Date()),
+        condominiumId:''
+      });
+        await updateDoc(condominioRef, {
+          condominiumId: condominioRef.id
+        })
+      //   // Preparar subcolecciones vacías
+      const anunciosRef = collection(db, `condominios/${condominioRef.id}/announcements`); //set anuncios if error
+      const comentariosRef = collection(db, `condominios/${condominioRef.id}/comments`); // set comentarios if error
+
+      //   // Agregar un mensaje inicial a los anuncios como ejemplo
+     const announcementDoc =   await addDoc(anunciosRef, {
+        title: "Bienvenidos",
+        content: "Este es el primer anuncio de tu condominio.",
+        author: user.displayName,
+        date: new Date(),
+        isUrgent: false,
+        fromAdmin:false
       });
 
-      // Preparar subcolecciones vacías
-      const comentariosRef = collection(db, `condominios/${condominioRef.id}/comentarios`);
-      const anunciosRef = collection(db, `condominios/${condominioRef.id}/anuncios`);
-
-      // Agregar un mensaje inicial a los anuncios como ejemplo
-      await addDoc(anunciosRef, {
-        titulo: "Bienvenidos",
-        contenido: "Este es el primer anuncio de tu condominio.",
-        autor: user.displayName,
-        fecha: new Date(),
+      const announcementId = announcementDoc.id;
+      updateDoc(announcementDoc, {
+        announcementId: announcementId,
+      })
+      //   // Agregar un mensaje inicial a los inquilinos como ejemplo
+     const commentDoc = await addDoc(comentariosRef, {
+        announcement: "Primer comentario generado automáticamente",
+        category: "Inquilinos",
+        date: Timestamp.now(),
+        author: user.displayName,
+        isUrgent:false,
+        fromAdmin:false
       });
-
-      // Agregar un mensaje inicial a los inquilinos como ejemplo
-      await addDoc(comentariosRef, {
-        anuncio: "Primer comentario generado automáticamente",
-        categoría: "Inquilinos",
-        fecha: new Date(),
-        autor: user.displayName,
-      });
-
-      // Informar al usuario que se ha registrado correctamente
+       // Ahora, con el ID del documento recién creado, actualizas el documento con ese ID como propiedad
+await updateDoc(commentDoc, {
+  documentId: commentDoc.id // Añadimos una propiedad con el ID del documento
+});
+      //   // Informar al usuario que se ha registrado correctamente
       notyf.success({
-        message:"Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
-        duration:7000
+        message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
+        duration: 7000
       });
 
-      // Limpiar los campos del formulario
+      //   // Limpiar los campos del formulario
       name.value = "";
       email.value = "";
       password.value = "";
@@ -266,16 +313,48 @@ const handleCreation = async () => {
       type.value = "";
       loadingAnimation.value = false;
     }
-    else if (user && type.value.toLowerCase() == 'propietario') {
+    else if (user && type.value.toLowerCase() == 'propietario') { //creando en firebase un user con rol de propietario
       loadingAnimation.value = true;
-      // Actualizar el perfil del usuario
-      //en base al type el nombre se concatena en el displayName del user
+      // Actualizar el perfil del usuario en base al type el nombre se concatena en el displayName del user
       await updateProfile(user, { displayName: `${type.value} ${name.value}` });
       await sendEmailVerification(user);
       notyf.success({
-        message:"Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
-        duration:7000
+        message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
+        duration: 7000
       });
+      // search if the invitation id exists on firebase and then extract the document id,
+      const queryAdminCollectionId = query(condominiosRef, where('invitationId', '==', invId.value.trim()));
+      const snapshot = await getDocs(queryAdminCollectionId);
+      if (snapshot.empty) {
+        console.log('No se enocontró ese código de invitación')
+        loadingAnimation.value = false;
+        return;
+      } else {
+        for (const e of snapshot.docs) {
+          console.log(`Se encontró el código de invitación: ${e.data().invitationId}, con el id del documento: ${e.id}`);
+          const usersSubcollectionRef = collection(db, `condominios/${e.id}/usuarios`);
+          await addDoc(usersSubcollectionRef, {
+           name: name.value,
+            deptNumber: departmentNumber.value,
+            creationDate: Timestamp.now(),
+            isBlocked: false,
+            blockedReason: '',
+            allowComments: true,
+            userUid: user.uid,
+            associatedTo:e.data().createdBy
+          })
+          await addDoc(usersGeneralRef, {
+            deptNumber: departmentNumber.value,
+            creationDate: Timestamp.now(),
+            userUid: user.uid,
+          })
+          loadingAnimation.value = false;
+        }
+
+          loadingAnimation.value = false;
+
+      }
+
       // Limpiar los campos del formulario
       name.value = "";
       email.value = "";
@@ -287,6 +366,8 @@ const handleCreation = async () => {
   } catch (error) {
     const e = error as Error;
     loadingAnimation.value = false;
+    console.log(error);
+
     notyf.error(e.message);
   }
 };

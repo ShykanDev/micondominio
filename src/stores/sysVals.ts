@@ -6,12 +6,18 @@ export const sysVals = defineStore("sysVals", {
     isAdmin: false,
     isUser: false,
     invitationCode: "",
+    userUid: "",
+    adminDocId:"",
+    condominiumId:"",
   }),
   getters: {
     getIsUserAuth: (state) => state.isUserAuth,
     getIsAdmin: (state) => state.isAdmin,
     getIsUser: (state) => state.isUser,
     getInvitationCode: (state) => state.invitationCode,
+    getUserUid: (state) => state.userUid,
+    getAdminDocId:(state) => state.adminDocId,
+    getCondominiumId:(state) => state.condominiumId,
   },
   actions: {
     setIsUserAuth(status: boolean) {
@@ -25,6 +31,15 @@ export const sysVals = defineStore("sysVals", {
     },
     setInvitationCode(invitationCode: string) {
       this.invitationCode = invitationCode;
+    },
+    setUserUid(userUid: string) {
+      this.userUid = userUid;
+    },
+    setAdimnDocId(payload:string):void{
+      this.adminDocId = payload;
+    },
+    setCondominiumId(payload:string):void{
+      this.condominiumId = payload;
     },
   },
 })

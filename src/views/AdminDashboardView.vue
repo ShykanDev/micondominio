@@ -1,5 +1,7 @@
 <template>
-  <div class="flex min-h-screen bg-gray-100 font-roboto">
+     <MainLayout>
+    <template #main>
+      <div class="flex min-h-screen bg-gray-100 font-roboto">
     <!-- Sidebar -->
     <div
       id="sidebar"
@@ -28,7 +30,7 @@
               Avisos
             </a>
           </li> -->
-          <li class="p-4 hover:bg-gray-700">
+          <li @click="changeComponent(CommentsComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-users"></i>
               Comentarios
@@ -55,8 +57,10 @@
               <i class="mr-3 fas fa-code"></i>
               Código de Invitación:
             </span>
-            <span class="p-1 my-1 text-center text-black bg-white rounded-lg">{{ sysVals().getInvitationCode }}</span>
-            <br>
+            <div class="flex flex-wrap justify-center my-2">
+              <span class="p-1 my-1 text-center text-black bg-white rounded-lg">{{ sysVals().getInvitationCode }}</span>
+              <button @click="handleCopy" class="p-1 ml-2 text-white bg-blue-600 rounded-lg">Copiar Código</button>
+            </div>
             <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-share"></i>Comparta este código con sus propietarios para que puedan acceder a su organización.</small>
           </li>
         </ul>
@@ -64,33 +68,42 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 p-6">
+    <div class="flex-1 p-2">
       <!-- Mobile Menu Button -->
       <div class="mb-4 md:hidden">
         <button @click="toggleMenu" class="p-2 text-white bg-gray-800 rounded">
           <i class="fas fa-bars"></i>
         </button>
       </div>
-      <h1 class="mb-6 text-3xl font-bold">Panel de Administración</h1>
+      <h1 class="mb-6 text-3xl font-semibold text-center font-poppins text-sky-700">Panel de Administración</h1>
       <div class="">
         <!-- Example Cards -->
        <!-- place the dynamic component here -->
-        <component :is="currentComponent" />
+        <component  :is="currentComponent" />
       </div>
     </div>
   </div>
+    </template>
+   </MainLayout>
+
 </template>
 
 <script setup lang="ts">
+import copy from 'copy-text-to-clipboard';
 import { sysVals } from '@/stores/sysVals';
-import { defineAsyncComponent, ref } from 'vue';
+import { defineAsyncComponent, ref, shallowRef } from 'vue';
 import { RouterLink } from 'vue-router';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+import MainLayout from '@/layouts/MainLayout.vue';
+
 
 const isSidebarHidden = ref(false);
 const NotifsComponent = defineAsyncComponent(() => import('../components/admin/NotifsComponent.vue'));
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementComponent.vue'));
+const CommentsComponent = defineAsyncComponent(() => import('../components/admin/CommentsComponent.vue'));
 
-const currentComponent = ref(AnnouncementComponent);
+const currentComponent = shallowRef(AnnouncementComponent);
 
 const changeComponent = (componentName:any) => {
   currentComponent.value = componentName;
@@ -100,13 +113,28 @@ function toggleMenu() {
   isSidebarHidden.value = !isSidebarHidden.value;
 }
 
-const cards = [
-  { title: 'Configuración', description: 'Administra las configuraciones de tu aplicación.' },
-  { title: 'Notificaciones', description: 'Gestiona las notificaciones para los usuarios.' },
-  { title: 'Avisos', description: 'Publica y administra avisos importantes.' },
-  { title: 'Comunidad', description: 'Interactúa con la comunidad de usuarios.' },
-  { title: 'Encuestas', description: 'Crea y gestiona encuestas para los usuarios.' },
-];
+const notyf = new Notyf({
+  duration: 5000,
+  position: {
+    x: 'right',
+    y: 'top',
+  },
+  dismissible: true
+})
+
+// const cards = [
+//   { title: 'Configuración', description: 'Administra las configuraciones de tu aplicación.' },
+//   { title: 'Notificaciones', description: 'Gestiona las notificaciones para los usuarios.' },
+//   { title: 'Avisos', description: 'Publica y administra avisos importantes.' },
+//   { title: 'Comunidad', description: 'Interactúa con la comunidad de usuarios.' },
+//   { title: 'Encuestas', description: 'Crea y gestiona encuestas para los usuarios.' },
+// ];
+
+const handleCopy = () => {
+  notyf.success('Invitacion copiada');
+  copy(sysVals().getInvitationCode);
+}
+
 </script>
 
 <style scoped>
