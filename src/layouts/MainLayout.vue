@@ -9,8 +9,10 @@
                 <RouterLink :to="{name:'comments'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Comentarios</RouterLink>
                 <RouterLink :to="{name:'contact'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Contacto</RouterLink>
                 <RouterLink :to="{name:'about'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Mi Condominio</RouterLink>
-                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-900 text-sky-900 hover:text-sky-700">Iniciar Sesión</RouterLink>
-                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'register'}" href="#" class="p-1 font-medium text-white transition-colors duration-100 ease-out rounded-md bg-slate-400 hover:text-white">Registrarse</RouterLink>
+                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-600 text-sky-800 hover:text-sky-700">Propietario</RouterLink>
+                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-900 text-sky-900 hover:text-sky-700">Administrador</RouterLink>
+                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-slate-300 bg-sky-700 text-white hover:text-slate-200">Iniciar Sesión</RouterLink>
+                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'register'}" href="#" class="p-1 font-medium text-white transition-colors duration-100 ease-out rounded-md bg-sky-900 hover:text-white">Registrarse</RouterLink>
                 <RouterLink v-if="sysVals().getIsAdmin" :to="{name:'dashboard'}" href="#" class="p-1 font-medium text-white transition-colors duration-100 ease-out rounded-md bg-sky-900 hover:bg-sky-700 hover:text-white ">Panel de Administración</RouterLink>
             </nav>
             <button id="menu-btn" class="text-gray-600 md:hidden focus:outline-none">

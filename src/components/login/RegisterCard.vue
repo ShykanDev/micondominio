@@ -361,6 +361,7 @@ const handleCreation = async () => {
             deptNumber: departmentNumber.value,
             creationDate: Timestamp.now(),
             userUid: user.uid,
+            asociatedTo: e.data().createdBy
           })
 
           loadingAnimation.value = false;

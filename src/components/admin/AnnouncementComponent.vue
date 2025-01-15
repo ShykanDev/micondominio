@@ -130,6 +130,8 @@ const handleFileChange = (event: Event) => {
 // };
 const uploadImageToFreeImageHost = async (file: File) => {
   const apiKey = "6d207e02198a847aa98d0a2a901485a5"; // Tu API key
+  // const corsProxy = "https://corsproxy.io/"; // URL del proxy
+  const corsProxy = "https://cors-anywhere.herokuapp.com/"; // URL del proxy
   const apiUrl = "https://freeimage.host/api/1/upload";
 
   // Convertir el archivo a base64
@@ -151,8 +153,8 @@ const uploadImageToFreeImageHost = async (file: File) => {
     formData.append("source", base64Image.includes(",") ? base64Image.split(",")[1] : base64Image);
     formData.append("format", "json"); // Formato de respuesta
 
-    // Hacer la petición POST
-    const response = await fetch(apiUrl, {
+    // Hacer la petición POST con el proxy CORS
+    const response = await fetch(corsProxy + apiUrl, {
       method: "POST",
       body: formData,
     });
@@ -171,6 +173,7 @@ const uploadImageToFreeImageHost = async (file: File) => {
     return null;
   }
 };
+
 
 // Manejar el envío del formulario
 

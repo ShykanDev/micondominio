@@ -9,7 +9,7 @@
     <div v-if="showPopup"
       class="fixed inset-0 top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center w-full bg-black bg-opacity-50">
       <!-- Popup Card -->
-      <div class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+      <div class="relative w-full max-w-md p-6 bg-white rounded-lg shadow-lg font-poppins">
         <button class="absolute text-gray-400 top-4 right-4 hover:text-gray-600 focus:outline-none">
           <i @click="showPopup = false" class="fas fa-times"></i>
         </button>
@@ -23,7 +23,7 @@
             </div>
             <input type="email" id="email"
               class="block w-full py-2 pl-10 pr-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              placeholder="you@example.com">
+              placeholder="correo@ejemplo.com">
           </div>
         </div>
         <button
@@ -135,6 +135,7 @@ const signIn = async () => {
         console.log("Usuario encontrado en la lista de propietarios");
         // console.log(querySnapshot.docs[0].data().invitationId);
         sysVals().setInvitationCode(querySnapshot.docs[0].data().invitationId)
+        sysVals().setIsUserAuth(true);
         router.push({ name: 'comments' });
         return
       }

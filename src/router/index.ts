@@ -19,7 +19,7 @@ const router = createRouter({
       name: 'comments',
       component: () => import('../views/CommentsView.vue'),
       meta:{
-        requiresAuth:true
+        requiresAuth:false
       }
     },
     {

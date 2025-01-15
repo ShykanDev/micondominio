@@ -48,7 +48,7 @@
     </div>
 
     <!-- Comentarios -->
-    <div>
+    <div v-if="accessGranted">
       <h2 class="mb-4 text-lg font-semibold">Comentarios</h2>
       <div
         v-for="(comentario, index) in comentariosData"
@@ -154,69 +154,7 @@ const comentariosData = ref([]); // Datos de la subcolección "comentarios"
 
 const db = getFirestore();
 
-let unsubscribeAnuncios: () => void; // Variable para guardar la función de cancelación de la suscripción de "anuncios"
-let unsubscribeComentarios: () => void; // Variable para guardar la función de cancelación de la suscripción de "comentarios"
-
-const checkInvitationCode = async () => {
-  errorMessage.value = ''; // Resetea el mensaje de error
-  accessGranted.value = false; // Resetea el acceso
-  anunciosData.value = []; // Limpia los datos previos de anuncios
-  comentariosData.value = []; // Limpia los datos previos de comentarios
-
-  if (!invitationCode.value) {
-    errorMessage.value = 'Por favor, ingresa un código válido.';
-    return;
-  }
-
-  try {
-    // Crear una referencia a la colección de condominios
-    const condominiosRef = collection(db, 'condominios');
-
-    // Hacer una consulta para buscar el código de invitación
-    const q = query(condominiosRef, where('invitationId', '==', invitationCode.value));
-    const querySnapshot = await getDocs(q);
-
-    if (!querySnapshot.empty) {
-      accessGranted.value = true; // Acceso concedido si se encuentra el código
-
-      // Limpia las suscripciones anteriores si existen
-      if (unsubscribeAnuncios) unsubscribeAnuncios();
-      if (unsubscribeComentarios) unsubscribeComentarios();
-
-      // Obtén el primer documento encontrado
-      const docRef = querySnapshot.docs[0].ref;
-
-      // Suscripción en tiempo real a la subcolección "anuncios"
-      const anunciosRef = collection(docRef, 'anuncios');
-      unsubscribeAnuncios = onSnapshot(anunciosRef, (snapshot) => {
-        anunciosData.value = [];
-        snapshot.forEach((doc) => {
-          anunciosData.value.push(doc.data());
-        });
-      });
-
-      // Suscripción en tiempo real a la subcolección "comentarios"
-      const comentariosRef = collection(docRef, 'comentarios');
-      unsubscribeComentarios = onSnapshot(comentariosRef, (snapshot) => {
-        comentariosData.value = [];
-        snapshot.forEach((doc) => {
-          comentariosData.value.push(doc.data());
-        });
-      });
-    } else {
-      errorMessage.value = 'Código de invitación no encontrado.';
-    }
-  } catch (error) {
-    console.error('Error al verificar el código:', error);
-    errorMessage.value = 'Hubo un error al verificar el código.';
-  }
-};
-
-// Limpia las suscripciones cuando se desmonta el componente
-onUnmounted(() => {
-  if (unsubscribeAnuncios) unsubscribeAnuncios();
-  if (unsubscribeComentarios) unsubscribeComentarios();
-});
+// const comments
 </script>
 
 <style scoped>

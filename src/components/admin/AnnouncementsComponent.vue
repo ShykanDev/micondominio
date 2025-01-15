@@ -1,7 +1,8 @@
 <template>
     <div class="bg-white rounded-lg shadow-lg">
       <section v-if="announcementsFirebase" class="flex flex-wrap justify-between">
-        <AnnouncementCard v-for="(e, index) in announcementsFirebase" :key="index" :category="e.category" :title="e.title" :description="e.description" :date="e.date" :isUrgent="e.isUrgent" :img="e.imageUrl" />
+        <AnnouncementCard v-for="(e, index) in announcementsFirebase" :key="index" :category="e.category" :title="e.title" :description="e.description" :date="e.creationDate"
+        :isUrgent="e.urgent" :img="e.imageUrl" :announcementId="e.announcementId" />
       </section>
     </div>
 </template>
@@ -21,7 +22,7 @@ const isLoading = ref(false);
 const announcementsRef = collection(db, `condominios/${sysVals().getCondominiumId}/announcements`);
 const q = query(announcementsRef, where('category', '!=', ''));
 const getAnnouncements = async () => {
-
+  announcementsFirebase.value = []
   try {
     isLoading.value = true;
     const snapshot = await getDocs(q);

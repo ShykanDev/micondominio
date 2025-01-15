@@ -10,7 +10,12 @@
    <div class="p-4 text-white md:w-1/2">
     <h1 class="mb-4 text-3xl font-bold md:text-4xl">
      Historias de Propietarios y Administradores
+
     </h1>
+    <div>
+    <h1>Sube tu imagen</h1>
+    <div id="upload-button-container"></div> <!-- Contenedor para el botón -->
+  </div>
     <p class="mb-4">
      En esta página, exploramos las fascinantes historias de propietarios y administradores de edificios. Descubre cómo cada uno realiza su trabajo con dedicación y profesionalismo. Puedes comentar y registrarte para unirte a la conversación.
     </p>

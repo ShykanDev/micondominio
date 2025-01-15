@@ -9,6 +9,7 @@ export const sysVals = defineStore("sysVals", {
     userUid: "",
     adminDocId:"",
     condominiumId:"",
+
   }),
   getters: {
     getIsUserAuth: (state) => state.isUserAuth,
