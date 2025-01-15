@@ -1,6 +1,25 @@
 <template>
      <MainLayout>
     <template #main>
+        <div v-if="showPopUpRenCode" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black bg-opacity-50 animate-fade animate-duration-500">
+        <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-md font-poppins animate-jump">
+        <h2 class="mb-4 text-xl font-semibold text-gray-800">¿Desea regenerar el código?</h2>
+        <div class="flex items-center mb-4">
+            <i class="text-4xl text-yellow-500 fas fa-exclamation-triangle"></i>
+            <p class="ml-4 text-gray-600">
+                Esto hará que el código anterior deje de funcionar, sus propietarios no podrán acceder con el anterior código, esto es irreversible.
+            </p>
+        </div>
+        <div class="flex justify-between">
+            <button @click="handleShowPopupRenCode" class="px-4 py-2 text-white rounded bg-sky-800 hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-opacity-50">
+                Cancelar
+            </button>
+            <button @click="handleRegenCode" class="px-4 py-2 text-white rounded bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
+                <i class="mr-2 fas fa-trash-alt"></i>Eliminar
+            </button>
+        </div>
+    </div>
+      </div>
       <div class="flex min-h-screen bg-gray-100 font-roboto">
     <!-- Sidebar -->
     <div
@@ -32,7 +51,7 @@
           </li> -->
           <li @click="changeComponent(CommentsComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-users"></i>
+              <i class="mr-3 fas fa-comment"></i>
               Comentarios
             </a>
           </li>
@@ -48,6 +67,12 @@
               Anuncios
             </a>
           </li>
+          <li @click="changeComponent(UsersComponent)" class="p-4 hover:bg-gray-700">
+            <a href="#" class="flex items-center">
+              <i class="mr-3 fas fa-users"></i>
+              Usuarios
+            </a>
+          </li>
           <RouterLink :to="{name:'home'}"  class="flex items-center p-4 hover:bg-gray-700">
             <i class="mr-3 fas fa-sign-out-alt"></i>
             Salir
@@ -57,11 +82,25 @@
               <i class="mr-3 fas fa-code"></i>
               Código de Invitación:
             </span>
-            <div class="flex flex-wrap justify-center my-2">
+            <div class="flex flex-wrap justify-center my-2 font-poppins">
               <span class="p-1 my-1 text-center text-black bg-white rounded-lg">{{ sysVals().getInvitationCode }}</span>
               <button @click="handleCopy" class="p-1 ml-2 text-white bg-blue-600 rounded-lg">Copiar Código</button>
             </div>
             <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-share"></i>Comparta este código con sus propietarios para que puedan acceder a su organización.</small>
+          </li>
+          <li class="p-4 hover:bg-gray-700">
+            <span class="flex items-center font-poppins selection:bg-red-500">
+              Regenerar Código de Invitación:
+            </span>
+            <div class="flex flex-wrap justify-center my-2">
+              <button @click="handleShowPopupRenCode" class="flex items-center p-1 ml-2 space-x-1 bg-white rounded-lg text-sky-700 font-poppins">
+
+                Regenerar
+                <i class="ml-1 fas fa-sync"></i>
+
+              </button>
+            </div>
+            <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-info"></i>Regenerar el código necesitará que usted comparta nuevamente su código de invitación con todos sus propietarios, el código anterior dejará de funcionar y sus propietarios no podrán acceder usando el anterior código. </small>
           </li>
         </ul>
       </nav>
@@ -100,14 +139,19 @@ import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
 import MainLayout from '@/layouts/MainLayout.vue';
 import LoadingDatabase from '@/components/animations/LoadingDatabase.vue';
+import { collection, doc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore';
+import { sys } from 'typescript';
+
 
 
 const isSidebarHidden = ref(false);
+const showPopUpRenCode = ref (false);
 const NotifsComponent = defineAsyncComponent(() => import('../components/admin/NotifsComponent.vue'));
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementComponent.vue'));
 const CommentsComponent = defineAsyncComponent(() => import('../components/admin/CommentsComponent.vue'));
 const SurveysComponent = defineAsyncComponent(() => import('../components/admin/SurveysComponent.vue'));
 const AnnouncementsComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementsComponent.vue'));
+const UsersComponent = defineAsyncComponent(() => import('../components/admin/UsersComponent.vue'));
 
 const currentComponent = shallowRef(AnnouncementComponent);
 
@@ -128,13 +172,6 @@ const notyf = new Notyf({
   dismissible: true
 })
 
-// const cards = [
-//   { title: 'Configuración', description: 'Administra las configuraciones de tu aplicación.' },
-//   { title: 'Notificaciones', description: 'Gestiona las notificaciones para los usuarios.' },
-//   { title: 'Avisos', description: 'Publica y administra avisos importantes.' },
-//   { title: 'Comunidad', description: 'Interactúa con la comunidad de usuarios.' },
-//   { title: 'Encuestas', description: 'Crea y gestiona encuestas para los usuarios.' },
-// ];
 
 const handleCopy = () => {
   notyf.success({
@@ -145,6 +182,52 @@ const handleCopy = () => {
   copy(sysVals().getInvitationCode);
 }
 
+
+const handleShowPopupRenCode = () => showPopUpRenCode.value  =  !showPopUpRenCode.value;
+
+const db = getFirestore();
+
+const generateRandomString = () => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let randomString = '';
+  for (let i = 0; i < 8; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    randomString += characters.charAt(randomIndex);
+  }
+  return randomString;
+}
+
+// function to regenerate the code
+const handleRegenCode = async () => {
+  showPopUpRenCode.value = false;
+  sysVals().setIsLoadingComponent(true)
+  const codeRef = collection(db, 'condominios')
+  const newInvitationCode = generateRandomString();
+  try {
+    //  verify that new code does not exist on firebase
+      // const invitationRef = doc(db,`'condominios', ${sysVals().getCondominiumId}`)
+      // we fetch the querry
+      const q = query(codeRef, where('invitationId', '==', newInvitationCode))
+      const querySnapshot = await getDocs(q)
+      if (querySnapshot.empty) {
+        const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
+        await updateDoc(invitationRef, {invitationId: newInvitationCode})
+        sysVals().setInvitationCode(newInvitationCode)
+        notyf.success('Código regenerado con exito')
+        sysVals().setIsLoadingComponent(false)
+        return
+      } else {
+        notyf.error('Error, intentelo de nuevo')
+        sysVals().setIsLoadingComponent(false)
+        return
+      }
+  } catch (error) {
+    notyf.error('Hubo un error regenerando el código')
+    sysVals().setIsLoadingComponent(false)
+    console.log(error);
+
+  }
+}
 </script>
 
 <style scoped>

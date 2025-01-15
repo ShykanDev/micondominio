@@ -115,7 +115,7 @@
             </div>
           </div>
           <div class="mb-6">
-            <button @click.prevent="handleCreation" type="submit"
+            <button @click.prevent="logUser(type)" type="submit"
               class="w-full px-3 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Crear
               Cuenta</button>
           </div>
@@ -182,6 +182,7 @@ import { getFirestore, collection, addDoc, getDocs, Timestamp, query, where, doc
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
 import { sysVals } from "@/stores/sysVals";
+import { useRouter } from "vue-router";
 
 const loadingAnimation = ref(false);
 
@@ -207,7 +208,7 @@ const departmentNumber = ref("");
 const auth = getAuth();
 const db = getFirestore();
 const invId = ref("");
-
+const router = useRouter();
 // funciton that generates a random string of characters with uppercase and lowercase letters, numbers with a length of 8 characters
 const generateRandomString = () => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -224,58 +225,231 @@ const condominiosRef = collection(db, "condominios");
 const usersGeneralRef = collection(db, "usersGeneral");
 
 
-const handleCreation = async () => {
-  try {
-    // Validar que los campos no estén vacíos
-    if (!name.value || !email.value || !password.value || !cPassword.value || !type.value) {
-      notyf.error("Por favor, completa todos los campos.");
-      return;
-    }
+// const handleCreation = async () => {
+//   try {
+//     // Validar que los campos no estén vacíos
+//     if (!name.value || !email.value || !password.value || !cPassword.value || !type.value) {
+//       notyf.error("Por favor, completa todos los campos.");
+//       return;
+//     }
 
-    // Validar que las contraseñas coincidan
-    if (password.value !== cPassword.value) {
-      notyf.error("Las contraseñas no coinciden.");
-      return;
-    }
+//     // Validar que las contraseñas coincidan
+//     if (password.value !== cPassword.value) {
+//       notyf.error("Las contraseñas no coinciden.");
+//       return;
+//     }
+//     loadingAnimation.value = true;
+//     // generating a random invitationId but verifying that it doesn't exist on the database
+//     invitationId.value = generateRandomString();
+//     // invitationId.value = 'F3tvpbj3';
+//     const condominioSnapshot = await getDocs(condominiosRef);
+//     const condominios = condominioSnapshot.docs.map((doc) => doc.data());
+//     if (condominios.some(condominio => condominio.invitationId === invitationId.value)) {
+//       notyf.error("Error al generar el ID de invitación. Inténtelo de nuevo");
+//       invitationId.value = generateRandomString();
+//       loadingAnimation.value = false;
+//       return;
+//     }
+
+
+//     // Crear el usuario en Firebase Authentication
+//     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+//     const user = userCredential.user;
+
+
+
+//     if (user && type.value.toLowerCase() == 'administrador') {
+//       // Actualizar el perfil del usuario
+//       await updateProfile(user, { displayName: `${type.value} ${name.value}` });  //En base al type el nombre se concatena en el displayName del user
+//       await sendEmailVerification(user);
+
+//       // Crear un documento en la colección `condominios`
+//       const condominioRef = await addDoc(collection(db, "condominios"), {
+//         name: condominium.value, // Cambiar dinámicamente según el formulario
+//         createdBy: user.uid, // Asociar con el ID del admin
+//         type: type.value,
+//         invitationId: invitationId.value,
+//         dateCreated: Timestamp.fromDate(new Date()),
+//         condominiumId: ''
+//       });
+//       await updateDoc(condominioRef, {
+//         condominiumId: condominioRef.id
+//       })
+//       //   // Preparar subcolecciones vacías
+//       const anunciosRef = collection(db, `condominios/${condominioRef.id}/announcements`); //set anuncios if error
+//       const comentariosRef = collection(db, `condominios/${condominioRef.id}/comments`); // set comentarios if error
+//       const surveysCollectionRef = collection(db, `condominios/${condominioRef.id}/surveys`);
+
+//       //   // Agregar un mensaje inicial a los anuncios como ejemplo
+//       const announcementDoc = await addDoc(anunciosRef, {
+//         title: "Bienvenidos",
+//         content: "Este es el primer anuncio de tu condominio.",
+//         author: user.displayName,
+//         date: new Date(),
+//         isUrgent: false,
+//         fromAdmin: false
+//       });
+
+//       const announcementId = announcementDoc.id;
+//       updateDoc(announcementDoc, {
+//         announcementId: announcementId,
+//       })
+//       //   // Agregar un mensaje inicial a los inquilinos como ejemplo
+//       const commentDoc = await addDoc(comentariosRef, {
+//         announcement: "Primer comentario generado automáticamente",
+//         category: "Inquilinos",
+//         date: Timestamp.now(),
+//         author: user.displayName,
+//         isUrgent: false,
+//         fromAdmin: false
+//       });
+//       // Ahora, con el ID del documento recién creado, actualizas el documento con ese ID como propiedad
+//       await updateDoc(commentDoc, {
+//         documentId: commentDoc.id // Añadimos una propiedad con el ID del documento
+//       });
+
+//       const surveyToFbase = await addDoc(surveysCollectionRef, {
+//             title: 'Encuesta de prueba',
+//             description: 'Esta es una encuesta de prueba, sus inquilinos podrán votar en ella',
+//             options: ['Opcion 1', 'Opcion 2', 'Opcion 3'],
+//             createdBy: sysVals().getUserUid,
+//             creationDate: Timestamp.now()
+//           })
+//           await updateDoc(surveyToFbase, {
+//             surveyDocId: surveyToFbase.id
+//           })
+//       //   // Informar al usuario que se ha registrado correctamente
+//       notyf.success({
+//         message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
+//         duration: 7000
+//       });
+
+//       //   // Limpiar los campos del formulario
+//       name.value = "";
+//       email.value = "";
+//       password.value = "";
+//       cPassword.value = "";
+//       type.value = "";
+//       loadingAnimation.value = false;
+//     }
+
+//     else if (user && type.value.toLowerCase() == 'propietario') { //creando en firebase un user con rol de propietario
+//       loadingAnimation.value = true;
+//       // Actualizar el perfil del usuario en base al type el nombre se concatena en el displayName del user
+//       await updateProfile(user, { displayName: `${type.value} ${name.value}` });
+//       await sendEmailVerification(user);
+//       notyf.success({
+//         message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
+//         duration: 7000
+//       });
+//       // enviar al condominio
+//       // search if the invitation id exists on firebase and then extract the document id,
+//       const queryAdminCollectionId = query(condominiosRef, where('invitationId', '==', invId.value.trim()));
+//       const snapshot = await getDocs(queryAdminCollectionId);
+//       if (snapshot.empty) {
+//         console.log('No se enocontró ese código de invitación')
+//         loadingAnimation.value = false;
+//         return;
+//       } else {
+//         for (const e of snapshot.docs) {
+//           console.log(`Se encontró el código de invitación: ${e.data().invitationId}, con el id del documento: ${e.id}`);
+//           const usersSubcollectionRef = collection(db, `condominios/${e.id}/usuarios`);
+//           await addDoc(usersSubcollectionRef, {
+//             name: name.value,
+//             deptNumber: departmentNumber.value,
+//             creationDate: Timestamp.now(),
+//             isBlocked: false,
+//             blockedReason: '',
+//             allowComments: true,
+//             userUid: user.uid,
+//             associatedTo: e.data().createdBy
+//           })
+//           await addDoc(usersGeneralRef, {
+//             deptNumber: departmentNumber.value,
+//             creationDate: Timestamp.now(),
+//             userUid: user.uid,
+//             asociatedTo: e.data().createdBy
+//           })
+
+//           loadingAnimation.value = false;
+//         }
+
+//         loadingAnimation.value = false;
+
+//       }
+
+//       // Limpiar los campos del formulario
+//       name.value = "";
+//       email.value = "";
+//       password.value = "";
+//       cPassword.value = "";
+//       type.value = "";
+//       loadingAnimation.value = false;
+//     }
+//   } catch (error) {
+//     const e = error as Error;
+//     loadingAnimation.value = false;
+//     console.log(error);
+
+//     notyf.error(e.message);
+//   }
+// };
+
+const validateFields = () => {
+  if (!name.value || !email.value || !password.value || !cPassword.value || !type.value) {
+    notyf.error("Por favor, completa todos los campos.");
+    return false;
+  }
+
+  if (password.value !== cPassword.value) {
+    notyf.error("Las contraseñas no coinciden.");
+    return false;
+  }
+
+  return true;
+};
+
+const handleCreationAdmin = async () => {
+  try {
+    if (!validateFields()) return;
+
     loadingAnimation.value = true;
-    // generating a random invitationId but verifying that it doesn't exist on the database
+
+    // Generar ID de invitación único
     invitationId.value = generateRandomString();
-    // invitationId.value = 'F3tvpbj3';
     const condominioSnapshot = await getDocs(condominiosRef);
     const condominios = condominioSnapshot.docs.map((doc) => doc.data());
+
     if (condominios.some(condominio => condominio.invitationId === invitationId.value)) {
-      notyf.error("Error al generar el ID de invitación. Inténtelo de nuevo");
-      invitationId.value = generateRandomString();
+      notyf.error("Error al generar el ID de invitación. Inténtelo de nuevo.");
       loadingAnimation.value = false;
       return;
     }
 
-    // Crear el usuario en Firebase Authentication
+    // Crear usuario en Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    if (user && type.value.toLowerCase() == 'administrador') {
-      // Actualizar el perfil del usuario
-      await updateProfile(user, { displayName: `${type.value} ${name.value}` });  //En base al type el nombre se concatena en el displayName del user
+
+    if (user) {
+      await updateProfile(user, { displayName: `${type.value} ${name.value}` });
       await sendEmailVerification(user);
 
-      // Crear un documento en la colección `condominios`
       const condominioRef = await addDoc(collection(db, "condominios"), {
-        name: condominium.value, // Cambiar dinámicamente según el formulario
-        createdBy: user.uid, // Asociar con el ID del admin
+        name: condominium.value,
+        createdBy: user.uid,
         type: type.value,
         invitationId: invitationId.value,
-        dateCreated: Timestamp.fromDate(new Date()),
+        dateCreated: Timestamp.now(),
         condominiumId: ''
       });
-      await updateDoc(condominioRef, {
-        condominiumId: condominioRef.id
-      })
-      //   // Preparar subcolecciones vacías
-      const anunciosRef = collection(db, `condominios/${condominioRef.id}/announcements`); //set anuncios if error
-      const comentariosRef = collection(db, `condominios/${condominioRef.id}/comments`); // set comentarios if error
+
+      await updateDoc(condominioRef, { condominiumId: condominioRef.id });
+
+      // Configuración inicial: anuncios, comentarios y encuestas
+      const anunciosRef = collection(db, `condominios/${condominioRef.id}/announcements`);
+      const comentariosRef = collection(db, `condominios/${condominioRef.id}/comments`);
       const surveysCollectionRef = collection(db, `condominios/${condominioRef.id}/surveys`);
 
-      //   // Agregar un mensaje inicial a los anuncios como ejemplo
       const announcementDoc = await addDoc(anunciosRef, {
         title: "Bienvenidos",
         content: "Este es el primer anuncio de tu condominio.",
@@ -285,11 +459,8 @@ const handleCreation = async () => {
         fromAdmin: false
       });
 
-      const announcementId = announcementDoc.id;
-      updateDoc(announcementDoc, {
-        announcementId: announcementId,
-      })
-      //   // Agregar un mensaje inicial a los inquilinos como ejemplo
+      await updateDoc(announcementDoc, { announcementId: announcementDoc.id });
+
       const commentDoc = await addDoc(comentariosRef, {
         announcement: "Primer comentario generado automáticamente",
         category: "Inquilinos",
@@ -298,95 +469,97 @@ const handleCreation = async () => {
         isUrgent: false,
         fromAdmin: false
       });
-      // Ahora, con el ID del documento recién creado, actualizas el documento con ese ID como propiedad
-      await updateDoc(commentDoc, {
-        documentId: commentDoc.id // Añadimos una propiedad con el ID del documento
-      });
+
+      await updateDoc(commentDoc, { documentId: commentDoc.id });
 
       const surveyToFbase = await addDoc(surveysCollectionRef, {
-            title: 'Encuesta de prueba',
-            description: 'Esta es una encuesta de prueba, sus inquilinos podrán votar en ella',
-            options: ['Opcion 1', 'Opcion 2', 'Opcion 3'],
-            createdBy: sysVals().getUserUid,
-            creationDate: Timestamp.now()
-          })
-          await updateDoc(surveyToFbase, {
-            surveyDocId: surveyToFbase.id
-          })
-      //   // Informar al usuario que se ha registrado correctamente
-      notyf.success({
-        message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
-        duration: 7000
+        title: 'Encuesta de prueba',
+        description: 'Esta es una encuesta de prueba, sus inquilinos podrán votar en ella.',
+        options: ['Opción 1', 'Opción 2', 'Opción 3'],
+        createdBy: user.uid,
+        creationDate: Timestamp.now()
       });
 
-      //   // Limpiar los campos del formulario
-      name.value = "";
-      email.value = "";
-      password.value = "";
-      cPassword.value = "";
-      type.value = "";
-      loadingAnimation.value = false;
-    }
-    else if (user && type.value.toLowerCase() == 'propietario') { //creando en firebase un user con rol de propietario
-      loadingAnimation.value = true;
-      // Actualizar el perfil del usuario en base al type el nombre se concatena en el displayName del user
-      await updateProfile(user, { displayName: `${type.value} ${name.value}` });
-      await sendEmailVerification(user);
+      await updateDoc(surveyToFbase, { surveyDocId: surveyToFbase.id });
+
       notyf.success({
-        message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
+        message: "Registro exitoso. Por favor, verifica tu correo electrónico.",
         duration: 7000
       });
-      // search if the invitation id exists on firebase and then extract the document id,
-      const queryAdminCollectionId = query(condominiosRef, where('invitationId', '==', invId.value.trim()));
-      const snapshot = await getDocs(queryAdminCollectionId);
-      if (snapshot.empty) {
-        console.log('No se enocontró ese código de invitación')
-        loadingAnimation.value = false;
-        return;
-      } else {
-        for (const e of snapshot.docs) {
-          console.log(`Se encontró el código de invitación: ${e.data().invitationId}, con el id del documento: ${e.id}`);
-          const usersSubcollectionRef = collection(db, `condominios/${e.id}/usuarios`);
-          await addDoc(usersSubcollectionRef, {
-            name: name.value,
-            deptNumber: departmentNumber.value,
-            creationDate: Timestamp.now(),
-            isBlocked: false,
-            blockedReason: '',
-            allowComments: true,
-            userUid: user.uid,
-            associatedTo: e.data().createdBy
-          })
-          await addDoc(usersGeneralRef, {
-            deptNumber: departmentNumber.value,
-            creationDate: Timestamp.now(),
-            userUid: user.uid,
-            asociatedTo: e.data().createdBy
-          })
-
-          loadingAnimation.value = false;
-        }
-
-        loadingAnimation.value = false;
-
-      }
-
-      // Limpiar los campos del formulario
-      name.value = "";
-      email.value = "";
-      password.value = "";
-      cPassword.value = "";
-      type.value = "";
-      loadingAnimation.value = false;
     }
   } catch (error) {
-    const e = error as Error;
+    console.error(error);
+    notyf.error((error as Error).message);
+  } finally {
     loadingAnimation.value = false;
-    console.log(error);
-
-    notyf.error(e.message);
   }
 };
+
+const handleCreationOwner = async () => {
+  try {
+    if (!validateFields()) return;
+
+    loadingAnimation.value = true;
+
+    // Verificar que el código de invitación existe
+    const queryAdminCollectionId = query(condominiosRef, where('invitationId', '==', invId.value.trim()));
+    const snapshot = await getDocs(queryAdminCollectionId);
+
+    if (snapshot.empty) {
+      notyf.error("Código de invitación no encontrado.");
+      loadingAnimation.value = false;
+      return;
+    }
+
+    // Código de invitación válido, procedemos a crear el usuario
+    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    const user = userCredential.user;
+
+    if (user) {
+      await updateProfile(user, { displayName: `${type.value} ${name.value}` });
+      await sendEmailVerification(user);
+
+      // Agregar al usuario a la subcolección correspondiente
+      for (const doc of snapshot.docs) {
+        const usersSubcollectionRef = collection(db, `condominios/${doc.id}/usuarios`);
+        const userDocRef = await addDoc(usersSubcollectionRef, {
+          name: name.value,
+          deptNumber: departmentNumber.value,
+          creationDate: Timestamp.now(),
+          isBlocked: false,
+          blockedReason: '',
+          allowComments: true,
+          userUid: user.uid,
+          associatedTo: doc.data().createdBy
+        });
+        await updateDoc(userDocRef, { userDocId: userDocRef.id });
+      }
+      notyf.success({
+        message: "Registro exitoso. Por favor, verifica tu correo electrónico.",
+        duration: 7000
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    notyf.error((error as Error).message);
+  } finally {
+    loadingAnimation.value = false;
+  }
+};
+
+
+const logUser = (type:string) => {
+    switch (type.toLowerCase()) {
+      case 'administrador':
+        handleCreationAdmin();
+        break;
+      case 'propietario':
+        handleCreationOwner();
+        break;
+      default:
+        break;
+    }
+}
 
 </script>
 
