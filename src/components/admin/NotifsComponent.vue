@@ -29,7 +29,7 @@
                 <button  @click.prevent="addOption" type="button" id="agregar-opcion" class="px-4 py-2 mt-2 text-white bg-green-500 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"><i class="fas fa-plus"></i> Agregar Opción</button>
             </div>
             <div class="flex justify-end">
-                <button @click.prevent="submitSurvey" type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"><i class="fas fa-plus"></i> Crear Encuesta</button>
+                <button @click.prevent="submitSurvey" type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"><i class="fas fa-paper-plane"></i> Enviar Encuesta</button>
             </div>
         </form>
     </section>

@@ -181,6 +181,7 @@ import { getFirestore, collection, addDoc, getDocs, Timestamp, query, where, doc
 // animations for toast
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+import { sysVals } from "@/stores/sysVals";
 
 const loadingAnimation = ref(false);
 
@@ -222,6 +223,7 @@ const generateRandomString = () => {
 const condominiosRef = collection(db, "condominios");
 const usersGeneralRef = collection(db, "usersGeneral");
 
+
 const handleCreation = async () => {
   try {
     // Validar que los campos no estén vacíos
@@ -256,30 +258,31 @@ const handleCreation = async () => {
       await updateProfile(user, { displayName: `${type.value} ${name.value}` });  //En base al type el nombre se concatena en el displayName del user
       await sendEmailVerification(user);
 
-     // Crear un documento en la colección `condominios`
+      // Crear un documento en la colección `condominios`
       const condominioRef = await addDoc(collection(db, "condominios"), {
         name: condominium.value, // Cambiar dinámicamente según el formulario
         createdBy: user.uid, // Asociar con el ID del admin
         type: type.value,
         invitationId: invitationId.value,
         dateCreated: Timestamp.fromDate(new Date()),
-        condominiumId:''
+        condominiumId: ''
       });
-        await updateDoc(condominioRef, {
-          condominiumId: condominioRef.id
-        })
+      await updateDoc(condominioRef, {
+        condominiumId: condominioRef.id
+      })
       //   // Preparar subcolecciones vacías
       const anunciosRef = collection(db, `condominios/${condominioRef.id}/announcements`); //set anuncios if error
       const comentariosRef = collection(db, `condominios/${condominioRef.id}/comments`); // set comentarios if error
+      const surveysCollectionRef = collection(db, `condominios/${condominioRef.id}/surveys`);
 
       //   // Agregar un mensaje inicial a los anuncios como ejemplo
-     const announcementDoc =   await addDoc(anunciosRef, {
+      const announcementDoc = await addDoc(anunciosRef, {
         title: "Bienvenidos",
         content: "Este es el primer anuncio de tu condominio.",
         author: user.displayName,
         date: new Date(),
         isUrgent: false,
-        fromAdmin:false
+        fromAdmin: false
       });
 
       const announcementId = announcementDoc.id;
@@ -287,18 +290,29 @@ const handleCreation = async () => {
         announcementId: announcementId,
       })
       //   // Agregar un mensaje inicial a los inquilinos como ejemplo
-     const commentDoc = await addDoc(comentariosRef, {
+      const commentDoc = await addDoc(comentariosRef, {
         announcement: "Primer comentario generado automáticamente",
         category: "Inquilinos",
         date: Timestamp.now(),
         author: user.displayName,
-        isUrgent:false,
-        fromAdmin:false
+        isUrgent: false,
+        fromAdmin: false
       });
-       // Ahora, con el ID del documento recién creado, actualizas el documento con ese ID como propiedad
-await updateDoc(commentDoc, {
-  documentId: commentDoc.id // Añadimos una propiedad con el ID del documento
-});
+      // Ahora, con el ID del documento recién creado, actualizas el documento con ese ID como propiedad
+      await updateDoc(commentDoc, {
+        documentId: commentDoc.id // Añadimos una propiedad con el ID del documento
+      });
+
+      const surveyToFbase = await addDoc(surveysCollectionRef, {
+            title: 'Encuesta de prueba',
+            description: 'Esta es una encuesta de prueba, sus inquilinos podrán votar en ella',
+            options: ['Opcion 1', 'Opcion 2', 'Opcion 3'],
+            createdBy: sysVals().getUserUid,
+            creationDate: Timestamp.now()
+          })
+          await updateDoc(surveyToFbase, {
+            surveyDocId: surveyToFbase.id
+          })
       //   // Informar al usuario que se ha registrado correctamente
       notyf.success({
         message: "Registro exitoso. Por favor, verifique su correo electrónico, le hemos enviado un correo de verificación.",
@@ -334,24 +348,25 @@ await updateDoc(commentDoc, {
           console.log(`Se encontró el código de invitación: ${e.data().invitationId}, con el id del documento: ${e.id}`);
           const usersSubcollectionRef = collection(db, `condominios/${e.id}/usuarios`);
           await addDoc(usersSubcollectionRef, {
-           name: name.value,
+            name: name.value,
             deptNumber: departmentNumber.value,
             creationDate: Timestamp.now(),
             isBlocked: false,
             blockedReason: '',
             allowComments: true,
             userUid: user.uid,
-            associatedTo:e.data().createdBy
+            associatedTo: e.data().createdBy
           })
           await addDoc(usersGeneralRef, {
             deptNumber: departmentNumber.value,
             creationDate: Timestamp.now(),
             userUid: user.uid,
           })
+
           loadingAnimation.value = false;
         }
 
-          loadingAnimation.value = false;
+        loadingAnimation.value = false;
 
       }
 

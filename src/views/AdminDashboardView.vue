@@ -36,13 +36,13 @@
               Comentarios
             </a>
           </li>
-          <li class="p-4 hover:bg-gray-700">
+          <li @click="changeComponent(SurveysComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-poll"></i>
               Encuestas
             </a>
           </li>
-          <li class="p-4 hover:bg-gray-700">
+          <li @click="changeComponent(AnnouncementsComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-bullhorn"></i>
               Anuncios
@@ -102,6 +102,8 @@ const isSidebarHidden = ref(false);
 const NotifsComponent = defineAsyncComponent(() => import('../components/admin/NotifsComponent.vue'));
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementComponent.vue'));
 const CommentsComponent = defineAsyncComponent(() => import('../components/admin/CommentsComponent.vue'));
+const SurveysComponent = defineAsyncComponent(() => import('../components/admin/SurveysComponent.vue'));
+const AnnouncementsComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementsComponent.vue'));
 
 const currentComponent = shallowRef(AnnouncementComponent);
 

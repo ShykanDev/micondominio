@@ -1,5 +1,5 @@
 <template>
-  <AnnouncementCard v-show="titulo" class="fixed shadow-2xl bottom-3 left-3" :title="titulo" :description="descripcion" :date="new Date().toDateString()" :category="category" />
+  <AnnouncementCard v-show="titulo" class="fixed shadow-2xl bottom-3 left-3" :title="titulo" :description="descripcion" :date="new Date().toDateString()" :category="category" :is-urgent="urgente" />
   <section class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md font-poppins">
     <h2 class="mb-4 text-2xl font-bold text-sky-800"><i class="fas fa-bullhorn"></i> Nuevo Anuncio</h2>
     <form @submit.prevent="handleSubmit">
@@ -82,6 +82,7 @@ import { addDoc, collection, getFirestore, Timestamp, updateDoc } from 'firebase
 import { ref } from 'vue';
 import AnnouncementCard from './AnnouncementCard.vue';
 
+
 // Estado del formulario
 const titulo = ref("");
 const descripcion = ref("");
@@ -98,10 +99,40 @@ const handleFileChange = (event: Event) => {
 };
 
 // Función para subir la imagen a ImgBB
-const uploadImageToImgBB = async (file: File) => {
-  const pkiv03 = "42c08bb4c3fe1b2517e642bdecb1d7a9"; // Reemplaza con tu API Key de ImgBB
-  const url = `https://api.imgbb.com/1/upload?key=${pkiv03}`;
+// const uploadImageToImgBB = async (file: File) => {
+//   const apiKey = "604279d0c28a117c1c79e497b58a66ea"; // Tu API Key de ImgBB
+//   const url = `https://api.imgbb.com/1/upload?key=${apiKey}`;
 
+//   try {
+//     const formData = new FormData();
+//     formData.append("image", file); // Archivo binario directo
+
+//     const response = await fetch(url, {
+//       method: "POST",
+//       body: formData,
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`Error en la solicitud: ${response.statusText}`);
+//     }
+
+//     const result = await response.json();
+
+//     if (!result.success) {
+//       throw new Error(`Error en la respuesta de ImgBB: ${result.error.message}`);
+//     }
+
+//     return result.data.url; // URL de la imagen subida
+//   } catch (error) {
+//     console.error("Error subiendo la imagen:", error);
+//     return null;
+//   }
+// };
+const uploadImageToFreeImageHost = async (file: File) => {
+  const apiKey = "6d207e02198a847aa98d0a2a901485a5"; // Tu API key
+  const apiUrl = "https://freeimage.host/api/1/upload";
+
+  // Convertir el archivo a base64
   const toBase64 = (file: File): Promise<string> =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -112,18 +143,31 @@ const uploadImageToImgBB = async (file: File) => {
 
   try {
     const base64Image = await toBase64(file);
-    const formData = new FormData();
-    formData.append("image", base64Image.split(",")[1]); // Remueve el prefijo "data:image/*;base64,"
 
-    const response = await fetch(url, {
+    // Crear el formulario para la petición
+    const formData = new FormData();
+    formData.append("key", apiKey); // API Key
+    formData.append("action", "upload"); // Acción a realizar
+    formData.append("source", base64Image.includes(",") ? base64Image.split(",")[1] : base64Image);
+    formData.append("format", "json"); // Formato de respuesta
+
+    // Hacer la petición POST
+    const response = await fetch(apiUrl, {
       method: "POST",
       body: formData,
     });
 
     const result = await response.json();
-    return result.data.url; // Retorna la URL de la imagen subida
+
+    if (result.status_code === 200) {
+      console.log("Imagen subida exitosamente:", result.image.display_url);
+      return result.image.display_url; // Retornar la URL de la imagen
+    } else {
+      console.error("Error al subir la imagen:", result.status_txt);
+      return null;
+    }
   } catch (error) {
-    console.error("Error subiendo la imagen:", error);
+    console.error("Error durante la subida:", error);
     return null;
   }
 };
@@ -138,7 +182,8 @@ const handleSubmit = async () => {
     return;
   }
 
-  const imageUrl = await uploadImageToImgBB(selectedFile.value);
+  // const imageUrl = await uploadImageToImgBB(selectedFile.value);
+  const imageUrl = await uploadImageToFreeImageHost(selectedFile.value);
 
   if (!imageUrl) {
     alert("Error al subir la imagen.");
@@ -159,7 +204,14 @@ const handleSubmit = async () => {
     announcementId:announcementToFbase.id
   })
 
-  console.log("Anuncio creado:", newAd);
+  titulo.value = "";
+  descripcion.value = "";
+  category.value = "";
+  selectedFile.value = null;
+  urgente.value = false;
+
+  console.log("Anuncio creado con ID:",imageUrl);
+
 };
 </script>
 
