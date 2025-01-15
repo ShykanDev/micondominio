@@ -9,7 +9,7 @@ export const sysVals = defineStore("sysVals", {
     userUid: "",
     adminDocId:"",
     condominiumId:"",
-
+    isLoadingComponent: false
   }),
   getters: {
     getIsUserAuth: (state) => state.isUserAuth,
@@ -19,6 +19,7 @@ export const sysVals = defineStore("sysVals", {
     getUserUid: (state) => state.userUid,
     getAdminDocId:(state) => state.adminDocId,
     getCondominiumId:(state) => state.condominiumId,
+    getIsLoadingComponent:(state) => state.isLoadingComponent
   },
   actions: {
     setIsUserAuth(status: boolean) {
@@ -26,6 +27,9 @@ export const sysVals = defineStore("sysVals", {
     },
     setIsAdmin(status: boolean) {
       this.isAdmin = status;
+    },
+    setIsLoadingComponent(status: boolean) {
+      this.isLoadingComponent = status;
     },
     setIsUser(status: boolean) {
       this.isUser = status;

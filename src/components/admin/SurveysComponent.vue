@@ -3,7 +3,7 @@
       <section v-if="isLoading" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white bg-opacity-0">
       <LoadingBar/>
     </section>
-      <section v-if="surveys" class="flex flex-wrap space-x-3 space-y-2 bg-white rounded-lg shadow-lg">
+      <section v-if="surveys" class="flex flex-wrap space-x-6 space-y-2 bg-white rounded-lg shadow-lg justify-evenly">
         <SurveyVotation v-for="(survey, index) in surveys" :key="index" :survey-title="survey.title" :survey-description="survey.description" :survey-options="survey.options" :survey-doc-id="survey.surveyDocId"/>
       </section>
     </div>

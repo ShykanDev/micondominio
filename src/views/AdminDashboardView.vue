@@ -76,10 +76,13 @@
         </button>
       </div>
       <h1 class="mb-6 text-3xl font-semibold text-center font-poppins text-sky-700">Panel de Administración</h1>
-      <div class="">
+      <div v-if="sysVals().getIsLoadingComponent" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white/30">
+        <LoadingDatabase></LoadingDatabase>
+      </div>
+      <div v-if="!sysVals().getIsLoadingComponent"  class="">
         <!-- Example Cards -->
        <!-- place the dynamic component here -->
-        <component  :is="currentComponent" />
+        <component :is="currentComponent" />
       </div>
     </div>
   </div>
@@ -96,6 +99,7 @@ import { RouterLink } from 'vue-router';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
 import MainLayout from '@/layouts/MainLayout.vue';
+import LoadingDatabase from '@/components/animations/LoadingDatabase.vue';
 
 
 const isSidebarHidden = ref(false);
@@ -116,9 +120,9 @@ function toggleMenu() {
 }
 
 const notyf = new Notyf({
-  duration: 5000,
+  duration: 3000,
   position: {
-    x: 'right',
+    x: 'center',
     y: 'top',
   },
   dismissible: true
@@ -133,7 +137,11 @@ const notyf = new Notyf({
 // ];
 
 const handleCopy = () => {
-  notyf.success('Invitacion copiada');
+  notyf.success({
+    message: 'Código copiado',
+    // setting color to blue
+    background: '#0431d1',
+  });
   copy(sysVals().getInvitationCode);
 }
 

@@ -34,6 +34,20 @@
 </template>
 
 <script lang="ts" setup>
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+
+// Create an instance of Notyf
+const notyf = new Notyf({
+  duration: 4000,
+  position: {
+    x: 'left',
+    y: 'top'
+  },
+  ripple: true
+});
+
+// Display an error notification
 import { sysVals } from '@/stores/sysVals';
 import { collection, deleteDoc, doc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 
@@ -61,11 +75,15 @@ const db = getFirestore();
 const surveyDocIdRef = doc(db, `condominios/${sysVals().getCondominiumId}/surveys/${props.surveyDocId}`);
 // const q = query(surveyDocIdRef, where('surveyDocId', '==', props.surveyDocId))
 const deleteSurvey = async () => {
+  sysVals().setIsLoadingComponent(true)
   try {
-      await deleteDoc(surveyDocIdRef)
+    await deleteDoc(surveyDocIdRef)
+      sysVals().setIsLoadingComponent(false)
+      notyf.success(`Encuesta '${props.surveyTitle}' eliminada`)
   } catch (error) {
     console.log(error);
-
+    sysVals().setIsLoadingComponent(false)
+    notyf.error(`Error al eliminar la encuesta '${props.surveyTitle}'`)
   }
 }
 // try {

@@ -1,74 +1,50 @@
 <template>
-  <AnnouncementCard v-show="titulo" class="fixed shadow-2xl bottom-3 left-3" :title="titulo" :description="descripcion" :date="new Date().toDateString()" :category="category" :is-urgent="urgente" />
+  <AnnouncementCard v-show="titulo" class="fixed shadow-2xl bottom-3 left-3" :title="titulo" :description="descripcion"
+    :date="new Date().toDateString()" :category="category" :is-urgent="urgente" />
   <section class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md font-poppins">
     <h2 class="mb-4 text-2xl font-bold text-sky-800"><i class="fas fa-bullhorn"></i> Nuevo Anuncio</h2>
     <form @submit.prevent="handleSubmit">
       <div class="mb-4">
         <label for="titulo" class="block mb-2 font-bold text-sky-800"><i class="fas fa-heading"></i> Título del
           Anuncio</label>
-        <input
-          v-model="titulo"
-          type="text"
-          id="titulo"
-          name="titulo"
+        <input v-model="titulo" type="text" id="titulo" name="titulo"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ingrese el título del anuncio"
-        />
+          placeholder="Ingrese el título del anuncio" />
       </div>
       <div class="mb-4">
         <label for="category" class="block mb-2 font-bold text-sky-800"><i class="fas fa-tag"></i> Categoría del
           Anuncio</label>
-        <input
-          v-model="category"
-          type="text"
-          id="category"
-          name="category"
+        <input v-model="category" type="text" id="category" name="category"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ingrese la categoría del anuncio e.g. Pago de mantenimiento, etc."
-        />
+          placeholder="Ingrese la categoría del anuncio e.g. Pago de mantenimiento, etc." />
       </div>
 
       <div class="mb-4">
         <label for="descripcion" class="block mb-2 font-bold text-sky-800"><i class="fas fa-align-left"></i>
           Descripción</label>
-        <textarea
-          v-model="descripcion"
-          id="descripcion"
-          name="descripcion"
+        <textarea v-model="descripcion" id="descripcion" name="descripcion"
           class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Ingrese la descripción del anuncio"
-        ></textarea>
+          placeholder="Ingrese la descripción del anuncio"></textarea>
       </div>
 
       <div class="grid w-full max-w-xs items-center gap-1.5">
         <label
-          class="text-sm font-medium leading-none text-gray-400 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        ><i class="mr-2 fas fa-image text-sky-600"></i> Imagen</label>
+          class="text-sm font-medium leading-none text-gray-400 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"><i
+            class="mr-2 fas fa-image text-sky-600"></i> Imagen</label>
         <input
           class="flex w-full text-sm text-gray-400 bg-white border border-blue-300 rounded-md border-input file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
-          type="file"
-          id="picture"
-          @change="handleFileChange"
-        />
+          type="file" id="picture" @change="handleFileChange" />
       </div>
 
       <div class="flex items-center mt-3 mb-4">
-        <input
-          v-model="urgente"
-          type="checkbox"
-          id="urgente"
-          name="urgente"
-          class="mr-2"
-        />
+        <input v-model="urgente" type="checkbox" id="urgente" name="urgente" class="mr-2" />
         <label for="urgente" class="font-bold text-sky-800"><i class="fas fa-exclamation-circle"></i> ¿Es
           Urgente?</label>
       </div>
 
       <div class="flex justify-end">
-        <button
-          type="submit"
-          class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
+        <button type="submit"
+          class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
           <i class="fas fa-plus"></i> Crear Anuncio
         </button>
       </div>
@@ -77,6 +53,19 @@
 </template>
 
 <script lang="ts" setup>
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+// Create an instance of Notyf
+const notyf = new Notyf({
+  duration: 4000,
+  dismissible: true,
+  position: {
+    x: 'left',
+    y: 'top'
+  },
+  ripple: true,
+
+});
 import { sysVals } from '@/stores/sysVals';
 import { addDoc, collection, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
 import { ref } from 'vue';
@@ -142,6 +131,7 @@ const uploadImageToFreeImageHost = async (file: File) => {
       reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
     });
+    sysVals().setIsLoadingComponent(true)
 
   try {
     const base64Image = await toBase64(file);
@@ -163,13 +153,20 @@ const uploadImageToFreeImageHost = async (file: File) => {
 
     if (result.status_code === 200) {
       console.log("Imagen subida exitosamente:", result.image.display_url);
+  sysVals().setIsLoadingComponent(false)
+      notyf.success('Imagen subida exitosamente');
       return result.image.display_url; // Retornar la URL de la imagen
     } else {
       console.error("Error al subir la imagen:", result.status_txt);
+  sysVals().setIsLoadingComponent(false)
+    notyf.error('Error al subir la imagen');
+
       return null;
     }
   } catch (error) {
     console.error("Error durante la subida:", error);
+  sysVals().setIsLoadingComponent(false)
+    notyf.error('Error al subir la imagen');
     return null;
   }
 };
@@ -180,8 +177,11 @@ const uploadImageToFreeImageHost = async (file: File) => {
 const db = getFirestore();
 const announcementsCollectionRef = collection(db, `condominios/${sysVals().getCondominiumId}/announcements`);
 const handleSubmit = async () => {
+  // sysVals().setIsLoadingComponent(true)
   if (!selectedFile.value) {
-    alert("Por favor selecciona una imagen.");
+  sysVals().setIsLoadingComponent(false)
+  notyf.error('Por favor selecciona una imagen');
+
     return;
   }
 
@@ -190,6 +190,8 @@ const handleSubmit = async () => {
 
   if (!imageUrl) {
     alert("Error al subir la imagen.");
+  sysVals().setIsLoadingComponent(false)
+
     return;
   }
 
@@ -199,12 +201,12 @@ const handleSubmit = async () => {
     category: category.value,
     urgent: urgente.value,
     imageUrl,
-    creationDate:Timestamp.now()
+    creationDate: Timestamp.now()
   };
 
-  const announcementToFbase = await addDoc(announcementsCollectionRef,newAd);
-  await updateDoc(announcementToFbase,{
-    announcementId:announcementToFbase.id
+  const announcementToFbase = await addDoc(announcementsCollectionRef, newAd);
+  await updateDoc(announcementToFbase, {
+    announcementId: announcementToFbase.id
   })
 
   titulo.value = "";
@@ -213,8 +215,8 @@ const handleSubmit = async () => {
   selectedFile.value = null;
   urgente.value = false;
 
-  console.log("Anuncio creado con ID:",imageUrl);
-
+  notyf.success('Posteado exitosamente');
+  sysVals().setIsLoadingComponent(false)
 };
 </script>
 

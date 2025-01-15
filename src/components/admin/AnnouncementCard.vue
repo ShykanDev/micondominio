@@ -23,7 +23,6 @@
         <div>
           <img :src="img" alt="Imagen del anuncio del administrador">
         </div>
-        {{ sysVals().getCondominiumId }}
         <!-- nota para el administrador diciendo que si agrega la imagen solo se visualizará una vez que se cree el anuncio -->
          <small v-if="isEdition" class="text-sm text-gray-600"><i class="mr-2 fas fa-info-circle"></i>Nota: La imagen solo se visualizará una vez que se publique el anuncio</small>
          <button @click="deleteAnnouncement" class="p-1 my-2 text-white rounded-lg bg-rose-800">
@@ -34,6 +33,20 @@
 </template>
 
 <script lang="ts" setup>
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+
+// Create an instance of Notyf
+const notyf = new Notyf({
+  duration: 4000,
+  position: {
+    x: 'left',
+    y: 'top'
+  },
+  ripple: true,
+  dismissible: true
+});
+
 import { sysVals } from '@/stores/sysVals';
 import { deleteDoc, doc, getFirestore } from 'firebase/firestore';
 import { computed } from 'vue';
@@ -65,8 +78,12 @@ const db = getFirestore();
 // const refAnnouncement = doc(db, "condomonios", sysVals().getCondominiumId,"announcements", props.announcementId);
 
 const deleteAnnouncement = async () => {
+  sysVals().setIsLoadingComponent(true)
+
   if (!props.announcementId) {
     console.error("announcementId no está definido.");
+    sysVals().setIsLoadingComponent(false)
+    notyf.error("Error al borrar el elemento: announcementId no está definido.");
     return;
   }
 
@@ -74,9 +91,13 @@ const deleteAnnouncement = async () => {
 
   try {
     await deleteDoc(refAnnouncement);
-    alert("Se borró el elemento");
+    sysVals().setIsLoadingComponent(false)
+    notyf.success(`Se ha eliminado el Anuncio '${props.title}' `);
+
   } catch (error) {
     console.error("Error al borrar el elemento:", error);
+  sysVals().setIsLoadingComponent(false)
+
   }
 };
 

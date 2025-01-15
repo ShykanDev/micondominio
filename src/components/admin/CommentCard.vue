@@ -68,6 +68,7 @@ const filteredUserName = computed(() =>
 );
 
 const deleteComment = async () => {
+  sysVals().setIsLoadingComponent(true)
   try {
     const db = getFirestore();
     const commentRef = doc(db, `condominios/${sysVals().getCondominiumId}/comments/${props.commentId}`);
@@ -75,8 +76,11 @@ const deleteComment = async () => {
 
     await deleteDoc(commentRef);
     console.log('Comentario eliminado con éxito');
+    sysVals().setIsLoadingComponent(false)
+
   } catch (error) {
     console.error('Error al eliminar el comentario:', error);
+    sysVals().setIsLoadingComponent(false)
   }
 }
 </script>

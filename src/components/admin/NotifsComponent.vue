@@ -36,6 +36,20 @@
 </template>
 
 <script lang="ts" setup>
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+
+// Create an instance of Notyf
+const notyf = new Notyf({
+  duration:4000,
+  position: {
+    x: 'left',
+    y: 'top',
+  },
+  dismissible: true,
+});
+
+// Display an error notification
 import { ref } from 'vue';
 import SurveyVotation from './SurveyVotation.vue';
 import { addDoc, collection, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
@@ -72,6 +86,8 @@ const surveysCollectionRef = collection(db, `condominios/${sysVals().getCondomin
 // const
 // sending survey to firebase
 const submitSurvey = async () => {
+  sysVals().setIsLoadingComponent(true)
+
   try {
     const surveyToFbase = await addDoc(surveysCollectionRef,{
       title: surveyTitle.value,
@@ -87,9 +103,16 @@ const submitSurvey = async () => {
     surveyDescription.value = '';
     surveyOption.value = '';
     survey.value.options = [];
+
+    notyf.success('Encuesta enviada exitosamente');
+  sysVals().setIsLoadingComponent(false)
+
   } catch (error) {
     const e = error as Error;
     console.log(`Error enviando la survey a firebase:`, e);
+    notyf.error(`Error enviando la survey intentelo mas tarde`);
+  sysVals().setIsLoadingComponent(false)
+
   }
 }
 </script>
