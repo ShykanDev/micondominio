@@ -133,7 +133,14 @@ const formattedDate = computed(() => {
 const db = getFirestore();
 const handleBlock = async (type: string) => {
   sysVals().setIsLoadingComponent(true)
-  const userDoc = doc(db, 'condominios', sysVals().getCondominiumId, 'usuarios', props.docId) // reference to the user docId
+
+  const condominiumId = sysVals().getCondominiumId;
+if (!condominiumId) {
+  notyf.error('ID del condominio no encontrado');
+  sysVals().setIsLoadingComponent(false);
+  return;
+}
+  const userDoc = doc(db, 'condominios', condominiumId, 'usuarios', props.docId) // reference to the user docId
   try {
     switch (type) {
       case 'blockUnblock':
@@ -155,6 +162,7 @@ const handleBlock = async (type: string) => {
         break;
     }
   } catch (error) {
+    console.log(error);
   sysVals().setIsLoadingComponent(false)
     notyf.error('Error en la operacion, intentelo de nuevo')
   }

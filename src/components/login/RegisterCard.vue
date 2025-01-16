@@ -540,7 +540,7 @@ const handleCreationOwner = async () => {
           userUid: user.uid,
           associatedTo: doc.data().createdBy
         });
-        await updateDoc(userDocRef, { userDocId: userDocRef.id });
+        await updateDoc(userDocRef, { docId: userDocRef.id });
       }
       notyf.success({
         message: "Registro exitoso. Por favor, verifica tu correo electrónico.",
