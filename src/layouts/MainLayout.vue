@@ -1,16 +1,17 @@
 <template>
     <header class="sticky top-0 z-50">
       <div class="flex justify-between w-full px-4 py-4 mx-auto text-white bg-white shadow-lg rounded-bl-md rounded-br-md">
-            <div class="text-2xl font-bold text-gray-800">
-                <a href="#" class="text-sky-600"><span>administracion</span><span class="text-sky-800">condominio</span><span>.com</span></a>
+            <div class="text-xl font-bold text-gray-800">
+              <p :to="{name:'home'}"  class="animate-fade-down" v-html="currentDomain" :key="currentDomain"></p>
+                <!-- <a href="#" class="text-sky-600"><span>administracion</span><span class="text-sky-800">condominio</span><span>.com</span></a> -->
             </div>
             <nav class="hidden space-x-6 md:flex">
                 <RouterLink :to="{name:'home'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Inicio</RouterLink>
                 <RouterLink :to="{name:'comments'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Comentarios</RouterLink>
                 <RouterLink :to="{name:'contact'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Contacto</RouterLink>
                 <RouterLink :to="{name:'about'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-500 hover:text-white ">Mi Condominio</RouterLink>
-                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-600 text-sky-800 hover:text-sky-700">Propietario</RouterLink>
-                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-900 text-sky-900 hover:text-sky-700">Administrador</RouterLink>
+                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-600 text-sky-800 hover:text-sky-700"><i class="mr-1 text-sm fas fa-user"></i>Propietario</RouterLink>
+                <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-900 text-sky-900 hover:text-sky-700"><i class="mr-1 text-sm fas fa-user-tie"></i>Administrador</RouterLink>
                 <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'login'}" href="#" class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-slate-300 bg-sky-700 text-white hover:text-slate-200">Iniciar Sesión</RouterLink>
                 <RouterLink v-if="!sysVals().getIsUserAuth" :to="{name:'register'}" href="#" class="p-1 font-medium text-white transition-colors duration-100 ease-out rounded-md bg-sky-900 hover:text-white">Registrarse</RouterLink>
                 <RouterLink v-if="sysVals().getIsAdmin" :to="{name:'dashboard'}" href="#" class="p-1 font-medium text-white transition-colors duration-100 ease-out rounded-md bg-sky-900 hover:bg-sky-700 hover:text-white ">Panel de Administración</RouterLink>
@@ -29,6 +30,10 @@
         </div>
     </header>
     <main class="overflow-hidden">
+      <section v-if="sysVals().getIsLoadingLogin" class="fixed top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center w-full bg-white bg-opacity-100">
+        <LineLoading/>
+      </section>
+
       <slot name="main">
 
       </slot>
@@ -74,8 +79,34 @@
 </template>
 
 <script lang="ts" setup>
+import LineLoading from '@/components/animations/LineLoading.vue';
+import LoadingBarCrazy from '@/components/animations/LoadingBarCrazy.vue';
 import { sysVals } from '@/stores/sysVals';
+import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
+
+const constDomains = [
+  "<span>gastos</span><span class=\"text-sky-800\">comunescondominio</span><span>.com</span>",
+  "<span>gastos</span><span class=\"text-sky-800\">comunesedificio</span><span>.com</span>",
+  "<span>edificio</span><span class=\"text-sky-800\">ycondominio</span><span>.com</span>",
+  "<span>mantenimiento</span><span class=\"text-sky-800\">condominio</span><span>.com</span>",
+  "<span>mantenimiento</span><span class=\"text-sky-800\">edificio</span><span>.com</span>",
+  "<span>mantenimiento</span><span class=\"text-sky-800\">ygastoscomunes</span><span>.com</span>"
+];
+const currentDomain = ref(constDomains[0]);
+
+const aleatDomain = () => {
+  setInterval(() => {
+    currentDomain.value = constDomains[Math.floor(Math.random() * constDomains.length)];
+  }, 4000)
+}
+
+onMounted(() => {
+  aleatDomain();
+})
+
+
+
 
 </script>
 

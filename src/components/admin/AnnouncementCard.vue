@@ -21,7 +21,7 @@
             <span  class="break-all">Categoría: {{ category }}</span>
         </div>
         <div>
-          <img :src="img" alt="Imagen del anuncio del administrador">
+          <img v-if="img != ''" :src="img" alt="Imagen del anuncio del administrador">
         </div>
         <!-- nota para el administrador diciendo que si agrega la imagen solo se visualizará una vez que se cree el anuncio -->
          <small v-if="isEdition" class="text-sm text-gray-600"><i class="mr-2 fas fa-info-circle"></i>Nota: La imagen solo se visualizará una vez que se publique el anuncio</small>

@@ -519,7 +519,7 @@ const handleCreationOwner = async () => {
       await sendEmailVerification(user);
       // Agregar al usuario a la subcolección de usuarios
       const usersGeneralCollectionRef = collection(db,'usersGeneral');
-       await addDoc(usersGeneralCollectionRef, {
+     const usersGeneralDocRef =  await addDoc(usersGeneralCollectionRef, {
         deptNumber: departmentNumber.value,
         creationDate: Timestamp.now(),
         userUid: user.uid,
@@ -541,6 +541,9 @@ const handleCreationOwner = async () => {
           associatedTo: doc.data().createdBy
         });
         await updateDoc(userDocRef, { docId: userDocRef.id });
+        await updateDoc(usersGeneralDocRef,{
+          userDataId: userDocRef.id
+        })
       }
       notyf.success({
         message: "Registro exitoso. Por favor, verifica tu correo electrónico.",

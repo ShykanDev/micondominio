@@ -38,7 +38,7 @@
 
       <div class="flex items-center mt-3 mb-4">
         <input v-model="urgente" type="checkbox" id="urgente" name="urgente" class="mr-2" />
-        <label for="urgente" class="font-bold text-sky-800"><i class="fas fa-exclamation-circle"></i> ¿Es
+        <label for="urgente" class="font-bold cursor-pointer text-sky-800"><i class="fas fa-exclamation-circle"></i> ¿Es
           Urgente?</label>
       </div>
 
@@ -176,23 +176,61 @@ const uploadImageToFreeImageHost = async (file: File) => {
 
 const db = getFirestore();
 const announcementsCollectionRef = collection(db, `condominios/${sysVals().getCondominiumId}/announcements`);
+// const handleSubmit = async () => {
+//   // sysVals().setIsLoadingComponent(true)
+//   if (!selectedFile.value) {
+//   sysVals().setIsLoadingComponent(false)
+//   notyf.error('Por favor selecciona una imagen');
+
+//     return;
+//   }
+
+//   // const imageUrl = await uploadImageToImgBB(selectedFile.value);
+//   const imageUrl = await uploadImageToFreeImageHost(selectedFile.value);
+
+//   if (!imageUrl) {
+//     alert("Error al subir la imagen.");
+//   sysVals().setIsLoadingComponent(false)
+
+//     return;
+//   }
+
+//   const newAd = {
+//     title: titulo.value,
+//     description: descripcion.value,
+//     category: category.value,
+//     urgent: urgente.value,
+//     imageUrl,
+//     creationDate: Timestamp.now()
+//   };
+
+//   const announcementToFbase = await addDoc(announcementsCollectionRef, newAd);
+//   await updateDoc(announcementToFbase, {
+//     announcementId: announcementToFbase.id
+//   })
+
+//   titulo.value = "";
+//   descripcion.value = "";
+//   category.value = "";
+//   selectedFile.value = null;
+//   urgente.value = false;
+
+//   notyf.success('Posteado exitosamente');
+//   sysVals().setIsLoadingComponent(false)
+// };
 const handleSubmit = async () => {
-  // sysVals().setIsLoadingComponent(true)
-  if (!selectedFile.value) {
-  sysVals().setIsLoadingComponent(false)
-  notyf.error('Por favor selecciona una imagen');
+  sysVals().setIsLoadingComponent(true);
 
-    return;
-  }
+  // Si no hay archivo seleccionado, usa una URL por defecto
+  let imageUrl = '';
+  if (selectedFile.value) {
+    imageUrl = await uploadImageToFreeImageHost(selectedFile.value);
 
-  // const imageUrl = await uploadImageToImgBB(selectedFile.value);
-  const imageUrl = await uploadImageToFreeImageHost(selectedFile.value);
-
-  if (!imageUrl) {
-    alert("Error al subir la imagen.");
-  sysVals().setIsLoadingComponent(false)
-
-    return;
+    if (!imageUrl) {
+      sysVals().setIsLoadingComponent(false);
+      notyf.error('Error al subir la imagen.');
+      return;
+    }
   }
 
   const newAd = {
@@ -200,24 +238,32 @@ const handleSubmit = async () => {
     description: descripcion.value,
     category: category.value,
     urgent: urgente.value,
-    imageUrl,
-    creationDate: Timestamp.now()
+    imageUrl, // Aquí se usa la URL por defecto si no hay imagen
+    creationDate: Timestamp.now(),
   };
 
-  const announcementToFbase = await addDoc(announcementsCollectionRef, newAd);
-  await updateDoc(announcementToFbase, {
-    announcementId: announcementToFbase.id
-  })
+  try {
+    const announcementToFbase = await addDoc(announcementsCollectionRef, newAd);
 
-  titulo.value = "";
-  descripcion.value = "";
-  category.value = "";
-  selectedFile.value = null;
-  urgente.value = false;
+    await updateDoc(announcementToFbase, {
+      announcementId: announcementToFbase.id,
+    });
 
-  notyf.success('Posteado exitosamente');
-  sysVals().setIsLoadingComponent(false)
+    // Reiniciar valores
+    titulo.value = '';
+    descripcion.value = '';
+    category.value = '';
+    selectedFile.value = null;
+    urgente.value = false;
+
+    notyf.success('Posteado exitosamente');
+  } catch (error) {
+    notyf.error('Error al postear el anuncio');
+  } finally {
+    sysVals().setIsLoadingComponent(false);
+  }
 };
+
 </script>
 
 <style scoped>

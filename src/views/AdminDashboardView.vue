@@ -1,7 +1,7 @@
 <template>
      <MainLayout>
     <template #main>
-        <div v-if="showPopUpRenCode" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black bg-opacity-50 animate-fade animate-duration-500">
+        <div v-if="showPopUpRenCode" class="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fade animate-duration-500">
         <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-md font-poppins animate-jump">
         <h2 class="mb-4 text-xl font-semibold text-gray-800">¿Desea regenerar el código?</h2>
         <div class="flex items-center mb-4">
@@ -30,7 +30,7 @@
       <div class="p-4 text-2xl font-bold text-center border-b border-gray-700">
         Admin Dashboard
       </div>
-      <nav class="mt-4">
+      <nav class="mt-4 text-base font-poppins">
         <ul>
           <li class="p-4 hover:bg-gray-700" @click="changeComponent(NotifsComponent)">
             <a href="#" class="flex items-center">
@@ -77,15 +77,15 @@
           <li @click="changeComponent(ReportsComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-exclamation"></i>
-              Reportes
+              Reportes/Quejas
             </a>
           </li>
-          <li @click="changeComponent(ComplaintComponent)" class="p-4 hover:bg-gray-700">
+          <!-- <li @click="changeComponent(ComplaintComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-angry "></i>
               Quejas
             </a>
-          </li>
+          </li> -->
           <RouterLink :to="{name:'home'}"  class="flex items-center p-4 hover:bg-gray-700">
             <i class="mr-3 fas fa-sign-out-alt"></i>
             Salir

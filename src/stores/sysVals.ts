@@ -12,6 +12,8 @@ export const sysVals = defineStore("sysVals", {
     isLoadingComponent: false,
     ownerInvitationCode: "",
     ownerDocId:"",
+    isLoadingLogin: false,
+    isLoadingOwner: false,
   }),
   getters: {
     getIsUserAuth: (state) => state.isUserAuth,
@@ -23,7 +25,9 @@ export const sysVals = defineStore("sysVals", {
     getCondominiumId:(state) => state.condominiumId,
     getIsLoadingComponent:(state) => state.isLoadingComponent,
     getOwnerInvitationCode:(state) => state.ownerInvitationCode,
-    getOwnerDocId:(state) => state.ownerDocId
+    getOwnerDocId:(state) => state.ownerDocId,
+    getIsLoadingLogin: (state) => state.isLoadingLogin,
+    getIsLoadingOwner: (state) => state.isLoadingOwner,
   },
   actions: {
     setIsUserAuth(status: boolean) {
@@ -55,6 +59,12 @@ export const sysVals = defineStore("sysVals", {
     },
     setOwnerDocId(payload:string):void{
       this.ownerDocId = payload
-    }
+    },
+    setIsLoadingLogin(status: boolean) {
+      this.isLoadingLogin = status;
+    },
+    setIsLoadingOwner(status: boolean) {
+      this.isLoadingOwner = status;
+    },
   },
 })

@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white rounded-lg shadow-lg">
-      <section v-if="announcementsFirebase" class="flex flex-wrap justify-between">
-        <AnnouncementCard v-for="(e, index) in announcementsFirebase" :key="index" :category="e.category" :title="e.title" :description="e.description" :date="e.creationDate"
+      <section v-if="announcementsFirebase" class="flex flex-wrap items-center justify-evenly ">
+        <AnnouncementCard v-for="(e, index) in announcementsFirebase.sort((a, b) => b.creationDate - a.creationDate)" :key="index" :category="e.category" :title="e.title" :description="e.description" :date="e.creationDate"
         :isUrgent="e.urgent" :img="e.imageUrl" :announcementId="e.announcementId" />
       </section>
     </div>

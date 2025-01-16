@@ -6,12 +6,14 @@ export const ownerVals = defineStore('ownerVals', {
     showReportComment: false,
     showPopUpAnswerComment: false,
     answerCommentTo: "",
+    userDataId: "",
   }),
   getters: {
     getOwnerName: (state) => state.ownerName,
     getShowReportComment: (state) => state.showReportComment,
-    getAnswerCommentTo: (state) => state.answerCommentTo,
-    getShowPopUpAnswerComment: (state) => state.showPopUpAnswerComment
+    getAnswerCommentTo: (state) => state.answerCommentTo.trim(),
+    getShowPopUpAnswerComment: (state) => state.showPopUpAnswerComment,
+    getUserDataId: (state) => state.userDataId
   },
   actions: {
     setOwnerName(value: string) {
@@ -30,6 +32,9 @@ export const ownerVals = defineStore('ownerVals', {
     setClosePopUpAnswerComment() {
       this.showPopUpAnswerComment = false
       this.answerCommentTo = ""
+    },
+    setUserDataId(value: string) {
+      this.userDataId = value
     }
   }
 })

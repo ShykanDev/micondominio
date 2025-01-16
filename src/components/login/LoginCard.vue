@@ -77,6 +77,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ownerVals } from "@/stores/ownerVals";
 import { sysVals } from "@/stores/sysVals";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
@@ -93,12 +94,12 @@ const password = ref('');
 const router = useRouter();
 
 const signIn = async () => {
+  sysVals().setIsLoadingLogin(true);
   try {
     const credentials = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = credentials.user
 
     if (user && user.displayName?.includes('administrador')){ //If user is admin set pinia values to admin mode and set user auth
-      alert('Usuario administrador')
       sysVals().setIsAdmin(true);
       sysVals().setIsUserAuth(true);
       sysVals().setUserUid(credentials.user.uid);
@@ -106,20 +107,23 @@ const signIn = async () => {
       // now fetching the values for the admin mode (pinia state based) such as 'setAdminDocId' 'setCondominiumId', 'setInvitationId' an finally we push to dashboard
       const condominiosRef = collection(db,'condominios');
       const qIsAdminInCondominios = query(condominiosRef, where('createdBy',  '==', user.uid));
-      const snapshot = await getDocs(qIsAdminInCondominios);
-      if( !snapshot.empty ){
-        console.log(snapshot.docs[0].data());
-        sysVals().setAdimnDocId(snapshot.docs[0].id)
-        sysVals().setCondominiumId(snapshot.docs[0].data().condominiumId)
-        sysVals().setInvitationCode(snapshot.docs[0].data().invitationId)
+      const snapshotAdminCondominios = await getDocs(qIsAdminInCondominios);
+      if( !snapshotAdminCondominios.empty ){
+        console.log(snapshotAdminCondominios.docs[0].data());
+        sysVals().setAdimnDocId(snapshotAdminCondominios.docs[0].id)
+        sysVals().setCondominiumId(snapshotAdminCondominios.docs[0].data().condominiumId)
+        sysVals().setInvitationCode(snapshotAdminCondominios.docs[0].data().invitationId)
         router.push({name:'dashboard'})
       }
+        sysVals().setIsLoadingLogin(false);
+
     }
-    else if ( user && user.displayName?.includes('propietario') ) {//if user is owner set pinia values to owner mode ans set user auth
-      alert('Usuario propietario')
+    else if ( user && user.displayName && user.displayName.includes('propietario') ) {//if user is owner set pinia values to owner mode ans set user auth
       sysVals().setIsAdmin(false);
       sysVals().setIsUserAuth(true);
       sysVals().setUserUid(credentials.user.uid);
+      ownerVals().setOwnerName(user.displayName)
+
 
       // now checking if user uid is on usersGeneral and who is asociated to
       const usersGenneralCollectionRef = collection(db,'usersGeneral');
@@ -128,13 +132,19 @@ const signIn = async () => {
       if(!snapshot.empty){
         sysVals().setOwnerInvitationCode(snapshot.docs[0].data().invitationCode)
         sysVals().setAdimnDocId(snapshot.docs[0].data().asociatedToCondominiumId)
+        ownerVals().setUserDataId(snapshot.docs[0].data().userDataId)
+      sysVals().setIsLoadingLogin(false);
+
         router.push({name:'about'})
       } else {
         console.log('No existe ese usuario');
+      sysVals().setIsLoadingLogin(false);
+
       }
     }
 
   } catch (error) {
+    sysVals().setIsLoadingLogin(false);
     console.log('Error al iniciar sesión', error);
 
   }
