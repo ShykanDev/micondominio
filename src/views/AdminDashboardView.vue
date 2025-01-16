@@ -25,6 +25,7 @@
     <div
       id="sidebar"
       :class="['w-64 bg-gray-800 text-white', isSidebarHidden ? 'hidden' : '']"
+      class="animate-fade-right"
     >
       <div class="p-4 text-2xl font-bold text-center border-b border-gray-700">
         Admin Dashboard
@@ -73,6 +74,18 @@
               Usuarios
             </a>
           </li>
+          <li @click="changeComponent(ReportsComponent)" class="p-4 hover:bg-gray-700">
+            <a href="#" class="flex items-center">
+              <i class="mr-3 fas fa-exclamation"></i>
+              Reportes
+            </a>
+          </li>
+          <li @click="changeComponent(ComplaintComponent)" class="p-4 hover:bg-gray-700">
+            <a href="#" class="flex items-center">
+              <i class="mr-3 fas fa-angry "></i>
+              Quejas
+            </a>
+          </li>
           <RouterLink :to="{name:'home'}"  class="flex items-center p-4 hover:bg-gray-700">
             <i class="mr-3 fas fa-sign-out-alt"></i>
             Salir
@@ -107,7 +120,7 @@
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 p-2">
+    <div class="flex-1 p-2 animate-fade">
       <!-- Mobile Menu Button -->
       <div class="mb-4 md:hidden">
         <button @click="toggleMenu" class="p-2 text-white bg-gray-800 rounded">
@@ -152,6 +165,9 @@ const CommentsComponent = defineAsyncComponent(() => import('../components/admin
 const SurveysComponent = defineAsyncComponent(() => import('../components/admin/SurveysComponent.vue'));
 const AnnouncementsComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementsComponent.vue'));
 const UsersComponent = defineAsyncComponent(() => import('../components/admin/UsersComponent.vue'));
+const ReportsComponent = defineAsyncComponent(() => import('../components/admin/ReportsComponent.vue'));
+const ComplaintComponent = defineAsyncComponent(() => import('../components/admin/ComplaintComponent.vue'));
+
 
 const currentComponent = shallowRef(AnnouncementComponent);
 

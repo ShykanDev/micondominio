@@ -1,12 +1,28 @@
 <template>
   <MainLayout>
     <template #main>
-      <div class="flex w-full py-2 rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins">
-        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Comentar</p>
-        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Anuncios</p>
-        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Comentarios</p>
-        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Encuestas</p>
+
+      <div class="flex w-full py-2 transition-all duration-300 ease-out rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins animate-fade-down">
+        <p class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+          <i class="fas fa-comment"></i> Comentar
+        </p>
+        <p class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+          <i class="fas fa-bullhorn"></i> Anuncios
+        </p>
+        <p class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+          <i class="fas fa-comments"></i> Comentarios
+        </p>
+        <p class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+          <i class="fas fa-poll"></i> Encuestas
+        </p>
+        <p class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+          <i class="fas fa-exclamation-triangle"></i> Quejas
+        </p>
+        <p class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+          <i class="fas fa-file-alt"></i> Reportes
+        </p>
       </div>
+
       <article class="w-full bg-white min-h-dvh">
         <component :is="currentComponent" />
       </article>

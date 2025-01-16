@@ -2,36 +2,80 @@
     <div class="">
       <MainLayout>
         <template #main>
-          <section class="relative z-10 flex flex-col items-center justify-center min-h-screen bg-center bg-cover md:flex-row font-poppins" style="background-image: url('https://images.unsplash.com/photo-1554902843-260acd0993f8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-            <section class="absolute top-0 left-0 w-full h-full bg-black opacity-50 -z-10"></section>
-   <div class="p-4 md:w-1/2">
-    <img alt="Imagen generada por IA de un inquilino sonriente en un entorno urbano" class="w-full max-w-md mx-auto border-2 border-white rounded-3xl" src="https://images.pexels.com/photos/4240571/pexels-photo-4240571.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"/>
-   </div>
-   <div class="p-4 text-white md:w-1/2">
-    <h1 class="mb-4 text-3xl font-bold md:text-4xl">
-     Historias de Propietarios y Administradores
+          <section
+  class="relative z-10 flex flex-col items-center justify-center min-h-screen bg-center bg-cover font-poppins lg:flex-row lg:items-start"
+  style="background-image: url('https://images.unsplash.com/photo-1554902843-260acd0993f8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
+>
+  <section class="absolute top-0 left-0 w-full h-full bg-black opacity-50 -z-10"></section>
 
-    </h1>
-    <div>
-    <h1>Sube tu imagen</h1>
-    <div id="upload-button-container"></div> <!-- Contenedor para el botón -->
-  </div>
-    <p class="mb-4">
-     En esta página, exploramos las fascinantes historias de propietarios y administradores de edificios. Descubre cómo cada uno realiza su trabajo con dedicación y profesionalismo. Puedes comentar y registrarte para unirte a la conversación.
-    </p>
-    <p class="mb-8">
-     Crea una cuenta y administra tu condominio o edificio de manera eficiente y efectiva. Únete a nuestra comunidad y comparte tus experiencias.
-    </p>
-    <div v-if="!sysVals().getIsUserAuth" class="flex space-x-4">
-     <RouterLink :to="{name:'login'}" class="px-4 py-2 text-white rounded bg-sky-800">
-      Iniciar Sesión
-     </RouterLink>
-     <RouterLink :to="{name:'register'}" class="px-4 py-2 bg-white rounded text-sky-800">
-      Registrarse
-     </RouterLink>
+  <!-- Contenedor de imágenes -->
+  <!-- <div class="flex"> -->
+    <div class="grid grid-cols-2 gap-4 p-4 md:w-1/2 lg:grid-cols-2 ">
+    <img
+      alt="Imagen generada por IA 1"
+      class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+      src="https://images.pexels.com/photos/4240571/pexels-photo-4240571.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    />
+    <img
+      alt="Imagen generada por IA 2"
+      class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+      src="https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg?auto=compress&cs=tinysrgb&w=600"
+    />
+    <img
+      alt="Imagen generada por IA 3"
+      class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+      src="https://images.pexels.com/photos/7433832/pexels-photo-7433832.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+    />
+    <img
+      alt="Imagen generada por IA 4"
+      class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+      src="https://images.pexels.com/photos/7433825/pexels-photo-7433825.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+    />
+    <div v-if="!sysVals().getIsUserAuth" class="flex justify-between w-full col-span-2 space-x-4 md:col-span-2 mt-9">
+      <RouterLink :to="{ name: 'login' }" class="px-4 py-2 text-xl text-white rounded bg-sky-800">
+        Iniciar Sesión
+      </RouterLink>
+      <RouterLink :to="{ name: 'register' }" class="px-4 py-2 text-xl bg-white rounded text-sky-800">
+        Registrarse
+      </RouterLink>
     </div>
-   </div>
-          </section>
+  </div>
+
+  <!-- Contenido de texto -->
+  <div class="p-4 text-white md:w-1/2 lg:w-1/2">
+    <h1 class="mb-4 text-3xl font-bold md:text-4xl">
+      Historias y Gestión de Condominios
+    </h1>
+
+    <p class="mb-4">
+      Bienvenido a una plataforma diseñada tanto para administradores como para propietarios de edificios o condominios. Nuestro objetivo es ofrecerte herramientas innovadoras y una comunidad activa para mejorar la gestión y convivencia en tu condominio.
+    </p>
+
+    <h2 class="mb-2 text-2xl font-bold">Para administradores:</h2>
+    <ul class="mb-4 ml-4 list-disc list-inside">
+      <li>Crear reportes detallados sobre la administración.</li>
+      <li>Publicar avisos y anuncios para mantener informados a los propietarios.</li>
+      <li>Gestionar encuestas y recibir retroalimentación de los residentes.</li>
+      <li>Monitorear el progreso y resolver problemas reportados.</li>
+    </ul>
+
+    <h2 class="mb-2 text-2xl font-bold">Para propietarios:</h2>
+    <ul class="mb-4 ml-4 list-disc list-inside">
+      <li>Levantar reportes para problemas o necesidades de tu condominio.</li>
+      <li>Comentar y dar seguimiento a los temas que afectan a tu comunidad.</li>
+      <li>Participar en encuestas organizadas por los administradores.</li>
+      <li>Presentar quejas y dar retroalimentación de manera directa.</li>
+    </ul>
+
+    <p class="mb-8">
+      Ya seas administrador o propietario, nuestra plataforma está diseñada para facilitar la comunicación, mejorar la administración y construir una mejor comunidad. ¡Únete y sé parte del cambio!
+    </p>
+
+
+  </div>
+</section>
+
+
           <section class="container px-4 py-2 mx-auto font-poppins">
 
           <div class="grid grid-cols-1 gap-6 p-4 px-2 my-4 md:grid-cols-3 font-poppins">
@@ -176,9 +220,7 @@
 
     <!-- Llamado a la acción -->
     <div class="mt-12 text-center">
-      <a href="/register" class="px-6 py-3 text-xl font-semibold text-white transition duration-300 bg-blue-600 rounded-lg hover:bg-blue-700">
-        Regístrate Ahora
-      </a>
+     <RouterLink class="px-4 py-2 text-xl text-white rounded bg-sky-800" :to="{name:'register'}">Registrarse Ahora</RouterLink>
     </div>
   </div>
 </section>
