@@ -92,67 +92,54 @@ const email = ref('');
 const password = ref('');
 const router = useRouter();
 
-const condominiosRef = collection(db, "condominios");  // Referencia a la colección de condominios
-const usersGeneralRef = collection(db, "usersGeneral");
-
 const signIn = async () => {
   try {
     const credentials = await signInWithEmailAndPassword(auth, email.value, password.value);
-    if (credentials.user) {
-      console.log(credentials.user);
+    const user = credentials.user
 
-      // Verifica si el usuario es administrador según el displayName
-      if (credentials.user.displayName && credentials.user.displayName.toLowerCase().includes('administrador')) {
-        sysVals().setIsAdmin(true);
-        sysVals().setIsUserAuth(true);
-        sysVals().setUserUid(credentials.user.uid);
-      } else {
-        console.log('Datos de usuario iniciado: ', credentials.user);
-        sysVals().setIsAdmin(false);
-        sysVals().setIsUserAuth(true);
-        sysVals().setUserUid(credentials.user.uid);
-      }
+    if (user && user.displayName?.includes('administrador')){ //If user is admin set pinia values to admin mode and set user auth
+      alert('Usuario administrador')
+      sysVals().setIsAdmin(true);
+      sysVals().setIsUserAuth(true);
+      sysVals().setUserUid(credentials.user.uid);
 
-      // Consulta la colección 'condominios' para encontrar un documento donde 'creadoPor' coincida con el UID del usuario
-
-      const q = query(condominiosRef, where("createdBy", "==", credentials.user.uid));
-      const q2 = query(usersGeneralRef, where("userUid", "==", credentials.user.uid));
-      const querySnapshot = await getDocs(q);  // Obtén los documentos que coincidan con la consulta
-      const querySnapshot2 = await getDocs(q2);
-      if (!querySnapshot.empty && credentials.user.displayName && credentials.user.displayName.toLowerCase().includes('administrador')) {
-        console.log("Usuario encontrado en la lista de condominios", querySnapshot.docs[0].data());
-        sysVals().setAdimnDocId(querySnapshot.docs[0].id);
-        sysVals().setCondominiumId(querySnapshot.docs[0].data().condominiumId);
-        sysVals().setInvitationCode(querySnapshot.docs[0].data().invitationId)
-        router.push({ name: 'dashboard' });
-        return
-      }
-      else if (querySnapshot.empty) {
-        console.log("El usuario no está en la lista de condominios, no es administrador este usuario");
-      }
-      if (!querySnapshot2.empty && credentials.user.displayName && credentials.user.displayName.toLowerCase().includes('propietario')) {
-        // Si se encuentra al menos un documento, significa que el UID existe en la lista
-        console.log("Usuario encontrado en la lista de propietarios");
-        // console.log(querySnapshot.docs[0].data().invitationId);
-        sysVals().setInvitationCode(querySnapshot.docs[0].data().invitationId)
-        sysVals().setIsUserAuth(true);
-        router.push({ name: 'comments' });
-        return
-      }
-      else if (querySnapshot2.empty) {
-        // Si no se encuentra ningún documento, el UID no está en la lista
-        console.log("El usuario no está en la lista de condominios");
-      }
-      else{
-        console.log("El usuario no está en la lista de ningun tipo");
+      // now fetching the values for the admin mode (pinia state based) such as 'setAdminDocId' 'setCondominiumId', 'setInvitationId' an finally we push to dashboard
+      const condominiosRef = collection(db,'condominios');
+      const qIsAdminInCondominios = query(condominiosRef, where('createdBy',  '==', user.uid));
+      const snapshot = await getDocs(qIsAdminInCondominios);
+      if( !snapshot.empty ){
+        console.log(snapshot.docs[0].data());
+        sysVals().setAdimnDocId(snapshot.docs[0].id)
+        sysVals().setCondominiumId(snapshot.docs[0].data().condominiumId)
+        sysVals().setInvitationCode(snapshot.docs[0].data().invitationId)
+        router.push({name:'dashboard'})
       }
     }
+    else if ( user && user.displayName?.includes('propietario') ) {//if user is owner set pinia values to owner mode ans set user auth
+      alert('Usuario propietario')
+      sysVals().setIsAdmin(false);
+      sysVals().setIsUserAuth(true);
+      sysVals().setUserUid(credentials.user.uid);
+
+      // now checking if user uid is on usersGeneral and who is asociated to
+      const usersGenneralCollectionRef = collection(db,'usersGeneral');
+      const qIsUserInUsersGeneral = query(usersGenneralCollectionRef, where('userUid', '==', user.uid));
+      const snapshot = await getDocs(qIsUserInUsersGeneral);
+      if(!snapshot.empty){
+        sysVals().setOwnerInvitationCode(snapshot.docs[0].data().invitationCode)
+        sysVals().setAdimnDocId(snapshot.docs[0].data().asociatedToCondominiumId)
+        router.push({name:'about'})
+      } else {
+        console.log('No existe ese usuario');
+      }
+    }
+
   } catch (error) {
-    console.log(error);
+    console.log('Error al iniciar sesión', error);
+
   }
 }
 </script>
-
 
 
 <style scoped></style>

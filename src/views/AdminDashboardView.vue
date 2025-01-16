@@ -15,7 +15,7 @@
                 Cancelar
             </button>
             <button @click="handleRegenCode" class="px-4 py-2 text-white rounded bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
-                <i class="mr-2 fas fa-trash-alt"></i>Eliminar
+                <i class="mr-2 fas fa-sync"></i>Regenerar
             </button>
         </div>
     </div>

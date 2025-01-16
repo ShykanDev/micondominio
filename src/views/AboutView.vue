@@ -1,75 +1,15 @@
 <template>
   <MainLayout>
     <template #main>
-      <div class="flex flex-col items-center justify-center p-4 min-h-dvh font-poppins">
-  <h1 class="text-xl font-bold">Acceso con Código de Invitación</h1>
-  <input
-    v-model="invitationCode"
-    type="text"
-    placeholder="Ingresa tu código de invitación"
-    class="p-2 mt-4 border rounded"
-  />
-  <button
-    @click="checkInvitationCode"
-    class="px-4 py-2 mt-4 text-white bg-blue-500 rounded"
-  >
-    Verificar Código
-  </button>
-
-  <p v-if="accessGranted" class="mt-4 text-green-500">
-    ¡Acceso concedido! 🎉
-  </p>
-  <p v-if="errorMessage" class="mt-4 text-red-500">
-    {{ errorMessage }}
-  </p>
-
-  <!-- Estructura de anuncios y comentarios -->
-  <div
-    v-if="accessGranted"
-    class="grid w-full max-w-4xl grid-cols-1 gap-6 mt-8 md:grid-cols-2"
-  >
-    <!-- Anuncios -->
-    <div>
-      <h2 class="mb-4 text-lg font-semibold">Anuncios</h2>
-      <div
-        v-for="(anuncio, index) in anunciosData"
-        :key="'anuncio-' + index"
-        class="p-4 mb-4 bg-white border rounded shadow"
-      >
-        <h3 class="text-lg font-bold text-sky-800">{{ anuncio.titulo }}</h3>
-        <p class="text-sm text-gray-500">
-          Autor: {{ anuncio.autor }}
-        </p>
-        <p class="text-sm text-gray-500">
-          Fecha: {{ new Date(anuncio.fecha.seconds * 1000).toLocaleDateString() }}
-        </p>
-        <p class="mt-2">{{ anuncio.contenido }}</p>
+      <div class="flex w-full py-2 rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins">
+        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Comentar</p>
+        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Anuncios</p>
+        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Comentarios</p>
+        <p class="p-1 font-semibold bg-white rounded-md cursor-pointer text-sky-900">Encuestas</p>
       </div>
-    </div>
-
-    <!-- Comentarios -->
-    <div v-if="accessGranted">
-      <h2 class="mb-4 text-lg font-semibold">Comentarios</h2>
-      <div
-        v-for="(comentario, index) in comentariosData"
-        :key="'comentario-' + index"
-        class="p-4 mb-4 bg-white border rounded shadow"
-      >
-        <p class="text-lg font-bold text-sky-800">{{ comentario.anuncio }}</p>
-        <p class="text-sm text-gray-500">
-          Autor: {{ comentario.autor }}
-        </p>
-        <p class="text-sm text-gray-500">
-          Categoría: {{ comentario.categoría }}
-        </p>
-        <p class="text-sm text-gray-500">
-          Fecha: {{ new Date(comentario.fecha.seconds * 1000).toLocaleDateString() }}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
+      <article class="w-full bg-white min-h-dvh">
+        <component :is="currentComponent" />
+      </article>
     </template>
   </MainLayout>
 </template>
@@ -141,26 +81,17 @@ const checkInvitationCode = async () => {
 };
 </script> -->
 <script lang="ts" setup>
+
 import MainLayout from '@/layouts/MainLayout.vue';
-import { collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
-import { getFirestore } from 'firebase/firestore';
-import { ref, onUnmounted } from 'vue';
+import { defineAsyncComponent, shallowRef } from 'vue';
 
-const invitationCode = ref('');
-const accessGranted = ref(false);
-const errorMessage = ref('');
-const anunciosData = ref([]); // Datos de la subcolección "anuncios"
-const comentariosData = ref([]); // Datos de la subcolección "comentarios"
+const CommentComponent = defineAsyncComponent(() => import('../components/owner/CommentComponent.vue'));
+const currentComponent = shallowRef(CommentComponent);
 
-const db = getFirestore();
 
-// const comments
+
 </script>
 
 <style scoped>
-.flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 </style>

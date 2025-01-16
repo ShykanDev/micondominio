@@ -9,6 +9,9 @@
                 <p class="text-sm text-gray-500">
                   <small>Categoría: {{ userType }}</small>
                 </p>
+                <p class="text-sm text-gray-500">
+                  <small>Usuario: {{ userType.includes("propietario") ? "Propietario" : "Administrador" }}</small>
+                </p>
             </div>
         </div>
         <p class="mb-4 text-gray-700">
@@ -31,9 +34,7 @@
 
 <script lang="ts" setup>
 import { sysVals } from '@/stores/sysVals';
-import { log } from 'console';
 import { deleteDoc, doc, getFirestore } from 'firebase/firestore';
-import type { comment } from 'postcss';
 import { computed } from 'vue';
 
 

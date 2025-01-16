@@ -222,7 +222,6 @@ const generateRandomString = () => {
 
 
 const condominiosRef = collection(db, "condominios");
-const usersGeneralRef = collection(db, "usersGeneral");
 
 
 // const handleCreation = async () => {
@@ -518,7 +517,16 @@ const handleCreationOwner = async () => {
     if (user) {
       await updateProfile(user, { displayName: `${type.value} ${name.value}` });
       await sendEmailVerification(user);
-
+      // Agregar al usuario a la subcolección de usuarios
+      const usersGeneralCollectionRef = collection(db,'usersGeneral');
+       await addDoc(usersGeneralCollectionRef, {
+        deptNumber: departmentNumber.value,
+        creationDate: Timestamp.now(),
+        userUid: user.uid,
+        asociatedTo: snapshot.docs[0].data().createdBy,
+        invitationCode: snapshot.docs[0].data().invitationId,
+        asociatedToCondominiumId:snapshot.docs[0].data().condominiumId
+      })
       // Agregar al usuario a la subcolección correspondiente
       for (const doc of snapshot.docs) {
         const usersSubcollectionRef = collection(db, `condominios/${doc.id}/usuarios`);
