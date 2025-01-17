@@ -10,7 +10,7 @@
                   <small>Categoría: {{ userType }}</small>
                 </p>
                 <p class="text-sm text-gray-500">
-                  <small>Usuario: {{ userType.includes("propietario") ? "Propietario" : "Administrador" }}</small>
+                  <small>Usuario: {{ userName.includes("propietario") ? "Propietario" : "Administrador" }}</small>
                 </p>
             </div>
         </div>
@@ -65,8 +65,9 @@ const props = defineProps({
   }
 })
 const filteredUserName = computed(() =>
-  props.userName.replace(/administrador/gi, '').trim()
+    (props.userName.includes('propietario')) ? props.userName.replace(/propietario/gi,'').trim() : props.userName.replace(/administrador/gi,'').trim()
 );
+
 
 const deleteComment = async () => {
   sysVals().setIsLoadingComponent(true)

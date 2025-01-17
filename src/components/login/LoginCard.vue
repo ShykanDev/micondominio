@@ -64,7 +64,7 @@
 
       <!-- Right side (Title & Image) -->
       <div class="w-full text-center md:w-1/2 md:text-left">
-        <h3 class="mb-4 text-xl text-center text-gray-800 font-poppins">Inicie sesión para  interactuar con su
+        <h3 class="mb-4 text-xl text-center text-gray-800 font-poppins">Inicie sesión para interactuar con su
           condominio/edificio</h3>
         <img
           src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -81,8 +81,20 @@ import { ownerVals } from "@/stores/ownerVals";
 import { sysVals } from "@/stores/sysVals";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
+import { Notyf } from "notyf";
+import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+import { log } from "util";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+
+const notyf = new Notyf({
+  position: {
+    x: 'center',
+    y: 'top'
+  },
+  dismissible: true,
+  duration: 5000
+})
 
 const showPopup = ref(false);
 
@@ -99,26 +111,26 @@ const signIn = async () => {
     const credentials = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = credentials.user
 
-    if (user && user.displayName?.includes('administrador')){ //If user is admin set pinia values to admin mode and set user auth
+    if (user && user.displayName?.includes('administrador')) { //If user is admin set pinia values to admin mode and set user auth
       sysVals().setIsAdmin(true);
       sysVals().setIsUserAuth(true);
       sysVals().setUserUid(credentials.user.uid);
 
       // now fetching the values for the admin mode (pinia state based) such as 'setAdminDocId' 'setCondominiumId', 'setInvitationId' an finally we push to dashboard
-      const condominiosRef = collection(db,'condominios');
-      const qIsAdminInCondominios = query(condominiosRef, where('createdBy',  '==', user.uid));
+      const condominiosRef = collection(db, 'condominios');
+      const qIsAdminInCondominios = query(condominiosRef, where('createdBy', '==', user.uid));
       const snapshotAdminCondominios = await getDocs(qIsAdminInCondominios);
-      if( !snapshotAdminCondominios.empty ){
+      if (!snapshotAdminCondominios.empty) {
         console.log(snapshotAdminCondominios.docs[0].data());
         sysVals().setAdimnDocId(snapshotAdminCondominios.docs[0].id)
         sysVals().setCondominiumId(snapshotAdminCondominios.docs[0].data().condominiumId)
         sysVals().setInvitationCode(snapshotAdminCondominios.docs[0].data().invitationId)
-        router.push({name:'dashboard'})
+        router.push({ name: 'dashboard' })
       }
-        sysVals().setIsLoadingLogin(false);
+      sysVals().setIsLoadingLogin(false);
 
     }
-    else if ( user && user.displayName && user.displayName.includes('propietario') ) {//if user is owner set pinia values to owner mode ans set user auth
+    else if (user && user.displayName && user.displayName.includes('propietario')) {//if user is owner set pinia values to owner mode ans set user auth
       sysVals().setIsAdmin(false);
       sysVals().setIsUserAuth(true);
       sysVals().setUserUid(credentials.user.uid);
@@ -126,19 +138,25 @@ const signIn = async () => {
 
 
       // now checking if user uid is on usersGeneral and who is asociated to
-      const usersGenneralCollectionRef = collection(db,'usersGeneral');
+      const usersGenneralCollectionRef = collection(db, 'usersGeneral');
       const qIsUserInUsersGeneral = query(usersGenneralCollectionRef, where('userUid', '==', user.uid));
       const snapshot = await getDocs(qIsUserInUsersGeneral);
-      if(!snapshot.empty){
+      if (!snapshot.empty) {
+        console.log(snapshot.docs[0].data());
+        if (snapshot.docs[0].data().isBlocked) {
+          notyf.error('No se puede iniciar sesión, usuario bloqueado por el administrador del condominio');
+          sysVals().setIsLoadingLogin(false);
+          return;
+        }
         sysVals().setOwnerInvitationCode(snapshot.docs[0].data().invitationCode)
         sysVals().setAdimnDocId(snapshot.docs[0].data().asociatedToCondominiumId)
         ownerVals().setUserDataId(snapshot.docs[0].data().userDataId)
-      sysVals().setIsLoadingLogin(false);
+        sysVals().setIsLoadingLogin(false);
 
-        router.push({name:'about'})
+        router.push({ name: 'about' })
       } else {
         console.log('No existe ese usuario');
-      sysVals().setIsLoadingLogin(false);
+        sysVals().setIsLoadingLogin(false);
 
       }
     }

@@ -1,16 +1,16 @@
 <template>
-  <div class="w-full max-w-xs p-6 bg-white rounded-lg shadow-md font-poppins">
+  <div class="w-full max-w-xs p-6 rounded-lg shadow-md font-poppins bg-slate-50 animate-fade">
     <div class="flex items-center mb-4">
       <i class="text-4xl text-gray-500 fas fa-user-circle"></i>
       <div class="ml-4">
         <h2 class="font-medium text-gray-600 text-md">
-          Nombre del Usuario: <span class="text-sky-700">{{ name }}</span>
+          <i class="fas fa-user"></i> Nombre del Usuario: <span class="text-sky-700">{{ name }}</span>
         </h2>
         <p class="text-gray-800">
-          Departamento: <span class="text-sky-700">{{ deptNumber }}</span>
+          <i class="fas fa-building"></i> Departamento: <span class="text-sky-700">{{ deptNumber }}</span>
         </p>
         <p class="text-gray-800">
-          Fecha de Creación: <span class="text-sky-700">{{ formattedDate }}</span>
+          <i class="fas fa-calendar-alt"></i> Fecha que se unió el usuario: <span class="text-sky-700">{{ formattedDate }}</span>
         </p>
       </div>
     </div>
@@ -18,7 +18,7 @@
     <div class="flex flex-col items-start justify-between">
       <!-- Comentarios -->
       <div class="flex space-x-2">
-        <p>Comentarios:</p>
+        <p><i class="fas fa-comments"></i> Comentarios:</p>
         <p class="px-1 text-white rounded" :class="allowComments ? 'bg-green-600' : 'bg-red-600'">
           {{ allowComments ? 'Habilitados' : 'Deshabilitados' }}
         </p>
@@ -34,10 +34,10 @@
 
       <!-- Estado del usuario -->
       <div class="flex my-3 space-x-2">
-        <p>Estado: </p>
+        <p><i class="fas fa-user-shield"></i> Estado: </p>
         <p class="px-1 text-white rounded animate-pulse animate-duration-[5s]"
           :class="!isBlocked ? 'bg-green-600' : 'bg-red-600'">
-          {{ !isBlocked ? 'Desbloaueado' : 'Bloqueado' }}
+          {{ !isBlocked ? 'Desbloqueado' : 'Bloqueado' }}
         </p>
       </div>
     </div>
@@ -53,8 +53,9 @@
       :class="!allowComments ? 'bg-yellow-600 hover:bg-red-700 focus:ring-red-500' : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'">
       {{ allowComments ? 'Deshabilitar Comentarios' : 'Habilitar Comentarios' }}
     </button>
+
     <!-- Descripción adicional -->
-    <div  v-if="isBlocked" class="flex items-center mt-2 space-x-2">
+    <div v-if="isBlocked" class="flex items-center mt-2 space-x-2">
       <p class="text-xs">
         <i class="text-lg text-gray-500 fas fa-info-circle"></i>
         {{ isBlocked ? 'Este usuario está bloqueado y no puede participar, su cuenta ha sido bloqueada en el sistema para su condominio, el usuario aún puede comentar en la pagina administracioncondominio.com, pero no podrá hacerlo en su condominio.' : '' }}

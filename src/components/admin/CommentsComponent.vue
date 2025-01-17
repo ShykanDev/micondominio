@@ -38,6 +38,7 @@ const getComments = async () => {
   try {
     const snapshot = await getDocs(qComments)
     snapshot.forEach(e => {
+      console.log(e.data());
       commentsFirebase.value.push(e.data() as iComment)
     })
     isLoading.value =false;

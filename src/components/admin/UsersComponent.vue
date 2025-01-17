@@ -1,5 +1,5 @@
 <template>
-    <div v-if="usersFbse" class="flex flex-wrap items-center space-y-3 bg-white rounded-lg shadow-md justify-evenly">
+    <div v-if="usersFbse" class="flex flex-wrap items-center py-2 space-y-3 bg-white rounded-lg shadow-md justify-evenly">
       <UserCard v-for="(user,index) in usersFbse" :key="index" :allow-comments="user.allowComments" :name="user.name" :associated-to="user.associatedTo" :blocked-reason="user.blockedReason" :creation-date="user.creationDate" :dept-number="user.deptNumber" :is-blocked="user.isBlocked" :user-uid="user.userUid"  :doc-id="user.docId" />
     </div>
 </template>
