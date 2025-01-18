@@ -119,6 +119,11 @@
               class="w-full px-3 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Crear
               Cuenta</button>
           </div>
+          <div>
+            <p class="text-center">¿Necesitas Ayuda? <RouterLink class="text-sky-600" :to="{ name: 'help' }">
+                Como Crear Cuenta</RouterLink>
+            </p>
+          </div>
         </form>
       </div>
     </div>
@@ -182,10 +187,9 @@ import { getFirestore, collection, addDoc, getDocs, Timestamp, query, where, doc
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
 import { sysVals } from "@/stores/sysVals";
-import { useRouter } from "vue-router";
-
+import { useRouter, useRoute } from "vue-router";
 const loadingAnimation = ref(false);
-
+const route = useRoute();
 
 // Create an instance of Notyf
 const notyf = new Notyf({
@@ -315,6 +319,7 @@ const handleCreationAdmin = async () => {
         duration: 7000
       });
     }
+    router.push('/login');
   } catch (error) {
     console.error(error);
     notyf.error((error as Error).message);
@@ -379,6 +384,8 @@ const handleCreationOwner = async () => {
         duration: 7000
       });
     }
+    router.push('/login');
+
   } catch (error) {
     console.error(error);
     notyf.error((error as Error).message);
@@ -400,7 +407,18 @@ const logUser = (type: string) => {
       break;
   }
 }
+// Obtener los parámetros
+const tipoCuenta = route.query.tipoCuenta || ''; // Valor por defecto si no está presente
+const codigoInvitacion = route.query.codigoInvitacion || '  ';
 
+console.log('Tipo de cuenta:', tipoCuenta);
+console.log('Código de invitación:', codigoInvitacion);
+
+
+onMounted(() => {
+  invId.value = String(codigoInvitacion);
+  type.value = String(tipoCuenta);
+})
 </script>
 
 <style scoped></style>

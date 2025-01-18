@@ -78,14 +78,21 @@ const router = createRouter({
       },
     },
     {
-      path: '/test',
-      name: 'test',
-      component: () => import('../views/TestView.vue'),
+      path: '/help',
+      name: 'help',
+      component: () => import('../views/HelpView.vue'),
       meta: {
         requiresAuth: false,
       },
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  },
 })
 
 export default router

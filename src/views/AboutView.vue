@@ -2,7 +2,7 @@
   <MainLayout>
     <template #main>
       <div
-        class="box-border flex w-full py-2 transition-all duration-300 ease-out rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins animate-fade-down">
+        class="box-border flex flex-wrap w-full gap-4 py-2 transition-all duration-300 ease-out md:gap-0 md:flex-nowrap rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins animate-fade-down">
         <p @click="sysVals().setAsyncComponent(CreateCommentComponent)"
           :class="currentComponent === CreateCommentComponent ? 'border-2 border-sky-700' : ''"
           class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">

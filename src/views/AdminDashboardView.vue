@@ -96,6 +96,9 @@
                   <i class="mr-3 fas fa-code"></i>
                   Código de Invitación:
                 </span>
+                <div class="flex items-center justify-center p-1 bg-white">
+                  <QrCode :value="qrVals().getLink" class="w-64 h-64"></QrCode>
+                </div>
                 <div class="flex flex-wrap justify-center my-2 font-poppins">
                   <span class="p-1 my-1 text-center text-black bg-white rounded-lg">{{ sysVals().getInvitationCode
                     }}</span>
@@ -117,6 +120,7 @@
 
                   </button>
                 </div>
+
                 <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-info"></i>Regenerar el código
                   necesitará que usted comparta nuevamente su código de invitación con todos sus propietarios, el código
                   anterior dejará de funcionar y sus propietarios no podrán acceder usando el anterior código. </small>
@@ -162,6 +166,8 @@ import MainLayout from '@/layouts/MainLayout.vue';
 import LoadingDatabase from '@/components/animations/LoadingDatabase.vue';
 import { collection, doc, getDocs, getFirestore, query, updateDoc, where } from 'firebase/firestore';
 import { sys } from 'typescript';
+import QrCode from '@/components/Qr/QrCode.vue';
+import { qrVals } from '@/stores/qrVals';
 
 
 
@@ -236,6 +242,9 @@ const handleRegenCode = async () => {
     if (querySnapshot.empty) {
       const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
       await updateDoc(invitationRef, { invitationId: newInvitationCode })
+
+      // update local variable
+      qrVals().setLink(`http://192.168.1.17:5173/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
       sysVals().setInvitationCode(newInvitationCode)
       notyf.success('Código regenerado con exito')
       sysVals().setIsLoadingComponent(false)

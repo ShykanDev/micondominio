@@ -21,13 +21,13 @@
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <i @click="showPopup = false" class="text-gray-400 fas fa-envelope"></i>
             </div>
-            <input type="email" id="email"
-              class="block w-full py-2 pl-10 pr-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            <input v-model="verificationEmail" type="email" id="email"
+              class="block w-full py-2 pl-10 pr-3 border border-gray-300 rounded-md focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
               placeholder="correo@ejemplo.com">
           </div>
         </div>
-        <button
-          class="w-full py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <button @click="sendVerificationEmail"
+          class="w-full py-2 text-white rounded-md bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
           Restablecer Contraseña
         </button>
       </div>
@@ -58,7 +58,13 @@
         </form>
         <div class="mt-4 text-center">
           <p class="text-sm text-gray-600">¿No tienes una cuenta?</p>
-          <a href="#" class="font-semibold text-blue-600">Crear cuenta</a>
+          <RouterLink :to="{ name: 'register' }" class="font-semibold text-blue-600">Crear cuenta</RouterLink>
+        </div>
+        <div>
+          <p class="mt-5 text-sm text-center font-poppins text-slate-800">¿Necesitas Ayuda? <RouterLink
+              class="text-sky-600" :to="{ name: 'help' }">
+              Como Usar</RouterLink>
+          </p>
         </div>
       </div>
 
@@ -78,8 +84,9 @@
 
 <script lang="ts" setup>
 import { ownerVals } from "@/stores/ownerVals";
+import { qrVals } from "@/stores/qrVals";
 import { sysVals } from "@/stores/sysVals";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
 import { Notyf } from "notyf";
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
@@ -109,6 +116,14 @@ const signIn = async () => {
   try {
     const credentials = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = credentials.user
+    console.log(user.emailVerified);
+
+    if (!user.emailVerified) {
+      notyf.error('Su correo no ha sido verificado, revise su correo y de click en el enlace de verificación')
+      sysVals().setIsLoadingLogin(false);
+      return;
+    }
+
 
     if (user && user.displayName?.includes('administrador')) { //If user is admin set pinia values to admin mode and set user auth
       sysVals().setIsAdmin(true);
@@ -124,6 +139,8 @@ const signIn = async () => {
         sysVals().setAdimnDocId(snapshotAdminCondominios.docs[0].id)
         sysVals().setCondominiumId(snapshotAdminCondominios.docs[0].data().condominiumId)
         sysVals().setInvitationCode(snapshotAdminCondominios.docs[0].data().invitationId)
+        qrVals().setLink(`http://192.168.1.17:5173/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${snapshotAdminCondominios.docs[0].data().invitationId}`)
+
         router.push({ name: 'dashboard' })
       }
       sysVals().setIsLoadingLogin(false);
@@ -168,7 +185,8 @@ const signIn = async () => {
 
 
         sysVals().setIsUserAuth(true);
-
+        qrVals().setLink(`http://localhost:5173/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${snapshot.docs[0].data().invitationCode}`)
+        // qrVals().setLink(`http://localhost:5173/micondominio/register?tipoCuenta=propietario&codigoInvitacion=546487`)
         sysVals().setIsLoadingLogin(false);
 
         router.push({ name: 'about' })
@@ -183,6 +201,22 @@ const signIn = async () => {
     sysVals().setIsLoadingLogin(false);
     notyf.error('Error al iniciar sesión, verifique su contraseña o correo');
     console.log('Error al iniciar sesión', error);
+
+  }
+}
+
+const verificationEmail = ref('');
+const sendVerificationEmail = async () => {
+  try {
+    const authUser = getAuth();
+    if (authUser.currentUser) {
+      await sendPasswordResetEmail(authUser, verificationEmail.value);
+      notyf.success('Se envió un correo para reestablecer su contraseña');
+      verificationEmail.value = '';
+      showPopup.value = false;
+    }
+  } catch (error) {
+    console.log(error);
 
   }
 }
