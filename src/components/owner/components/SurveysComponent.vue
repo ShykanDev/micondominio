@@ -1,7 +1,8 @@
 <template>
-    <div v-if="surveys" class="flex flex-wrap p-4 bg-white rounded-lg shadow-lg">
-      <SurveyCard v-for="(e, index) in surveys" :key="index" :survey-description="e.description" :survey-title="e.title" :survey-doc-id="e.surveyDocId" :survey-options="e.options" />
-    </div>
+  <div v-if="surveys" class="flex flex-wrap p-4 bg-white rounded-lg shadow-lg">
+    <SurveyCard v-for="(e, index) in surveys" :key="index" :survey-description="e.description" :survey-title="e.title"
+      :survey-doc-id="e.surveyDocId" :survey-options="e.options" :voters="e.voters" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -21,6 +22,8 @@ const getSurveys = async () => {
   try {
     const querySnapshot = await getDocs(surveysRef);
     querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+
       surveys.value.push(doc.data());
     });
     sysVals().setIsLoadingOwner(false);
@@ -36,6 +39,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

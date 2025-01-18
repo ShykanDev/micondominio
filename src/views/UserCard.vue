@@ -45,7 +45,7 @@
 
     <!-- Botón de bloquear/desbloquear -->
     <button @click="handleBlockUser" class="px-4 py-2 mt-2 text-white rounded-lg focus:outline-none focus:ring-2"
-      :class="!isBlocked ? 'bg-red-500 hover:bg-red-700 focus:ring-red-500' : 'bg-green-500 hover:bg-green-700 focus:ring-green-500'">
+      :class="!isBlocked ? 'bg-red-800 hover:bg-red-700 focus:ring-red-500' : 'bg-green-500 hover:bg-green-700 focus:ring-green-500'">
       {{ !isBlocked ? 'Bloquear' : 'Desbloquear' }}
     </button>
 
@@ -55,12 +55,19 @@
       :class="!allowComments ? 'bg-yellow-600 hover:bg-red-700 focus:ring-red-500' : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'">
       {{ allowComments ? 'Deshabilitar Comentarios' : 'Habilitar Comentarios' }}
     </button>
-    <button @click="handleBlock('commentUncomment')"
-      class="px-4 py-2 mt-2 text-sm text-white rounded-lg focus:outline-none focus:ring-2"
-      :class="!allowComments ? 'bg-yellow-600 hover:bg-red-700 focus:ring-red-500' : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'">
-      <i class="fas fa-key"></i>
-      Actualizar código de invitación
+    <button @click="handleRegenCode"
+      class="px-4 py-2 mt-2 text-sm text-white rounded-lg bg-slate-600 hover:bg-blue-700 focus:ring-blue-500 focus:outline-none focus:ring-2">
+      <i class="mr-2 fas fa-redo"></i>
+      Renovar Acceso
     </button>
+
+    <small class="flex items-start mt-2 text-gray-500">
+      <i class="mr-2 mt-[2px] fas fa-info-circle"></i>
+      Este botón actualiza el código de invitación para el usuario. Úselo solo si el usuario no puede acceder con su
+      código anterior,
+      ya que este código reemplazará el existente.
+    </small>
+
 
     <!-- Descripción adicional -->
     <div v-if="isBlocked" class="flex items-center mt-2 space-x-2">
@@ -201,8 +208,29 @@ const handleBlockUser = async () => {
 
 // function to regenerate the code of the user
 const handleRegenCode = async () => {
-  // sysVals().setIsLoadingComponent(false);
-  sysVals().setIsLoadingComponent(false);
+  sysVals().setIsLoadingComponent(true);
+  try {
+    const userDoc = collection(db, 'usersGeneral') // reference to the user docId
+    const qGetUser = query(userDoc, where('userUid', '==', props.userUid));
+    const querySnapshot = await getDocs(qGetUser);
+    if (querySnapshot.empty) {
+      notyf.error('Usuario no encontrado');
+      sysVals().setIsLoadingComponent(false);
+      return
+    } else {
+      const userDoc = doc(db, 'usersGeneral', querySnapshot.docs[0].id) // reference to the user docId
+      await updateDoc(userDoc, {
+        invitationCode: sysVals().getInvitationCode,
+      })
+      notyf.success('Operación realizada')
+      sysVals().setIsLoadingComponent(false);
+    }
+
+  } catch (error) {
+    console.log(error);
+    sysVals().setIsLoadingComponent(false);
+    notyf.error('Error en la operacion, intentelo de nuevo')
+  }
 }
 
 </script>

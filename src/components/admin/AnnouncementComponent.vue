@@ -117,61 +117,77 @@ const handleFileChange = (event: Event) => {
 //     return null;
 //   }
 // };
-const uploadImageToFreeImageHost = async (file: File) => {
-  const apiKey = "6d207e02198a847aa98d0a2a901485a5"; // Tu API key
-  // const corsProxy = "https://corsproxy.io/"; // URL del proxy
-  const corsProxy = "https://cors-anywhere.herokuapp.com/"; // URL del proxy
-  const apiUrl = "https://freeimage.host/api/1/upload";
+// const  = async (file: File) => {
+//   sysVals().setIsLoadingComponent(true); // Show loading state
 
-  // Convertir el archivo a base64
-  const toBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-    sysVals().setIsLoadingComponent(true)
+//   try {
+//     // Define the API endpoint and form data
+//     const apiUrl = 'https://freeimage.host/api/1/upload';
+//     const formData = new FormData();
+
+//     formData.append('key', '6d207e02198a847aa98d0a2a901485a5'); // Your API key
+//     formData.append('action', 'upload'); // Action is "upload"
+//     formData.append('source', file); // Add the image file
+//     formData.append('format', 'json'); // Return format set to JSON
+
+//     // Make the POST request to the API
+//     const response = await fetch(apiUrl, {
+//       method: 'POST',
+//       body: formData,
+//     });
+
+//     // Parse the response
+//     const result = await response.json();
+
+//     if (result.success) {
+//       console.log('Image uploaded successfully:', result.image.url);
+//       notyf.success('Image uploaded successfully');
+//       // Optionally, handle further logic here (e.g., store image URL, update UI)
+//     } else {
+//       console.error('Error uploading image:', result.error.message);
+//       notyf.error('Error while uploading the image');
+//     }
+
+//   } catch (error) {
+//     console.error("Error during upload:", error);
+//     notyf.error('Error al subir la imagen');
+//   } finally {
+//     sysVals().setIsLoadingComponent(false); // Hide loading state regardless of success or failure
+//   }
+// };
+
+const uploadImageToFreeImageHost = async (imageFile) => {
+  sysVals().setIsLoadingComponent(true);
+
+  const formData = new FormData();
+  formData.append('image', imageFile); // The image you want to upload
+  formData.append('key', 'c1c5eb1a375c6b1069d7f5c0622751be');
 
   try {
-    const base64Image = await toBase64(file);
-
-    // Crear el formulario para la petición
-    const formData = new FormData();
-    formData.append("key", apiKey); // API Key
-    formData.append("action", "upload"); // Acción a realizar
-    formData.append("source", base64Image.includes(",") ? base64Image.split(",")[1] : base64Image);
-    formData.append("format", "json"); // Formato de respuesta
-
-    // Hacer la petición POST con el proxy CORS
-    const response = await fetch(corsProxy + apiUrl, {
-      method: "POST",
+    const response = await fetch('https://api.imgbb.com/1/upload', {
+      method: 'POST',
       body: formData,
     });
 
-    const result = await response.json();
-
-    if (result.status_code === 200) {
-      console.log("Imagen subida exitosamente:", result.image.display_url);
-  sysVals().setIsLoadingComponent(false)
-      notyf.success('Imagen subida exitosamente');
-      return result.image.display_url; // Retornar la URL de la imagen
+    const data = await response.json();
+    if (data.success) {
+      console.log('Image uploaded successfully:', data.data.url); // Image URL
+      // You can save the image URL or do something with it here
+      return data.data.url;
     } else {
-      console.error("Error al subir la imagen:", result.status_txt);
-  sysVals().setIsLoadingComponent(false)
-    notyf.error('Error al subir la imagen');
-
-      return null;
+      console.error('Error uploading image:', data.error.message);
+      notyf.error('Error al subir la imagen');
     }
   } catch (error) {
-    console.error("Error durante la subida:", error);
-  sysVals().setIsLoadingComponent(false)
+    console.error('Error during upload:', error);
     notyf.error('Error al subir la imagen');
-    return null;
+  } finally {
+    sysVals().setIsLoadingComponent(false); // Stop the loading spinner
   }
 };
 
 
+// uploadImageToFreeImageHost
 // Manejar el envío del formulario
 
 const db = getFirestore();

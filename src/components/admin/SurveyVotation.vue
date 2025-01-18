@@ -10,7 +10,7 @@
       <div v-for="(option, index) in surveyOptions" :key="index" class="mb-4">
         <label class="inline-flex items-center cursor-pointer">
           <input type="radio" name="survey" class="w-5 h-5 text-blue-600 form-radio">
-          <span class="ml-2 text-sm text-gray-700">{{ option }}</span>
+          <span class="ml-2 text-sm text-gray-700">{{ option.option }}</span>
         </label>
       </div>
       <div class="flex items-center justify-between">
@@ -78,8 +78,8 @@ const deleteSurvey = async () => {
   sysVals().setIsLoadingComponent(true)
   try {
     await deleteDoc(surveyDocIdRef)
-      sysVals().setIsLoadingComponent(false)
-      notyf.success(`Encuesta '${props.surveyTitle}' eliminada`)
+    sysVals().setIsLoadingComponent(false)
+    notyf.success(`Encuesta '${props.surveyTitle}' eliminada`)
   } catch (error) {
     console.log(error);
     sysVals().setIsLoadingComponent(false)

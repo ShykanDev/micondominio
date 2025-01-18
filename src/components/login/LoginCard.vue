@@ -157,7 +157,7 @@ const signIn = async () => {
 
         if (snapshotCondominios.exists()) {
           if (snapshot.docs[0].data().invitationCode !== snapshotCondominios.data().invitationId) {
-            notyf.error('No se puede iniciar sesión, el código asociado a esta cuenta no se encontró en el sistema, por favor contacte al administrador del condominio');
+            notyf.error('No se puede iniciar sesión, el código asociado a esta cuenta no se encontró en el sistema, por favor contacte al administrador de su condominio');
             sysVals().setIsLoadingLogin(false);
             return;
           }
