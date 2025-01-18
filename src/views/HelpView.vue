@@ -114,7 +114,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Nueva Encuesta</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/nuevaEncuesta.PNG" alt="Imagen descriptiva de nueva encuesta"
+              <img src="../assets/nuevaEncuesta.png" alt="Imagen descriptiva de nueva encuesta"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 Como administrador, puede crear una nueva encuesta para sus propietarios. Aquí podrá ingresar el título
@@ -131,7 +131,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Nuevo Anuncio</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/nuevoAnuncio.PNG" alt="Imagen descriptiva de nuevo anuncio"
+              <img src="../assets/nuevoAnuncio.png" alt="Imagen descriptiva de nuevo anuncio"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 La sección de nuevos anuncios permite al administrador enviar información importante a todos los
@@ -147,7 +147,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Comentarios</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/comentariosAdmin.PNG" alt="Imagen descriptiva de comentarios"
+              <img src="../assets/comentariosAdmin.png" alt="Imagen descriptiva de comentarios"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 En esta sección, el administrador podrá ver todos los comentarios realizados por los propietarios. Cada
@@ -163,7 +163,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Encuestas</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/encuestasAdmin.PNG" alt="Imagen descriptiva de encuestas"
+              <img src="../assets/encuestasAdmin.png" alt="Imagen descriptiva de encuestas"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 Aquí podrá gestionar todas las encuestas creadas previamente. Podrá visualizar las respuestas recibidas
@@ -178,7 +178,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Anuncios</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/anunciosAdmin.PNG" alt="Imagen descriptiva de anuncios"
+              <img src="../assets/anunciosAdmin.png" alt="Imagen descriptiva de anuncios"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 En esta sección podrá ver todos los anuncios creados anteriormente. Si algún anuncio ya no es relevante,
@@ -193,7 +193,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Usuarios</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/usuariosAdmin.PNG" alt="Imagen descriptiva de usuarios"
+              <img src="../assets/usuariosAdmin.png" alt="Imagen descriptiva de usuarios"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 Aquí podrá gestionar todos los usuarios de su condominio. Cada usuario se muestra en una tarjeta con
@@ -208,7 +208,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Reportes y Quejas</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/reportesAdmin.PNG" alt="Imagen descriptiva de reportes y quejas"
+              <img src="../assets/reportesAdmin.png" alt="Imagen descriptiva de reportes y quejas"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 En esta sección podrá visualizar las quejas y reportes realizados por los propietarios. Cada reporte
@@ -223,7 +223,7 @@
           <article class="p-6 space-y-4 bg-white border rounded-lg shadow-lg">
             <h2 class="text-2xl font-bold">Código de Invitación</h2>
             <div class="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
-              <img src="../assets/invitationQr.PNG" alt="Imagen descriptiva de código de invitación"
+              <img src="../assets/invitationQr.png" alt="Imagen descriptiva de código de invitación"
                 class="w-full rounded-lg shadow md:w-1/3">
               <p class="text-gray-700">
                 Cada administrador tiene un código de invitación único que puede compartir con los propietarios de su
