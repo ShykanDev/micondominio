@@ -139,7 +139,7 @@ const signIn = async () => {
         sysVals().setAdimnDocId(snapshotAdminCondominios.docs[0].id)
         sysVals().setCondominiumId(snapshotAdminCondominios.docs[0].data().condominiumId)
         sysVals().setInvitationCode(snapshotAdminCondominios.docs[0].data().invitationId)
-        qrVals().setLink(`http://192.168.1.17:5173/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${snapshotAdminCondominios.docs[0].data().invitationId}`)
+        qrVals().setLink(`https://shykandev.github.io/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${snapshotAdminCondominios.docs[0].data().invitationId}`)
 
         router.push({ name: 'dashboard' })
       }

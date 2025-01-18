@@ -244,7 +244,7 @@ const handleRegenCode = async () => {
       await updateDoc(invitationRef, { invitationId: newInvitationCode })
 
       // update local variable
-      qrVals().setLink(`http://192.168.1.17:5173/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
+      qrVals().setLink(`https://shykandev.github.io/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
       sysVals().setInvitationCode(newInvitationCode)
       notyf.success('Código regenerado con exito')
       sysVals().setIsLoadingComponent(false)
