@@ -80,10 +80,9 @@
 import { ownerVals } from "@/stores/ownerVals";
 import { sysVals } from "@/stores/sysVals";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, collection, getDocs, query, where } from "firebase/firestore";
+import { getFirestore, collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
 import { Notyf } from "notyf";
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
-import { log } from "util";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -137,6 +136,10 @@ const signIn = async () => {
       ownerVals().setOwnerName(user.displayName)
 
 
+      // checking if invitationId exists on fb
+
+
+
       // now checking if user uid is on usersGeneral and who is asociated to
       const usersGenneralCollectionRef = collection(db, 'usersGeneral');
       const qIsUserInUsersGeneral = query(usersGenneralCollectionRef, where('userUid', '==', user.uid));
@@ -148,9 +151,24 @@ const signIn = async () => {
           sysVals().setIsLoadingLogin(false);
           return;
         }
+        // now verifying that the condominium exists on fb
+        const condominiosInvitationIdRef = doc(db, 'condominios', snapshot.docs[0].data().asociatedToCondominiumId);
+        const snapshotCondominios = await getDoc(condominiosInvitationIdRef);
+
+        if (snapshotCondominios.exists()) {
+          if (snapshot.docs[0].data().invitationCode !== snapshotCondominios.data().invitationId) {
+            notyf.error('No se puede iniciar sesión, el código asociado a esta cuenta no se encontró en el sistema, por favor contacte al administrador del condominio');
+            sysVals().setIsLoadingLogin(false);
+            return;
+          }
+        }
+
         sysVals().setOwnerInvitationCode(snapshot.docs[0].data().invitationCode)
         sysVals().setAdimnDocId(snapshot.docs[0].data().asociatedToCondominiumId)
         ownerVals().setUserDataId(snapshot.docs[0].data().userDataId)
+
+
+
         sysVals().setIsLoadingLogin(false);
 
         router.push({ name: 'about' })

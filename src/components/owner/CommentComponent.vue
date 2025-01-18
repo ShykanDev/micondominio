@@ -17,33 +17,34 @@
     </section>
     <!-- popup to answer comment -->
 
-      <div v-if="ownerVals().getShowPopUpAnswerComment" class="fixed left-0 z-40 w-full max-w-md p-6 bg-white border-t-2 border-b-2 border-r-2 rounded-lg shadow-lg bottom-1">
-        <i @click="ownerVals().setClosePopUpAnswerComment()" class="absolute top-0 text-2xl cursor-pointer right-2 hover:text-sky-300 text-sky-500 fas fa-times" title="cerrar"></i>
-        <div class="flex items-center mb-4 ">
-          <i class="mr-3 text-3xl text-sky-500 fas fa-comment"></i>
-          <div>
-            <h2 class="text-lg font-bold font-poppins">
-              Responder a <span class="text-blue-500 underline font-poppins">{{ownerVals().getAnswerCommentTo }}</span>
-            </h2>
+    <div v-if="ownerVals().getShowPopUpAnswerComment"
+      class="fixed left-0 z-40 w-full max-w-md p-6 bg-white border-t-2 border-b-2 border-r-2 rounded-lg shadow-lg bottom-1">
+      <i @click="ownerVals().setClosePopUpAnswerComment()"
+        class="absolute top-0 text-2xl cursor-pointer right-2 hover:text-sky-300 text-sky-500 fas fa-times"
+        title="cerrar"></i>
+      <div class="flex items-center mb-4 ">
+        <i class="mr-3 text-3xl text-sky-800 fas fa-comment"></i>
+        <div>
+          <h2 class="text-lg font-medium font-poppins">
+            Responder a <span class="text-blue-500 underline font-poppins">{{ ownerVals().getAnswerCommentTo }}</span>
+          </h2>
 
-          </div>
         </div>
-        <textarea class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
-        v-model="response"
-          placeholder="Escribe tu respuesta aquí..." rows="4"></textarea>
-        <button
-        @click="answerComment"
-          class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-signika">
-          <i class="mr-2 fas fa-paper-plane">
-          </i>
-          Enviar
-        </button>
       </div>
+      <textarea class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 "
+        v-model="response" placeholder="Escribe tu respuesta aquí..." rows="4"></textarea>
+      <button @click="answerComment"
+        class="w-full py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-signika">
+        <i class="mr-2 fas fa-paper-plane">
+        </i>
+        Enviar
+      </button>
+    </div>
 
     <section class="flex flex-wrap w-full gap-5 justify-evenly">
-      <CommentCard v-for="(comment, index) in commentsFbase.sort((a, b) => b.date - a.date)" :key="index" :comment="comment.announcement"
-        :date="comment.date" :from-admin="comment.fromAdmin" :is-urgent="isUrgent" :user-name="comment.author"
-        :user-type="comment.category" />
+      <CommentCard v-for="(comment, index) in commentsFbase.sort((a, b) => b.date - a.date)" :key="index"
+        :comment="comment.announcement" :date="comment.date" :from-admin="comment.fromAdmin" :is-urgent="isUrgent"
+        :user-name="comment.author" :user-type="comment.category" />
     </section>
   </div>
 </template>
@@ -102,22 +103,22 @@ const commentRef = collection(db, `condominios/${sysVals().getAdminDocId}/commen
 const verifyAllowComments = async () => {
   const userCanComment = doc(db, 'condominios', sysVals().getAdminDocId, 'usuarios', ownerVals().getUserDataId);
   const docSnap = await getDoc(userCanComment);
-    if (!docSnap.exists()) {
-      console.log('No such document!');
+  if (!docSnap.exists()) {
+    console.log('No such document!');
+    return false;
+  } else {
+    if (!docSnap.data().allowComments) {
+      notyf.error('Error al agregar el comentario, no tienes permiso para comentar en este dominio');
       return false;
-    } else {
-        if (!docSnap.data().allowComments){
-          notyf.error('Error al agregar el comentario, no tienes permiso para comentar en este dominio');
-          return false;
-        }
     }
-    return true;
+  }
+  return true;
 }
 const answerComment = async () => {
   try {
     const allowComments = await verifyAllowComments();
     if (!allowComments) return;
-   const commentResponse = await addDoc(commentRef, {
+    const commentResponse = await addDoc(commentRef, {
       announcement: `Respuesta a ${ownerVals().getAnswerCommentTo}: ${response.value}`,
       author: ownerVals().getOwnerName,
       category: 'Respuesta a comentario',

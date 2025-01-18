@@ -1,7 +1,9 @@
 <template>
-    <div v-if="usersFbse" class="flex flex-wrap items-center py-2 space-y-3 bg-white rounded-lg shadow-md justify-evenly">
-      <UserCard v-for="(user,index) in usersFbse" :key="index" :allow-comments="user.allowComments" :name="user.name" :associated-to="user.associatedTo" :blocked-reason="user.blockedReason" :creation-date="user.creationDate" :dept-number="user.deptNumber" :is-blocked="user.isBlocked" :user-uid="user.userUid"  :doc-id="user.docId" />
-    </div>
+  <div v-if="usersFbse" class="flex flex-wrap items-center py-2 space-y-3 bg-white rounded-lg shadow-md justify-evenly">
+    <UserCard v-for="(user, index) in usersFbse" :key="index" :allow-comments="user.allowComments" :name="user.name"
+      :associated-to="user.associatedTo" :blocked-reason="user.blockedReason" :creation-date="user.creationDate"
+      :dept-number="user.deptNumber" :is-blocked="user.isBlocked" :user-uid="user.userUid" :doc-id="user.docId" />
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -18,13 +20,13 @@ const usersRef = collection(db, `condominios/${sysVals().getCondominiumId}/usuar
 const getUsers = async () => {
   try {
     const querySnapshot = await getDocs(usersRef);
-    if(querySnapshot.empty){
+    if (querySnapshot.empty) {
       console.log('No se encontraron usuarios');
       return
     }
-    else{
+    else {
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
+        // console.log(doc.data());
         usersFbse.value.push(doc.data())
       });
     }
@@ -34,11 +36,9 @@ const getUsers = async () => {
 }
 
 
-onMounted(()=> {
+onMounted(() => {
   getUsers()
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

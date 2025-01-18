@@ -1,145 +1,153 @@
 <template>
-     <MainLayout>
+  <MainLayout>
     <template #main>
-        <div v-if="showPopUpRenCode" class="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fade animate-duration-500">
+      <div v-if="showPopUpRenCode"
+        class="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fade animate-duration-500">
         <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-md font-poppins animate-jump">
-        <h2 class="mb-4 text-xl font-semibold text-gray-800">¿Desea regenerar el código?</h2>
-        <div class="flex items-center mb-4">
+          <h2 class="mb-4 text-xl font-semibold text-gray-800">¿Desea regenerar el código?</h2>
+          <div class="flex items-center mb-4">
             <i class="text-4xl text-yellow-500 fas fa-exclamation-triangle"></i>
             <p class="ml-4 text-gray-600">
-                Esto hará que el código anterior deje de funcionar, sus propietarios no podrán acceder con el anterior código, esto es irreversible.
+              Esto hará que el código anterior deje de funcionar, sus propietarios no podrán acceder con el anterior
+              código, esto es irreversible.
             </p>
-        </div>
-        <div class="flex justify-between">
-            <button @click="handleShowPopupRenCode" class="px-4 py-2 text-white rounded bg-sky-800 hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-opacity-50">
-                Cancelar
+          </div>
+          <div class="flex justify-between">
+            <button @click="handleShowPopupRenCode"
+              class="px-4 py-2 text-white rounded bg-sky-800 hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-opacity-50">
+              Cancelar
             </button>
-            <button @click="handleRegenCode" class="px-4 py-2 text-white rounded bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
-                <i class="mr-2 fas fa-sync"></i>Regenerar
+            <button @click="handleRegenCode"
+              class="px-4 py-2 text-white rounded bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
+              <i class="mr-2 fas fa-sync"></i>Regenerar
             </button>
+          </div>
         </div>
-    </div>
       </div>
       <div class="flex min-h-screen bg-gray-100 font-roboto">
-    <!-- Sidebar -->
-    <div
-      id="sidebar"
-      :class="['w-64 bg-gray-800 text-white', isSidebarHidden ? 'hidden' : '']"
-      class="animate-fade-right"
-    >
-      <div class="p-4 text-2xl font-bold text-center border-b border-gray-700">
-        Admin Dashboard
-      </div>
-      <nav class="mt-4 text-base font-poppins">
-        <ul>
-          <li class="p-4 hover:bg-gray-700" @click="changeComponent(NotifsComponent)">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-plus"></i>
-              Nueva Encuesta
-            </a>
-          </li>
-          <li class="p-4 hover:bg-gray-700" @click="changeComponent(AnnouncementComponent)">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-bell"></i>
-              Nuevo Anuncio
-            </a>
-          </li>
-          <!-- <li class="p-4 hover:bg-gray-700">
+        <!-- Sidebar -->
+        <div id="sidebar" :class="['w-64 bg-gray-800 text-white', isSidebarHidden ? 'hidden' : '']"
+          class="animate-fade-right">
+          <div class="p-4 text-2xl font-bold text-center border-b border-gray-700">
+            Admin Dashboard
+          </div>
+          <nav class="mt-4 text-base font-poppins">
+            <ul>
+              <li class="p-4 hover:bg-gray-700" @click="changeComponent(NotifsComponent)">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-plus"></i>
+                  Nueva Encuesta
+                </a>
+              </li>
+              <li class="p-4 hover:bg-gray-700" @click="changeComponent(AnnouncementComponent)">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-bell"></i>
+                  Nuevo Anuncio
+                </a>
+              </li>
+              <!-- <li class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-exclamation-circle"></i>
               Avisos
             </a>
           </li> -->
-          <li @click="changeComponent(CommentsComponent)" class="p-4 hover:bg-gray-700">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-comment"></i>
-              Comentarios
-            </a>
-          </li>
-          <li @click="changeComponent(SurveysComponent)" class="p-4 hover:bg-gray-700">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-poll"></i>
-              Encuestas
-            </a>
-          </li>
-          <li @click="changeComponent(AnnouncementsComponent)" class="p-4 hover:bg-gray-700">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-bullhorn"></i>
-              Anuncios
-            </a>
-          </li>
-          <li @click="changeComponent(UsersComponent)" class="p-4 hover:bg-gray-700">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-users"></i>
-              Usuarios
-            </a>
-          </li>
-          <li @click="changeComponent(ReportsComponent)" class="p-4 hover:bg-gray-700">
-            <a href="#" class="flex items-center">
-              <i class="mr-3 fas fa-exclamation"></i>
-              Reportes/Quejas
-            </a>
-          </li>
-          <!-- <li @click="changeComponent(ComplaintComponent)" class="p-4 hover:bg-gray-700">
+              <li @click="changeComponent(CommentsComponent)" class="p-4 hover:bg-gray-700">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-comment"></i>
+                  Comentarios
+                </a>
+              </li>
+              <li @click="changeComponent(SurveysComponent)" class="p-4 hover:bg-gray-700">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-poll"></i>
+                  Encuestas
+                </a>
+              </li>
+              <li @click="changeComponent(AnnouncementsComponent)" class="p-4 hover:bg-gray-700">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-bullhorn"></i>
+                  Anuncios
+                </a>
+              </li>
+              <li @click="changeComponent(UsersComponent)" class="p-4 hover:bg-gray-700">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-users"></i>
+                  Usuarios
+                </a>
+              </li>
+              <li @click="changeComponent(ReportsComponent)" class="p-4 hover:bg-gray-700">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-exclamation"></i>
+                  Reportes/Quejas
+                </a>
+              </li>
+              <!-- <li @click="changeComponent(ComplaintComponent)" class="p-4 hover:bg-gray-700">
             <a href="#" class="flex items-center">
               <i class="mr-3 fas fa-angry "></i>
               Quejas
             </a>
           </li> -->
-          <RouterLink :to="{name:'home'}"  class="flex items-center p-4 hover:bg-gray-700">
-            <i class="mr-3 fas fa-sign-out-alt"></i>
-            Salir
-          </RouterLink>
-          <li class="p-4 hover:bg-gray-700">
-            <span class="flex items-center selection:bg-red-500">
-              <i class="mr-3 fas fa-code"></i>
-              Código de Invitación:
-            </span>
-            <div class="flex flex-wrap justify-center my-2 font-poppins">
-              <span class="p-1 my-1 text-center text-black bg-white rounded-lg">{{ sysVals().getInvitationCode }}</span>
-              <button @click="handleCopy" class="p-1 ml-2 text-white bg-blue-600 rounded-lg">Copiar Código</button>
-            </div>
-            <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-share"></i>Comparta este código con sus propietarios para que puedan acceder a su organización.</small>
-          </li>
-          <li class="p-4 hover:bg-gray-700">
-            <span class="flex items-center font-poppins selection:bg-red-500">
-              Regenerar Código de Invitación:
-            </span>
-            <div class="flex flex-wrap justify-center my-2">
-              <button @click="handleShowPopupRenCode" class="flex items-center p-1 ml-2 space-x-1 bg-white rounded-lg text-sky-700 font-poppins">
+              <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 hover:bg-gray-700">
+                <i class="mr-3 fas fa-sign-out-alt"></i>
+                Salir
+              </RouterLink>
+              <li class="p-4 hover:bg-gray-700">
+                <span class="flex items-center selection:bg-red-500">
+                  <i class="mr-3 fas fa-code"></i>
+                  Código de Invitación:
+                </span>
+                <div class="flex flex-wrap justify-center my-2 font-poppins">
+                  <span class="p-1 my-1 text-center text-black bg-white rounded-lg">{{ sysVals().getInvitationCode
+                    }}</span>
+                  <button @click="handleCopy" class="p-1 ml-2 text-white bg-blue-600 rounded-lg">Copiar Código</button>
+                </div>
+                <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-share"></i>Comparta este código con
+                  sus propietarios para que puedan acceder a su organización.</small>
+              </li>
+              <li class="p-4 hover:bg-gray-700">
+                <span class="flex items-center font-poppins selection:bg-red-500">
+                  Regenerar Código de Invitación:
+                </span>
+                <div class="flex flex-wrap justify-center my-2">
+                  <button @click="handleShowPopupRenCode"
+                    class="flex items-center p-1 ml-2 space-x-1 bg-white rounded-lg text-sky-700 font-poppins">
 
-                Regenerar
-                <i class="ml-1 fas fa-sync"></i>
+                    Regenerar
+                    <i class="ml-1 fas fa-sync"></i>
 
-              </button>
-            </div>
-            <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-info"></i>Regenerar el código necesitará que usted comparta nuevamente su código de invitación con todos sus propietarios, el código anterior dejará de funcionar y sus propietarios no podrán acceder usando el anterior código. </small>
-          </li>
-        </ul>
-      </nav>
-    </div>
+                  </button>
+                </div>
+                <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-info"></i>Regenerar el código
+                  necesitará que usted comparta nuevamente su código de invitación con todos sus propietarios, el código
+                  anterior dejará de funcionar y sus propietarios no podrán acceder usando el anterior código. </small>
+              </li>
 
-    <!-- Main Content -->
-    <div class="flex-1 p-2 animate-fade">
-      <!-- Mobile Menu Button -->
-      <div class="mb-4 md:hidden">
-        <button @click="toggleMenu" class="p-2 text-white bg-gray-800 rounded">
-          <i class="fas fa-bars"></i>
-        </button>
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-2 animate-fade">
+          <!-- Mobile Menu Button -->
+          <div class="mb-4 md:hidden">
+            <button @click="toggleMenu" class="p-2 text-white bg-gray-800 rounded">
+              <i class="fas fa-bars"></i>
+            </button>
+          </div>
+          <h1 class="mb-6 text-3xl font-semibold text-center font-poppins text-sky-700">Panel de Administración</h1>
+          <div v-if="sysVals().getIsLoadingComponent"
+            class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white/30">
+            <LoadingDatabase></LoadingDatabase>
+          </div>
+          <div v-if="!sysVals().getIsLoadingComponent" class="">
+            <!-- Example Cards -->
+            <!-- place the dynamic component here -->
+            <component :is="currentComponent" />
+          </div>
+        </div>
       </div>
-      <h1 class="mb-6 text-3xl font-semibold text-center font-poppins text-sky-700">Panel de Administración</h1>
-      <div v-if="sysVals().getIsLoadingComponent" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white/30">
-        <LoadingDatabase></LoadingDatabase>
-      </div>
-      <div v-if="!sysVals().getIsLoadingComponent"  class="">
-        <!-- Example Cards -->
-       <!-- place the dynamic component here -->
-        <component :is="currentComponent" />
-      </div>
-    </div>
-  </div>
     </template>
-   </MainLayout>
+  </MainLayout>
 
 </template>
 
@@ -158,7 +166,7 @@ import { sys } from 'typescript';
 
 
 const isSidebarHidden = ref(false);
-const showPopUpRenCode = ref (false);
+const showPopUpRenCode = ref(false);
 const NotifsComponent = defineAsyncComponent(() => import('../components/admin/NotifsComponent.vue'));
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementComponent.vue'));
 const CommentsComponent = defineAsyncComponent(() => import('../components/admin/CommentsComponent.vue'));
@@ -171,7 +179,7 @@ const ComplaintComponent = defineAsyncComponent(() => import('../components/admi
 
 const currentComponent = shallowRef(AnnouncementComponent);
 
-const changeComponent = (componentName:any) => {
+const changeComponent = (componentName: any) => {
   currentComponent.value = componentName;
 }
 
@@ -199,7 +207,7 @@ const handleCopy = () => {
 }
 
 
-const handleShowPopupRenCode = () => showPopUpRenCode.value  =  !showPopUpRenCode.value;
+const handleShowPopupRenCode = () => showPopUpRenCode.value = !showPopUpRenCode.value;
 
 const db = getFirestore();
 
@@ -221,22 +229,22 @@ const handleRegenCode = async () => {
   const newInvitationCode = generateRandomString();
   try {
     //  verify that new code does not exist on firebase
-      // const invitationRef = doc(db,`'condominios', ${sysVals().getCondominiumId}`)
-      // we fetch the querry
-      const q = query(codeRef, where('invitationId', '==', newInvitationCode))
-      const querySnapshot = await getDocs(q)
-      if (querySnapshot.empty) {
-        const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
-        await updateDoc(invitationRef, {invitationId: newInvitationCode})
-        sysVals().setInvitationCode(newInvitationCode)
-        notyf.success('Código regenerado con exito')
-        sysVals().setIsLoadingComponent(false)
-        return
-      } else {
-        notyf.error('Error, intentelo de nuevo')
-        sysVals().setIsLoadingComponent(false)
-        return
-      }
+    // const invitationRef = doc(db,`'condominios', ${sysVals().getCondominiumId}`)
+    // we fetch the querry
+    const q = query(codeRef, where('invitationId', '==', newInvitationCode))
+    const querySnapshot = await getDocs(q)
+    if (querySnapshot.empty) {
+      const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
+      await updateDoc(invitationRef, { invitationId: newInvitationCode })
+      sysVals().setInvitationCode(newInvitationCode)
+      notyf.success('Código regenerado con exito')
+      sysVals().setIsLoadingComponent(false)
+      return
+    } else {
+      notyf.error('Error, intentelo de nuevo')
+      sysVals().setIsLoadingComponent(false)
+      return
+    }
   } catch (error) {
     notyf.error('Hubo un error regenerando el código')
     sysVals().setIsLoadingComponent(false)
