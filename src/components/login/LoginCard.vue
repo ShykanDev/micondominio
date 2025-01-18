@@ -131,7 +131,6 @@ const signIn = async () => {
     }
     else if (user && user.displayName && user.displayName.includes('propietario')) {//if user is owner set pinia values to owner mode ans set user auth
       sysVals().setIsAdmin(false);
-      sysVals().setIsUserAuth(true);
       sysVals().setUserUid(credentials.user.uid);
       ownerVals().setOwnerName(user.displayName)
 
@@ -168,6 +167,7 @@ const signIn = async () => {
         ownerVals().setUserDataId(snapshot.docs[0].data().userDataId)
 
 
+        sysVals().setIsUserAuth(true);
 
         sysVals().setIsLoadingLogin(false);
 
@@ -181,6 +181,7 @@ const signIn = async () => {
 
   } catch (error) {
     sysVals().setIsLoadingLogin(false);
+    notyf.error('Error al iniciar sesión, verifique su contraseña o correo');
     console.log('Error al iniciar sesión', error);
 
   }

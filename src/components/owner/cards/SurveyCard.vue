@@ -7,6 +7,10 @@
     <p class="mb-6 text-gray-700">{{ surveyDescription }}</p>
 
     <form @submit.prevent="updateVotation">
+      <section class="flex justify-center">
+        <BarChart :labels="props.surveyOptions.map(option => option.option)"
+          :data="props.surveyOptions.map(option => option.numberVotes)" :label="surveyTitle" />
+      </section>
       <section v-if="!hasVoted">
         <div v-for="(option, index) in surveyOptions" :key="index" class="mb-4">
           <label class="inline-flex items-center cursor-pointer">
@@ -35,13 +39,15 @@
 <script lang="ts" setup>
 import { sysVals } from '@/stores/sysVals';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
-import { onMounted, ref } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { sha256 } from 'crypto-hash';
 import { ownerVals } from '@/stores/ownerVals';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
 import { sys } from 'typescript';
-
+import BarChart from '@/components/charts/BarChart.vue';
+const SurveyComponent = defineAsyncComponent(() => import('@/components/owner/components/SurveysComponent.vue'));//survey list from firebase
+const LoaderComponent = defineAsyncComponent(() => import('@/components/owner/components/LoaderComponent.vue'));//loader
 const hasVoted = ref(false);
 
 const notyf = new Notyf({
@@ -115,9 +121,11 @@ onMounted(async () => {
 
 const updateVotation = async () => {
   sysVals().setIsLoadingOwner(true);
+  sysVals().setAsyncComponent(LoaderComponent)
   const allowVotation = await verifyAlreadyVoted();
   if (!allowVotation) {
     sysVals().setIsLoadingOwner(false);
+    sysVals().setAsyncComponent(SurveyComponent)
     return;
   }
   try {
@@ -128,6 +136,7 @@ const updateVotation = async () => {
     if (!docSnap.exists()) {
       console.log('No such document!');
       sysVals().setIsLoadingOwner(false);
+      sysVals().setAsyncComponent(SurveyComponent)
       return;
     } else {
       const surveyData = docSnap.data();
@@ -151,16 +160,24 @@ const updateVotation = async () => {
 
         notyf.success('Votación actualizada correctamente');
         console.log('Updated options:', surveyData.options);
+        sysVals().setAsyncComponent(SurveyComponent)
+        sysVals().setIsLoadingOwner(false);
       } else {
         sysVals().setIsLoadingOwner(false);
         console.log('Selected option not found.');
+        sysVals().setAsyncComponent(SurveyComponent)
+        return;
       }
     }
   } catch (error) {
     console.error('Error during update:', error);
     sysVals().setIsLoadingOwner(false);
+    sysVals().setAsyncComponent(SurveyComponent)
+
   } finally {
     sysVals().setIsLoadingOwner(false);
+    sysVals().setAsyncComponent(SurveyComponent)
+
   }
 }
 

@@ -1,36 +1,47 @@
 <template>
   <MainLayout>
     <template #main>
-
-      <div class="box-border flex w-full py-2 transition-all duration-300 ease-out rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins animate-fade-down">
-        <p @click="handleComponentChange(CreateCommentComponent)" :class="currentComponent === CreateCommentComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+      <div
+        class="box-border flex w-full py-2 transition-all duration-300 ease-out rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins animate-fade-down">
+        <p @click="sysVals().setAsyncComponent(CreateCommentComponent)"
+          :class="currentComponent === CreateCommentComponent ? 'border-2 border-sky-700' : ''"
+          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
           <i class="fas fa-comment"></i> Comentar
         </p>
-        <p @click="handleComponentChange(CommentComponent)"  :class="currentComponent === CommentComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+        <p @click="sysVals().setAsyncComponent(CommentComponent)"
+          :class="currentComponent === CommentComponent ? 'border-2 border-sky-700' : ''"
+          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
           <i class="fas fa-comments"></i> Comentarios
         </p>
-        <p @click="handleComponentChange(AnnouncementComponent)" :class="currentComponent === AnnouncementComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+        <p @click="sysVals().setAsyncComponent(AnnouncementComponent)"
+          :class="currentComponent === AnnouncementComponent ? 'border-2 border-sky-700' : ''"
+          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
           <i class="fas fa-bullhorn"></i> Anuncios
         </p>
-        <p @click="handleComponentChange(SurveyComponent)" :class="currentComponent === SurveyComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+        <p @click="sysVals().setAsyncComponent(SurveyComponent)"
+          :class="currentComponent === SurveyComponent ? 'border-2 border-sky-700' : ''"
+          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
           <i class="fas fa-poll"></i> Encuestas
         </p>
-        <p  @click="handleComponentChange(ComplaintsComponent)" :class="currentComponent === ComplaintsComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+        <p @click="sysVals().setAsyncComponent(ComplaintsComponent)"
+          :class="currentComponent === ComplaintsComponent ? 'border-2 border-sky-700' : ''"
+          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
           <i class="fas fa-exclamation-triangle"></i> Quejas/Reportes
         </p>
-        <!-- <p  @click="handleComponentChange(ReportComponent)" :class="currentComponent === ReportComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
+        <!-- <p  @click="sysVals().setAsyncComponent(ReportComponent)" :class="currentComponent === ReportComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
           <i class="fas fa-file-alt"></i> Reportes
         </p> -->
       </div>
       <!-- <article class="w-full bg-white min-h-dvh"> -->
-        <section  v-if="sysVals().getIsLoadingOwner" class="fixed top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center w-full bg-white bg-opacity-100">
-        <LoadingBarCrazy/>
+      <section v-if="sysVals().getIsLoadingOwner"
+        class="fixed top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center w-full bg-white bg-opacity-100">
+        <LoadingBarCrazy />
       </section>
       <!-- </article> -->
 
 
       <article class="w-full bg-white min-h-dvh">
-        <component :is="currentComponent" />
+        <component :is="sysVals().getAsyncComponent" />
       </article>
     </template>
   </MainLayout>
@@ -107,23 +118,22 @@ const checkInvitationCode = async () => {
 import LoadingBarCrazy from '@/components/animations/LoadingBarCrazy.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { sysVals } from '@/stores/sysVals';
-import { defineAsyncComponent, shallowRef} from 'vue';
+import { defineAsyncComponent, shallowRef } from 'vue';
 
 const CommentComponent = defineAsyncComponent(() => import('../components/owner/CommentComponent.vue'));//comments list from firebase, and the first component that is loaded on mount
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/owner/components/AnnouncementComponent.vue'));//announcements list from firebase
 const CreateCommentComponent = defineAsyncComponent(() => import('../components/owner/components/CreateCommentComponent.vue'));//create comment
 const SurveyComponent = defineAsyncComponent(() => import('../components/owner/components/SurveysComponent.vue'));//survey list from firebase
 const ComplaintsComponent = defineAsyncComponent(() => import('../components/owner/components/ComplaintsComponent.vue'));//complaint list from firebase
+const LoaderComponent = defineAsyncComponent(() => import('../components/owner/components/LoaderComponent.vue'));//loader
 // const ReportComponent = defineAsyncComponent(() => import('../components/owner/components/ReportsComponent.vue'));//report list from firebase
 
 const currentComponent = shallowRef(CreateCommentComponent);
 
-const handleComponentChange = (componentName:any) => {
+const handleComponentChange = (componentName: any) => {
   currentComponent.value = componentName;
 }
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
