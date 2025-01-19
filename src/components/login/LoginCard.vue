@@ -116,7 +116,19 @@ const signIn = async () => {
   try {
     const credentials = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = credentials.user
+    const userName = credentials.user.displayName
+    if (userName) {
+      if (userName.includes('propietario')) {
+        const newUserName = userName.replace(/propietario/gi, '').trim();
+        sysVals().setActualUserName(newUserName)
+      } else {
+        const newUserName = userName.replace(/administrador/gi, '').trim();
+        sysVals().setActualUserName(newUserName)
+      }
+    }
     console.log(user.emailVerified);
+    console.log(sysVals().getActualUserName);
+
 
     if (!user.emailVerified) {
       notyf.error('Su correo no ha sido verificado, revise su correo y de click en el enlace de verificación')
@@ -139,7 +151,7 @@ const signIn = async () => {
         sysVals().setAdimnDocId(snapshotAdminCondominios.docs[0].id)
         sysVals().setCondominiumId(snapshotAdminCondominios.docs[0].data().condominiumId)
         sysVals().setInvitationCode(snapshotAdminCondominios.docs[0].data().invitationId)
-        qrVals().setLink(`https://shykandev.github.io/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${snapshotAdminCondominios.docs[0].data().invitationId}`)
+        qrVals().setLink(`https://mantenimientocondominio.com/register?tipoCuenta=propietario&codigoInvitacion=${snapshotAdminCondominios.docs[0].data().invitationId}`)
 
         router.push({ name: 'dashboard' })
       }

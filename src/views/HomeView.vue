@@ -69,8 +69,8 @@
 
         <section class="container px-4 py-2 mx-auto font-poppins">
           <div class="grid grid-cols-1 gap-6 p-4 px-2 my-4 md:grid-cols-3 font-poppins">
-            <div class="p-4 bg-white border rounded-lg shadow-md card">
-              <h3 class="text-xl font-semibold">Conocer Experiencias Similares</h3>
+            <div class="p-4 bg-white border border-red-800 rounded-lg shadow-md card">
+              <h3 class="text-xl font-semibold text-red-800">Conocer Experiencias Similares</h3>
               <hr class="my-2">
               <p class="text-sm">Aquí puedes leer lo que otros usuarios han experimentado con sus administradores de
                 edificios o condominios. Comparten sus historias para ayudar a otros a mejorar la convivencia en sus
@@ -87,8 +87,8 @@
                 alt="Imagen ejemplo" class="mt-4 rounded-lg ">
             </div>
 
-            <div class="p-4 bg-white border rounded-lg shadow-md card">
-              <h3 class="text-xl font-semibold">Compartir Experiencias Propias</h3>
+            <div class="p-4 bg-white border rounded-lg shadow-md border-sky-800 card">
+              <h3 class="text-xl font-semibold text-sky-800">Compartir Experiencias Propias</h3>
               <hr class="my-2">
               <p class="text-sm">Comparte lo que has vivido con tu administrador de edificio o condominio. Tus
                 experiencias pueden ser útiles para otros usuarios que buscan una gestión más efectiva.</p>
@@ -104,8 +104,8 @@
                 alt="Imagen ejemplo" class="w-full mt-4 rounded-lg">
             </div>
 
-            <div class="p-4 bg-white border rounded-lg shadow-md card">
-              <h3 class="text-xl font-semibold">Comentar las Administraciones</h3>
+            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800 card">
+              <h3 class="text-xl font-semibold text-emerald-800">Comentar las Administraciones</h3>
               <hr class="my-2">
               <p class="text-sm">En esta sección puedes leer sobre las vivencias de otros con sus administradores. Aquí
                 también puedes dejar tu comentario y compartir lo que te ha pasado.</p>
@@ -141,10 +141,10 @@
           </p>
 
           <!-- Tarjetas de administradores -->
-          <div class="grid grid-cols-1 gap-6 md:grid-cols-3 font-poppins">
+          <div class="grid grid-cols-1 gap-6 py-3 md:grid-cols-3 font-poppins">
             <!-- Card 1 -->
-            <div class="p-4 bg-white rounded-lg shadow-md">
-              <h3 class="mb-2 text-xl font-semibold">Compromiso con la Comunidad</h3>
+            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800">
+              <h3 class="mb-2 text-xl font-semibold text-emerald-800">Compromiso con la Comunidad</h3>
               <hr class="mb-4 border-t-2 border-gray-300">
               <ul class="pl-5 space-y-2 list-disc">
                 <li>Nuestro objetivo es asegurar que todos los inquilinos/propietarios se sientan cómodos y escuchados.
@@ -160,8 +160,8 @@
             </div>
 
             <!-- Card 2 -->
-            <div class="p-4 bg-white rounded-lg shadow-md">
-              <h3 class="mb-2 text-xl font-semibold">Experiencias Positivas con el Mantenimiento</h3>
+            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800">
+              <h3 class="mb-2 text-xl font-semibold text-emerald-800">Experiencias Positivas con el Mantenimiento</h3>
               <hr class="mb-4 border-t-2 border-gray-300">
               <ul class="pl-5 space-y-2 list-disc">
                 <li>Las reparaciones se realizan de forma eficiente y en el menor tiempo posible.</li>
@@ -176,8 +176,8 @@
             </div>
 
             <!-- Card 3 -->
-            <div class="p-4 bg-white rounded-lg shadow-md">
-              <h3 class="mb-2 text-xl font-semibold">La Atención al Inquilino es Nuestra Prioridad</h3>
+            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800">
+              <h3 class="mb-2 text-xl font-semibold text-emerald-800">La Atención al Inquilino es Nuestra Prioridad</h3>
               <hr class="mb-4 border-t-2 border-gray-300">
               <ul class="pl-5 space-y-2 list-disc">
                 <li>Valoramos la retroalimentación de los inquilinos/propietarios para mejorar continuamente.</li>
@@ -214,7 +214,7 @@
             <div class="flex items-center justify-between space-x-6">
               <!-- Left Section -->
               <div class="flex flex-col items-center w-full md:w-2/3 ">
-                <h2 class="mb-4 text-3xl font-semibold">Gestiona Mejor tus Inquilinos/Propietarios</h2>
+                <h2 class="mb-4 text-3xl font-semibold text-emerald-800">Gestiona Mejor tus Inquilinos/Propietarios</h2>
                 <p class="mb-6 text-lg">
                   ¿Deseas tener un mejor control y gestionar de forma más eficiente tus inquilinos/propietarios? Aquí
                   mismo, puedes crear una cuenta y empezar a aprovechar las herramientas que te permitirán mejorar la
@@ -227,7 +227,7 @@
 
               <!-- Right Section (Puntos Clave) -->
               <div class="flex flex-col items-center w-full p-6 bg-white rounded-lg shadow-md md:w-1/3">
-                <h3 class="mb-4 text-2xl font-semibold">Beneficios de Gestionar desde Aquí</h3>
+                <h3 class="mb-4 text-2xl font-semibold text-emerald-800">Beneficios de Gestionar desde Aquí</h3>
                 <ul class="pl-5 space-y-3 text-lg list-disc">
                   <li>Poder dar anuncios fácilmente a todos los inquilinos/propietarios.</li>
                   <li>Ver los comentarios, sugerencias o quejas de los inquilinos/propietarios.</li>
@@ -248,10 +248,10 @@
         <section class="py-12 bg-gray-100 font-poppins">
           <div class="container px-6 mx-auto">
             <!-- Título y Resumen -->
-            <div class="flex items-center justify-between space-x-6">
+            <div class="flex flex-wrap items-center justify-between space-x-6 md:flex-nowrap">
               <!-- Right Section (Puntos Clave) -->
-              <div class="w-full p-6 bg-white rounded-lg shadow-md md:w-1/3">
-                <h3 class="mb-4 text-2xl font-semibold">Gestiona de Forma Más Fácil desde Tu Móvil</h3>
+              <div class="w-full p-6 bg-white border rounded-lg shadow-md md:w-1/3 border-sky-800">
+                <h3 class="mb-4 text-2xl font-semibold text-sky-800">Gestiona de Forma Más Fácil desde Tu Móvil</h3>
                 <ul class="pl-5 space-y-3 text-lg list-disc">
                   <li>Accede a todos los anuncios de tus inquilinos desde cualquier lugar.</li>
                   <li>Recibe y responde a comentarios, sugerencias o quejas directamente desde tu teléfono.</li>
@@ -288,10 +288,11 @@
 
             <!-- Llamado a la acción -->
             <div class="mt-12 text-center">
-              <a href="/register"
-                class="px-6 py-3 text-xl font-semibold text-white transition duration-300 bg-blue-600 rounded-lg hover:bg-blue-700">
-                Descarga la App y Regístrate
-              </a>
+              <RouterLink :to="{ name: 'home' }"
+                class="px-6 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+                <i class="mr-2 fas fa-download"></i>
+                Descarga la app y regístrate
+              </RouterLink>
             </div>
           </div>
         </section>
@@ -359,7 +360,7 @@
           <div class="flex flex-col justify-between sm:flex-row">
             <!-- Div 1: Título, Resumen y Lista -->
             <div class="flex flex-col items-center justify-center w-full mb-6 sm:w-1/2 sm:mb-0">
-              <h2 class="mb-4 text-2xl font-semibold text-sky-800">Elige la versión que más te convenga</h2>
+              <h2 class="mb-4 text-2xl font-semibold text-rose-800">Elige la versión que más te convenga</h2>
               <h3 class="mb-4 text-lg">Con nuestra plataforma, puedes elegir entre la versión web o la aplicación móvil.
                 Ambos son multiplataforma y tus datos se sincronizan automáticamente.</h3>
               <ul class="pl-5 list-disc">
@@ -376,39 +377,39 @@
             <div class="grid w-full grid-cols-1 gap-6 sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3">
               <!-- Beneficios del Administrador -->
               <!-- Card 1 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Dar anuncios</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+                <h4 class="mb-2 text-xl font-semibold text-rose-700">Dar anuncios</h4>
                 <p class="text-sm">Permite al administrador comunicar información importante a todos los propietarios de
                   manera eficiente.</p>
               </div>
               <!-- Card 2 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Crear encuestas</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+                <h4 class="mb-2 text-xl font-semibold text-rose-700">Crear encuestas</h4>
                 <p class="text-sm">Facilita la toma de decisiones mediante encuestas rápidas y efectivas para los
                   propietarios.</p>
               </div>
               <!-- Card 3 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Ver comentarios</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+                <h4 class="mb-2 text-xl font-semibold text-rose-700">Ver comentarios</h4>
                 <p class="text-sm">Accede a los comentarios de los propietarios para estar al tanto de sus opiniones y
                   sugerencias.</p>
               </div>
               <!-- Beneficios del Propietario -->
               <!-- Card 4 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Votar en encuestas</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+                <h4 class="mb-2 text-xl font-semibold text-rose-700">Votar en encuestas</h4>
                 <p class="text-sm">Participa en las decisiones del condominio mediante el voto en encuestas creadas por
                   el administrador.</p>
               </div>
               <!-- Card 5 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Ver anuncios</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+                <h4 class="mb-2 text-xl font-semibold text-rose-700">Ver anuncios</h4>
                 <p class="text-sm">Mantente informado sobre las actualizaciones y noticias importantes del condominio.
                 </p>
               </div>
               <!-- Card 6 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Reportar fallas</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+                <h4 class="mb-2 text-xl font-semibold text-rose-700">Reportar fallas</h4>
                 <p class="text-sm">Informa rápidamente al administrador sobre problemas o fallas en el condominio.</p>
               </div>
             </div>
@@ -420,38 +421,38 @@
             <!-- Div 1: Tarjetas -->
             <div class="grid w-full grid-cols-1 gap-6 mb-6 sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3 sm:mb-0">
               <!-- Card 1 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Gestión en Movimiento</h4>
+              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-orange-700">Gestión en Movimiento</h4>
                 <p class="text-sm">Con la app móvil, puedes realizar tareas clave como registrar pagos, revisar reportes
                   o asignar tareas mientras te desplazas.</p>
               </div>
               <!-- Card 2 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Notificaciones Instantáneas</h4>
+              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-orange-700 break-all">Notificaciones Instantáneas</h4>
                 <p class="text-sm">Recibe alertas en tiempo real sobre actividades importantes, como avisos de pago o
                   cambios en el calendario de eventos del condominio.</p>
               </div>
               <!-- Card 3 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Diseño Intuitivo</h4>
+              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-orange-700">Diseño Intuitivo</h4>
                 <p class="text-sm">La interfaz móvil está diseñada para ser fácil de usar, permitiéndote acceder
                   rápidamente a las funciones que necesitas sin complicaciones.</p>
               </div>
               <!-- Card 4 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Soporte en Todo Momento</h4>
+              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-orange-700">Soporte en Todo Momento</h4>
                 <p class="text-sm">Nuestro equipo de soporte está disponible a través de la app para resolver cualquier
                   problema que enfrentes en minutos.</p>
               </div>
               <!-- Card 5 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Sincronización Automática</h4>
+              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-orange-700 break-all">Sincronización Automática</h4>
                 <p class="text-sm">Todo lo que hagas en la app móvil se sincroniza al instante con la plataforma web,
                   asegurando que no pierdas información.</p>
               </div>
               <!-- Card 6 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Acceso Seguro</h4>
+              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-orange-700">Acceso Seguro</h4>
                 <p class="text-sm">La aplicación está protegida con cifrado avanzado, garantizando que tus datos
                   personales y los del condominio estén seguros.</p>
               </div>
@@ -459,7 +460,7 @@
 
             <!-- Div 2: Título, Resumen y Lista -->
             <div class="flex flex-col items-center justify-center w-full sm:w-1/2">
-              <h2 class="mb-4 text-2xl font-semibold text-sky-900">Disfruta de los beneficios de la app móvil</h2>
+              <h2 class="mb-4 text-2xl font-semibold text-orange-700">Disfruta de los beneficios de la app móvil</h2>
               <h3 class="px-3 mb-4 text-center">Nuestra aplicación para dispositivos móviles está diseñada para
                 brindarte comodidad, rapidez y control en la gestión de tu condominio, sin importar dónde estés.</h3>
               <ul class="pl-5 list-disc">
@@ -478,7 +479,8 @@
           <div class="flex flex-col justify-between sm:flex-row">
             <!-- Div 1: Título, Resumen y Lista -->
             <div class="flex flex-col items-center w-full mb-6 justify-evenly sm:w-1/2 sm:mb-0">
-              <h2 class="mb-4 text-2xl font-semibold">Elige la versión que más te convenga</h2>
+              <h2 class="mb-4 text-2xl font-semibold break-all text-emerald-700">Elige la versión que más te convenga
+              </h2>
               <h3 class="mb-4 text-lg">Con nuestra plataforma, puedes elegir entre la versión web o la aplicación móvil.
                 Ambos son multiplataforma y tus datos se sincronizan automáticamente.</h3>
               <ul class="pl-5 list-disc">
@@ -494,46 +496,47 @@
             <!-- Div 2: Tarjetas -->
             <div class="grid w-full grid-cols-1 gap-6 sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3">
               <!-- Card 1 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Control Total de tu Condominio</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
+                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Control Total de tu Condominio</h4>
                 <p class="text-sm">Gestiona todos los aspectos de tu condominio desde cualquier dispositivo. Con nuestra
                   plataforma podrás administrar las tareas de mantenimiento, pago de servicios y más, sin importar donde
                   te encuentres.</p>
               </div>
               <!-- Card 2 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Acceso Multiplataforma</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
+                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Acceso Multiplataforma</h4>
                 <p class="text-sm">Accede a todas las funcionalidades de la plataforma desde cualquier dispositivo: ya
                   sea desde tu computador, teléfono móvil o tablet. Sincronización automática de datos en todos tus
                   dispositivos.</p>
               </div>
               <!-- Card 3 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Actualizaciones Constantes</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
+                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700 ">Actualizaciones Constantes</h4>
                 <p class="text-sm">Nuestra plataforma está en constante mejora, ofreciéndote nuevas características y
                   optimizaciones, garantizando una experiencia más fluida y eficiente para la gestión de tu condominio.
                 </p>
               </div>
               <!-- Card 4 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Gestión de Empleados Simplificada</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
+                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Gestión de Empleados Simplificada</h4>
                 <p class="text-sm">Lleva un control detallado de tus empleados, asigna tareas, revisa reportes y
                   gestiona horarios. Con nuestras herramientas, administrar tu equipo será más fácil que nunca.</p>
               </div>
               <!-- Card 5 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Seguridad Avanzada</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
+                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Seguridad Avanzada</h4>
                 <p class="text-sm">Tu información está protegida con el más alto nivel de seguridad. Nuestra plataforma
                   cumple con las normas de seguridad más estrictas para garantizar que tus datos estén siempre a salvo.
                 </p>
               </div>
               <!-- Card 6 -->
-              <div class="p-4 text-center bg-white rounded-lg shadow-lg">
-                <h4 class="mb-2 text-xl font-semibold">Soporte al Cliente Rápido</h4>
+              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
+                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Soporte al Cliente Rápido</h4>
                 <p class="text-sm">En todo momento, podrás contar con nuestro equipo de soporte para resolver cualquier
                   duda o inconveniente que tengas. Estamos aquí para ayudarte a gestionar tu condominio sin estrés.</p>
               </div>
             </div>
+
           </div>
         </section>
 

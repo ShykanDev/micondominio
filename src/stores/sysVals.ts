@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 
 export const sysVals = defineStore('sysVals', {
   state: () => ({
+    actualUserName: '',
     isUserAuth: false,
     isAdmin: false,
     isUser: false,
@@ -19,6 +20,7 @@ export const sysVals = defineStore('sysVals', {
     asyncComponent: CreateCommentComponent,
   }),
   getters: {
+    getActualUserName: (state) => state.actualUserName,
     getIsUserAuth: (state) => state.isUserAuth,
     getIsAdmin: (state) => state.isAdmin,
     getIsUser: (state) => state.isUser,
@@ -35,6 +37,9 @@ export const sysVals = defineStore('sysVals', {
     getAsyncComponent: (state) => state.asyncComponent,
   },
   actions: {
+    setActualUserName(payload: string) {
+      this.actualUserName = payload
+    },
     setIsUserAuth(status: boolean) {
       this.isUserAuth = status
     },

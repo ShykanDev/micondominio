@@ -1,12 +1,14 @@
 <template>
-    <div class="">
-      <section v-if="isLoading" class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white bg-opacity-0">
-      <LoadingBar/>
+  <div class="">
+    <section v-if="isLoading"
+      class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white bg-opacity-0">
+      <LoadingBar />
     </section>
-      <section v-if="surveys" class="flex flex-wrap space-x-6 space-y-2 bg-white rounded-lg shadow-lg justify-evenly">
-        <SurveyVotation v-for="(survey, index) in surveys" :key="index" :survey-title="survey.title" :survey-description="survey.description" :survey-options="survey.options" :survey-doc-id="survey.surveyDocId"/>
-      </section>
-    </div>
+    <section v-if="surveys" class="flex flex-wrap space-x-6 space-y-2 bg-white rounded-lg shadow-lg justify-evenly">
+      <SurveyCard v-for="(survey, index) in surveys" :key="index" :survey-title="survey.title"
+        :survey-description="survey.description" :survey-options="survey.options" :survey-doc-id="survey.surveyDocId" />
+    </section>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -16,12 +18,13 @@ import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { sysVals } from '@/stores/sysVals';
 import { onMounted } from 'vue';
 import LoadingBar from '../animations/LoadingBar.vue';
+import SurveyCard from './SurveyCard.vue';
 
 interface iSurvey {
-  title:string,
-  description:string,
-  options:Array<string>,
-  surveyDocId:string
+  title: string,
+  description: string,
+  options: Array<string>,
+  surveyDocId: string
 }
 
 const isLoading = ref(false)
@@ -35,16 +38,16 @@ const getSurveys = async () => {
   isLoading.value = true;
   try {
     const querySnapshot = await getDocs(surveysCollectionRef);
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    surveys.value.push({
-      title: data.title,
-      description: data.description,
-      options: data.options,
-      surveyDocId: doc.id
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      surveys.value.push({
+        title: data.title,
+        description: data.description,
+        options: data.options,
+        surveyDocId: doc.id
+      });
     });
-  });
-  isLoading.value = false;
+    isLoading.value = false;
   } catch (error) {
     isLoading.value = false;
     console.log(error);
@@ -52,12 +55,10 @@ const getSurveys = async () => {
   }
 };
 
-onMounted( ()=> {
+onMounted(() => {
   getSurveys();
 })
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

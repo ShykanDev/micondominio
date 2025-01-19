@@ -242,10 +242,24 @@ const handleRegenCode = async () => {
     if (querySnapshot.empty) {
       const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
       await updateDoc(invitationRef, { invitationId: newInvitationCode })
-
       // update local variable
-      qrVals().setLink(`https://shykandev.github.io/micondominio/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
+      qrVals().setLink(`https://mantenimientocondominio.com/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
       sysVals().setInvitationCode(newInvitationCode)
+      const usersGeneral = collection(db, 'usersGeneral')
+      const qUsersWithoutNewCode = query(usersGeneral, where('asociatedTo', '==', sysVals().getUserUid));
+      const querySnapshotUsers = await getDocs(qUsersWithoutNewCode)
+      if (!querySnapshotUsers.empty) {
+        querySnapshotUsers.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data());
+
+          if (!doc.data().isBlocked) {
+            updateDoc(doc.ref, { invitationCode: newInvitationCode })
+            console.log(doc.id, " => ", doc.data());
+
+          }
+        })
+      }
+      // const qUsersWithoutNewCode = q
       notyf.success('Código regenerado con exito')
       sysVals().setIsLoadingComponent(false)
       return

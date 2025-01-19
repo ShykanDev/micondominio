@@ -15,7 +15,7 @@
         <div class="mb-6">
           <h2 class="mb-2 text-2xl font-semibold"><i class="fas fa-edit"></i> Modificación de los Términos</h2>
           <p>La empresa se reserva el derecho de modificar estos términos en cualquier momento. Cualquier modificación
-            será publicada en este documento, y se indicará la fecha de la última actualización. El usuario está
+            será publicada en este documento. El usuario está
             obligado a revisar regularmente los términos para estar al tanto de cualquier cambio relevante. El uso
             continuo del sitio después de dichas modificaciones será considerado como aceptación de las mismas.</p>
         </div>
@@ -80,12 +80,7 @@
             usuario si se solicita, salvo cuando sea necesario retenerlos por motivos legales o contractuales.</p>
         </div>
 
-        <div class="mb-6">
-          <h2 class="mb-2 text-2xl font-semibold"><i class="fas fa-copyright"></i> Propiedad Intelectual</h2>
-          <p>Todos los derechos de propiedad intelectual relacionados con el contenido del sitio, como textos, gráficos,
-            logotipos y software, son propiedad de la empresa o de sus licenciantes. El usuario no podrá copiar,
-            distribuir, modificar ni reproducir dicho contenido sin el consentimiento explícito de la empresa.</p>
-        </div>
+
 
         <div class="mb-6">
           <h2 class="mb-2 text-2xl font-semibold"><i class="fas fa-exclamation-triangle"></i> Exclusión de
@@ -108,8 +103,7 @@
           <h2 class="mb-2 text-2xl font-semibold"><i class="fas fa-user-slash"></i> Suspensión de Cuenta</h2>
           <p>La empresa puede suspender la cuenta de un usuario en caso de que se detecte un incumplimiento de estos
             términos y condiciones, o si se considera que el comportamiento del usuario afecta la integridad del sitio.
-            En caso de suspensión, el usuario será informado a través del correo electrónico proporcionado en su
-            registro, y se le ofrecerá la oportunidad de apelar la decisión si lo considera necesario.</p>
+          </p>
         </div>
 
         <div class="mb-6">
@@ -130,7 +124,8 @@
           <h2 class="mb-2 text-2xl font-semibold"><i class="fas fa-ban"></i> Derechos de Cancelación</h2>
           <p>El usuario tiene el derecho de cancelar su cuenta en cualquier momento, conforme a las condiciones
             establecidas en la Política de Privacidad. Al hacerlo, la empresa eliminará la cuenta y los datos
-            relacionados, excepto cuando se deba retener información por motivos legales o de seguridad.</p>
+            relacionados, excepto cuando se deba retener información por motivos legales o de seguridad, si desea que
+            eliminemos sus datos por favor contactenos, en breve estaremos en contacto con usted.</p>
         </div>
 
         <div class="mb-6">

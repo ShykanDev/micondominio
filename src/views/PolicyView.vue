@@ -19,7 +19,7 @@
         <div class="mb-6">
           <h2 class="mb-2 text-2xl font-semibold"><i class="fas fa-database"></i> Información que recopilamos</h2>
           <p>Cuando te registras y decides usar nuestros servicios, recopilamos ciertos datos personales. Estos
-            incluyen, pero no se limitan a, tu nombre completo, dirección de correo electrónico y contraseña. Esta
+            incluyen, pero no se limitan a, tu nombre completo y dirección de correo electrónico. Esta
             información es necesaria para crear tu cuenta en nuestra plataforma, brindarte acceso a los diferentes
             servicios que ofrecemos y gestionar tu interacción con el sitio web. Además, recopilamos esta información
             para asegurarnos de que puedas disfrutar de una experiencia personalizada y segura mientras navegas por
@@ -61,7 +61,8 @@
             como tu nombre de usuario y contraseña. Es tu responsabilidad asegurarte de que tu cuenta no sea utilizada
             indebidamente por terceros. En el caso de que sospeches que alguien ha accedido a tu cuenta sin autorización
             o de cualquier actividad sospechosa, te instamos a que tomes las medidas necesarias para asegurar tu cuenta,
-            como cambiar tu contraseña de inmediato. En última instancia, cualquier uso no autorizado de tu cuenta será
+            como cambiar tu contraseña de inmediato, si lo prefieres puedes enviarnos un correo a En última instancia,
+            cualquier uso no autorizado de tu cuenta será
             responsabilidad exclusiva del usuario, y la empresa no se hace responsable de los daños o perjuicios
             derivados del uso indebido que puedas sufrir o que cause otro usuario.</p>
         </div>
