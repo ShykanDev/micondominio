@@ -17,10 +17,13 @@
         <RouterLink :to="{ name: 'comments' }"
           class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-900 hover:text-white">
           Comentarios</RouterLink>
+        <RouterLink :to="{ name: 'help' }"
+          class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-900 hover:text-white">
+          ¿Cómo Usar?</RouterLink>
         <RouterLink :to="{ name: 'contact' }"
           class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-900 hover:text-white">
           {{ sysVals().getIsUserAuth ? 'Contacto Con La Empresa' : 'Contacto' }}</RouterLink>
-        <RouterLink v-if="!sysVals().getIsAdmin" :to="{ name: 'about' }"
+        <RouterLink v-if="!sysVals().getIsAdmin && sysVals().isUserAuth" :to="{ name: 'about' }"
           class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-900 hover:text-white">
           Mi Condominio</RouterLink>
         <RouterLink v-if="!sysVals().getIsUserAuth" :to="{ name: 'login' }"

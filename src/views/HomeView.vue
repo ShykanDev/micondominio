@@ -544,6 +544,41 @@
           <NewsCard v-for="(news, index) in newsArr" :key="index" :title="news.title" :href="news.href"
             :summary="news.summary" :imgUrl="news.img" :source="news.source" />
         </section>
+
+        <div class="relative w-full p-6 mx-auto my-4 bg-white border-2 border-gray-300 rounded-lg px">
+   <div class="absolute px-4 font-bold text-white transform -translate-x-1/2 bg-slate-800 -top-4 left-1/2">
+    Publicidad
+   </div>
+   <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
+    <a class="block p-4 transition-shadow duration-300 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-lg" href="https://miarrendatario.com">
+     <img alt="Imagen representativa de MiArrendatario.com mostrando una casa en alquiler" class="object-cover w-full h-40 mb-4 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/yP6hS9CfBfrgokW2rHb78uJduxDq3I2e6N00u91AAwf32yhQB.jpg" width="300"/>
+     <h2 class="mb-2 text-xl font-bold text-rose-800">
+      MiArrendatario.com
+     </h2>
+     <p class="text-gray-600">
+      Busca, explore y conozca todas las experiencias al rentar un mueble. Sea arrendador o arrendatario, podrá saber cómo ha sido el inquilino o dueño a base de experiencias de terceros.
+     </p>
+    </a>
+    <a class="block p-4 transition-shadow duration-300 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-lg" href="https://oficiomaestro.com">
+     <img alt="Imagen representativa de MaestroOficio.com mostrando herramientas de trabajo" class="object-cover w-full h-40 mb-4 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/lEHYUZ72E0rFNp5eAMNkKw1z3MfQUSi3YMkc1tvojPRutcIUA.jpg" width="300"/>
+     <h2 class="mb-2 text-xl font-bold text-rose-800">
+      MaestroOficio.com
+     </h2>
+     <p class="text-gray-600">
+      Oficios, profesiones y maestros. Conozca por experiencias de terceros, recomendaciones, advertencias, sugerencias y más acerca de las personas o empresas que ofrecen sus trabajos y servicios de algún oficio o profesión.
+     </p>
+    </a>
+    <a class="block p-4 transition-shadow duration-300 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-lg" href="https://misreclamos.com">
+     <img alt="Imagen representativa de MisReclamos.com mostrando una persona escribiendo una queja" class="object-cover w-full h-40 mb-4 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/L1VyeutPjBWhYiZME011VBAHSPeNP2DugKs9JN6nQmswtcIUA.jpg" width="300"/>
+     <h2 class="mb-2 text-xl font-bold text-rose-800">
+      MisReclamos.com
+     </h2>
+     <p class="text-gray-600">
+      Reclame con sus experiencias. Descubra con las experiencias de otros. ¿Tiene algún reclamo? Comenta aquí sus experiencias y háganos saber sus inconformidades acerca de un servicio, empresa, producto, persona y más.
+     </p>
+    </a>
+   </div>
+  </div>
       </template>
     </MainLayout>
   </div>

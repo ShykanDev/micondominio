@@ -88,9 +88,13 @@
             </a>
           </li> -->
               <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 hover:bg-gray-700">
-                <i class="mr-3 fas fa-sign-out-alt"></i>
-                Salir
+                <i class="mr-3 fas fa-home"></i>
+                Volver al Inicio
               </RouterLink>
+              <p @click="handleLogout" class="flex items-center p-4 hover:bg-gray-700">
+                <i class="mr-3 fas fa-sign-out-alt"></i>
+                Cerrar Sesión
+              </p>
               <li class="p-4 hover:bg-gray-700">
                 <span class="flex items-center selection:bg-red-500">
                   <i class="mr-3 fas fa-code"></i>
@@ -168,6 +172,7 @@ import { collection, doc, getDocs, getFirestore, query, updateDoc, where } from 
 import { sys } from 'typescript';
 import QrCode from '@/components/Qr/QrCode.vue';
 import { qrVals } from '@/stores/qrVals';
+import { getAuth, signOut } from 'firebase/auth';
 
 
 
@@ -274,6 +279,14 @@ const handleRegenCode = async () => {
     console.log(error);
 
   }
+}
+
+
+const auth = getAuth();
+const handleLogout = async() => {
+  // reload window
+  await signOut(auth)
+  window.location.reload()
 }
 </script>
 
