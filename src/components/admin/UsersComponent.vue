@@ -9,14 +9,27 @@
 <script lang="ts" setup>
 import { sysVals } from '@/stores/sysVals';
 import UserCard from '@/views/UserCard.vue';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
-import { onMounted, ref } from 'vue';
-const usersFbse = ref([]);
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { onMounted, ref, type Ref } from 'vue';
 
+// generating interface for users
+interface User {
+  allowComments: boolean;
+  name: string;
+  associatedTo: string;
+  blockedReason: string;
+  creationDate: any;
+  deptNumber: string;
+  isBlocked: boolean;
+  userUid: string;
+  docId: string;
+}
+const usersFbse:Ref<Array<User>> = ref([]);
 
 const db = getFirestore();
 
 const usersRef = collection(db, `condominios/${sysVals().getCondominiumId}/usuarios`);
+// const qUsers = query(usersRef, where('asociatedTo', '==', sysVals().getUserUid));
 const getUsers = async () => {
   try {
     const querySnapshot = await getDocs(usersRef);
@@ -38,6 +51,7 @@ const getUsers = async () => {
 
 onMounted(() => {
   getUsers()
+
 })
 </script>
 

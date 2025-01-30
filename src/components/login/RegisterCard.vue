@@ -1,8 +1,4 @@
 <template>
-  <img
-    src="https://images.unsplash.com/photo-1576961453646-b4c376c7021b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-    class="fixed top-0 bottom-0 left-0 right-0 object-cover w-full h-full animate-fade -z-10"
-    alt="A scenic view of a modern building with a clear sky in the background">
   <section class="font-roboto font-poppins ">
     <section v-if="loadingAnimation"
       class="fixed top-0 bottom-0 left-0 right-0 z-40 flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out bg-white bg-opacity-100 animate-fade">

@@ -1,44 +1,77 @@
 <template>
-  <section
-    class="flex flex-col max-w-sm p-6 mx-auto mt-10 overflow-auto rounded-lg shadow-md bg-slate-50 font-poppins max-h-96">
-    <h2 class="flex items-center mb-4 text-xl font-medium text-blue-600 break-words break-all">
-      <i class="mr-2 fas fa-poll-h"></i> {{ surveyTitle }}
+<section class="flex flex-col max-w-md p-8 mx-auto mt-10 transition-all duration-300 border shadow-xl rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 backdrop-blur-sm border-white/30 font-poppins hover:shadow-2xl">
+  <header class="mb-6">
+    <h2 class="flex items-center text-2xl font-semibold tracking-tight text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+      <i class="mr-3 text-2xl fas fa-chart-line"></i>
+      {{ surveyTitle }}
     </h2>
-    <p class="mb-6 text-gray-700">{{ surveyDescription }}</p>
+    <p class="mt-2 text-sm leading-snug text-gray-600">{{ surveyDescription }}</p>
+  </header>
 
-    <form @submit.prevent="updateVotation">
-      <section class="flex justify-center">
-        <BarChart :labels="props.surveyOptions.map(option => option.option)"
-          :data="props.surveyOptions.map(option => option.numberVotes)" :label="surveyTitle" />
-      </section>
-      <section v-if="!sysVals().getIsAdmin && !hasVoted">
-        <div v-for="(option, index) in surveyOptions" :key="index" class="mb-4">
-          <label class="inline-flex items-center cursor-pointer">
-            <input v-model="optionSelected" :value="option.option" type="radio" name="survey"
-              class="w-5 h-5 text-blue-600 form-radio">
-            <span class="ml-2 text-sm text-gray-700">{{ option.option }}</span>
+  <form @submit.prevent="updateVotation">
+
+    <div class="p-1 mb-6 bg-white border shadow-sm border-gray-200/50 rounded-xl">
+      <BarChart
+        :labels="props.surveyOptions.map(option => option.option)"
+        :data="props.surveyOptions.map(option => option.numberVotes)"
+        :label="surveyTitle"
+      />
+    </div>
+
+    <section v-if="!sysVals().getIsAdmin && !hasVoted">
+      <div class="mb-6 space-y-3">
+        <div
+          v-for="(option, index) in surveyOptions"
+          :key="index"
+          class="relative transition-all duration-200"
+        >
+          <label class="flex items-center p-3 border border-transparent cursor-pointer group rounded-xl hover:bg-white/50 hover:border-gray-200/30">
+            <input
+              v-model="optionSelected"
+              :value="option.option"
+              type="radio"
+              name="survey"
+              class="absolute opacity-0 peer"
+            >
+            <div class="w-5 h-5 mr-3 transition-all border-2 border-gray-300 rounded-full shrink-0 group-hover:border-blue-400 peer-checked:border-blue-600 peer-checked:ring-4 peer-checked:ring-blue-100"></div>
+            <span class="text-sm font-medium text-gray-700 grow">{{ option.option }}</span>
+            <div class="w-2 h-2 ml-2 transition-opacity bg-blue-500 rounded-full opacity-0 peer-checked:opacity-100"></div>
           </label>
         </div>
-        <div class="flex items-center justify-between">
-          <button @click.prevent="updateVotation" type="submit"
-            class="px-6 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
-            <i class="mr-2 fas fa-vote-yea"></i> Votar
-          </button>
-        </div>
+      </div>
 
-        <div class="mt-2">
-          <i class="mr-1 italic text-slate-400 fas fa-info"></i>
-          <small class="italic text-slate-600">Una vez votado no podra cambiar la votación</small>
-        </div>
-      </section>
+      <div class="flex flex-col space-y-4">
+        <button
+          type="submit"
+          class="w-full py-3.5 px-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-blue-200/50 active:scale-95 flex items-center justify-center"
+        >
+          <i class="mr-2 text-sm fas fa-paper-plane"></i>
+          Enviar Voto
+        </button>
 
-    </form>
-  </section>
+
+        <div class="flex items-center justify-center p-3 mt-4 rounded-lg bg-blue-50/50">
+          <i class="mr-2 text-sm text-blue-500 fas fa-info-circle"></i>
+          <small class="text-xs font-medium text-blue-700/80">Tu voto es irreversible una vez enviado</small>
+        </div>
+      </div>
+    </section>
+        <!-- button to eliminate the card (only for admin) -->
+        <button
+          type="button"
+          class="w-full py-3.5 px-6 bg-white text-blue-600 font-semibold rounded-xl border border-blue-600 hover:bg-rose-50 active:scale-95 hover:border-rose-600 flex items-center justify-center hover:text-red-600"
+          @click="deleteSurvey"
+        >
+          <i class="mr-2 text-sm fas fa-trash hover:text-red-600"></i>
+          Eliminar Encuesta
+        </button>
+  </form>
+</section>
 </template>
 
 <script lang="ts" setup>
 import { sysVals } from '@/stores/sysVals';
-import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, updateDoc, deleteDoc } from 'firebase/firestore';
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { sha256 } from 'crypto-hash';
 import { ownerVals } from '@/stores/ownerVals';
@@ -89,6 +122,19 @@ const props = defineProps({
 })
 
 const db = getFirestore();
+
+const deleteSurvey = async () => {
+  sysVals().setIsLoadingComponent(true)
+  try {
+    const docRef = doc(db, 'condominios', sysVals().getAdminDocId, 'surveys', props.surveyDocId);
+    await deleteDoc(docRef);
+    notyf.success('Encuesta eliminada');
+  } catch (error) {
+    console.error('Error deleting survey:', error);
+    notyf.error('Error al eliminar la encuesta');
+  }
+  sysVals().setIsLoadingComponent(false)
+}
 
 const verifyAlreadyVoted = async () => {
   const idEncoded = await sha256(sysVals().getUserUid);

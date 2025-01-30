@@ -165,6 +165,8 @@ const handleBlock = async (type: string) => {
     })
     sysVals().setIsLoadingComponent(false)
     notyf.success('Operación realizada')
+    sysVals().setIsLoadingComponent(false)
+
   }
   catch (error) {
     console.log(error);
@@ -175,23 +177,41 @@ const handleBlock = async (type: string) => {
   }
 }
 
+
+
+
+
+
+/**
+ * Asynchronously toggles the 'isBlocked' status of a user in the Firestore database.
+ *
+ * This function performs the following steps:
+ * 1. Sets the loading state to true using a system value.
+ * 2. Queries the 'usersGeneral' collection in Firestore for a document where the 'userUid' matches the provided prop.
+ * 3. If the user is found, it toggles their 'isBlocked' status in both the 'usersGeneral' collection and the 'usuarios' subcollection
+ *    within the current condominium.
+ * 4. If the user is not found, displays an error notification.
+ * 5. Displays error notifications for any errors encountered during the process.
+ * 6. Resets the loading state to false once the operation is complete.
+ */
+
 const handleBlockUser = async () => {
   sysVals().setIsLoadingComponent(true)
   try {
-    const userInUsersRef = collection(db, 'usersGeneral')
-    const qEqualsOwner = query(userInUsersRef, where('userUid', '==', props.userUid));
-    const querySnapshot = await getDocs(qEqualsOwner);
+    const usersGeneral = collection(db, 'usersGeneral')
+  const qGetUsers = query(usersGeneral, where('asociatedTo', '==', sysVals().getUserUid));
+  const querySnapshot = await getDocs(qGetUsers);
     if (querySnapshot.empty) {
       notyf.error('Usuario no encontrado');
       sysVals().setIsLoadingComponent(false);
       return
     } else {
-      console.log('Valores:');
       console.log(querySnapshot.docs[0].data());
       const userDoc = doc(db, 'usersGeneral', querySnapshot.docs[0].id) // reference to the user docId
       await updateDoc(userDoc, {
         isBlocked: !querySnapshot.docs[0].data().isBlocked,
       })
+      console .log('Usuario bloqueado en usersGeneral:' + !querySnapshot.docs[0].data().isBlocked);
       const userDoc2 = doc(db, 'condominios', sysVals().getCondominiumId, 'usuarios', props.docId) // reference to the user docId
       await updateDoc(userDoc2, {
         isBlocked: !querySnapshot.docs[0].data().isBlocked,
@@ -202,7 +222,8 @@ const handleBlockUser = async () => {
     }
   } catch (error) {
     console.log(error);
-
+    sysVals().setIsLoadingComponent(false)
+    notyf.error('Error en la operacion, intentelo de nuevo')
   }
 }
 

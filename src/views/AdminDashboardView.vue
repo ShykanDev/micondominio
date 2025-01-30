@@ -17,7 +17,7 @@
               class="px-4 py-2 text-white rounded bg-sky-800 hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-opacity-50">
               Cancelar
             </button>
-            <button @click="handleRegenCode"
+            <button @click="handleRegenCodeV2"
               class="px-4 py-2 text-white rounded bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
               <i class="mr-2 fas fa-sync"></i>Regenerar
             </button>
@@ -173,6 +173,8 @@ import { sys } from 'typescript';
 import QrCode from '@/components/Qr/QrCode.vue';
 import { qrVals } from '@/stores/qrVals';
 import { getAuth, signOut } from 'firebase/auth';
+import { getDoc } from 'firebase/firestore/lite';
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -256,7 +258,6 @@ const handleRegenCode = async () => {
       if (!querySnapshotUsers.empty) {
         querySnapshotUsers.forEach((doc) => {
           console.log(doc.id, " => ", doc.data());
-
           if (!doc.data().isBlocked) {
             updateDoc(doc.ref, { invitationCode: newInvitationCode })
             console.log(doc.id, " => ", doc.data());
@@ -281,6 +282,43 @@ const handleRegenCode = async () => {
   }
 }
 
+
+const handleRegenCodeV2 = async () => {
+  showPopUpRenCode.value = false;
+  sysVals().setIsLoadingComponent(true)
+  try {
+      const condominiumRef = collection(db, 'condominios');
+      const qAdminCondominium = query(condominiumRef, where('createdBy', '==', sysVals().getUserUid))
+      const querySnapshot = await getDocs(qAdminCondominium);
+      const newInvitationCode = uuidv4();
+      if(!querySnapshot.empty){
+        querySnapshot.forEach(async doc => {
+          console.log('Document before update:', doc.id, " => ", doc.data());
+          const docToUpdate = doc.ref;
+         await updateDoc(docToUpdate, {invitationId: newInvitationCode})
+         sysVals().setInvitationCode(newInvitationCode)
+          console.log('Document after update:', doc.id, " => ", doc.data());
+
+          // updating now the users collection invitationId if is not blocked the user
+          const usersGeneral = collection(db, 'usersGeneral');
+          const qUsersWithoutNewCode = query(usersGeneral, where('asociatedTo', '==', sysVals().getUserUid), where('isBlocked', '==', false));
+          const querySnapshotUsers = await getDocs(qUsersWithoutNewCode);
+          if (!querySnapshotUsers.empty) {
+            querySnapshotUsers.forEach((doc) => {
+              console.log(doc.id, " Users info => ", doc.data());
+              updateDoc(doc.ref, { invitationCode: newInvitationCode })
+            })
+          }
+        })
+      }
+  sysVals().setIsLoadingComponent(false)
+      notyf.success('Código regenerado con exito');
+  } catch (error) {
+    console.log(error);
+  sysVals().setIsLoadingComponent(false)
+    notyf.error('Hubo un error regenerando el código')
+  }
+}
 
 const auth = getAuth();
 const handleLogout = async() => {

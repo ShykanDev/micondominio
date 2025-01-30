@@ -111,6 +111,18 @@ const email = ref('');
 const password = ref('');
 const router = useRouter();
 
+
+/**
+ * This function is used to sign in a user to the app.
+ * It will check if the user is an admin or an owner and set the corresponding values in pinia.
+ * If the user is an admin, it will fetch the values for the admin mode (pinia state based) such as 'setAdminDocId', 'setCondominiumId', 'setInvitationId' and finally it will push to dashboard.
+ * If the user is an owner, it will check if the user is asociated to a condominium and if the condominium exists on fb, then it will set the corresponding values in pinia and push to about page.
+ * If the user is not asociated to a condominium, it will show an error message.
+ * @function
+ * @param {string} email the email of the user
+ * @param {string} password the password of the user
+ */
+
 const signIn = async () => {
   sysVals().setIsLoadingLogin(true);
   try {
