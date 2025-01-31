@@ -26,6 +26,13 @@
         <RouterLink v-if="!sysVals().getIsAdmin && sysVals().isUserAuth" :to="{ name: 'about' }"
           class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-900 hover:text-white">
           Mi Condominio</RouterLink>
+          <p
+          v-if="!sysVals().getIsAdmin && sysVals().isUserAuth"
+          @click="handleLogout"
+          class="p-1 font-medium transition-colors duration-100 ease-out rounded-md text-sky-800 hover:bg-sky-900 hover:text-white">
+          <i class="mr-1 text-sm fas fa-sign-out-alt"></i>
+        Cerrar Sesion
+          </p>
         <RouterLink v-if="!sysVals().getIsUserAuth" :to="{ name: 'login' }"
           class="p-1 font-medium transition-colors duration-100 ease-out border-[2px] rounded-md border-sky-600 text-sky-800 hover:text-sky-700">
           <i class="mr-1 text-sm fas fa-user"></i>Propietario
@@ -138,6 +145,7 @@
 import LineLoading from '@/components/animations/LineLoading.vue';
 import { preferencesVals } from '@/stores/preferences';
 import { sysVals } from '@/stores/sysVals';
+import { getAuth, signOut } from 'firebase/auth';
 import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
@@ -167,6 +175,13 @@ const isMobileMenuOpen = ref(false);
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
+
+const auth = getAuth();
+const handleLogout = async() => {
+  // reload window
+  await signOut(auth)
+  window.location.reload()
+}
 </script>
 
 <style scoped>

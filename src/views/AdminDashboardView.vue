@@ -26,7 +26,7 @@
       </div>
       <div class="flex min-h-screen bg-gray-100 font-roboto">
         <!-- Sidebar -->
-        <div id="sidebar" :class="['w-64 bg-gray-800 text-white', isSidebarHidden ? 'hidden' : '']"
+        <div id="sidebar" :class="['w-64 bg-slate-900 text-white', isSidebarHidden ? 'hidden' : '']"
           class="animate-fade-right">
           <div class="p-4 text-2xl font-bold text-center border-b border-gray-700">
             Admin Dashboard
@@ -100,6 +100,11 @@
                   <i class="mr-3 fas fa-code"></i>
                   Código de Invitación:
                 </span>
+                <div>
+                  <!-- saying in spanish that the user can scan the qr code and the page will be loaded automatically with the information -->
+                  <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-info"></i>Comparta este QR con sus propietarios para que puedan escanear el QR para
+                    acceder a su organización.</small>
+                </div>
                 <div class="flex items-center justify-center p-1 bg-white">
                   <QrCode :value="qrVals().getLink" class="w-64 h-64"></QrCode>
                 </div>
@@ -224,63 +229,63 @@ const handleShowPopupRenCode = () => showPopUpRenCode.value = !showPopUpRenCode.
 
 const db = getFirestore();
 
-const generateRandomString = () => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let randomString = '';
-  for (let i = 0; i < 8; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    randomString += characters.charAt(randomIndex);
-  }
-  return randomString;
-}
+// const generateRandomString = () => {
+//   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//   let randomString = '';
+//   for (let i = 0; i < 8; i++) {
+//     const randomIndex = Math.floor(Math.random() * characters.length);
+//     randomString += characters.charAt(randomIndex);
+//   }
+//   return randomString;
+// }
 
 // function to regenerate the code
-const handleRegenCode = async () => {
-  showPopUpRenCode.value = false;
-  sysVals().setIsLoadingComponent(true)
-  const codeRef = collection(db, 'condominios')
-  const newInvitationCode = generateRandomString();
-  try {
-    //  verify that new code does not exist on firebase
-    // const invitationRef = doc(db,`'condominios', ${sysVals().getCondominiumId}`)
-    // we fetch the querry
-    const q = query(codeRef, where('invitationId', '==', newInvitationCode))
-    const querySnapshot = await getDocs(q)
-    if (querySnapshot.empty) {
-      const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
-      await updateDoc(invitationRef, { invitationId: newInvitationCode })
-      // update local variable
-      qrVals().setLink(`https://mantenimientocondominio.com/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
-      sysVals().setInvitationCode(newInvitationCode)
-      const usersGeneral = collection(db, 'usersGeneral')
-      const qUsersWithoutNewCode = query(usersGeneral, where('asociatedTo', '==', sysVals().getUserUid));
-      const querySnapshotUsers = await getDocs(qUsersWithoutNewCode)
-      if (!querySnapshotUsers.empty) {
-        querySnapshotUsers.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data());
-          if (!doc.data().isBlocked) {
-            updateDoc(doc.ref, { invitationCode: newInvitationCode })
-            console.log(doc.id, " => ", doc.data());
+// const handleRegenCode = async () => {
+//   showPopUpRenCode.value = false;
+//   sysVals().setIsLoadingComponent(true)
+//   const codeRef = collection(db, 'condominios')
+//   const newInvitationCode = generateRandomString();
+//   try {
+//     //  verify that new code does not exist on firebase
+//     // const invitationRef = doc(db,`'condominios', ${sysVals().getCondominiumId}`)
+//     // we fetch the querry
+//     const q = query(codeRef, where('invitationId', '==', newInvitationCode))
+//     const querySnapshot = await getDocs(q)
+//     if (querySnapshot.empty) {
+//       const invitationRef = doc(db, 'condominios', sysVals().getCondominiumId)
+//       await updateDoc(invitationRef, { invitationId: newInvitationCode })
+//       // update local variable
+//       qrVals().setLink(`https://mantenimientocondominio.com/register?tipoCuenta=propietario&codigoInvitacion=${newInvitationCode}`)
+//       sysVals().setInvitationCode(newInvitationCode)
+//       const usersGeneral = collection(db, 'usersGeneral')
+//       const qUsersWithoutNewCode = query(usersGeneral, where('asociatedTo', '==', sysVals().getUserUid));
+//       const querySnapshotUsers = await getDocs(qUsersWithoutNewCode)
+//       if (!querySnapshotUsers.empty) {
+//         querySnapshotUsers.forEach((doc) => {
+//           console.log(doc.id, " => ", doc.data());
+//           if (!doc.data().isBlocked) {
+//             updateDoc(doc.ref, { invitationCode: newInvitationCode })
+//             console.log(doc.id, " => ", doc.data());
 
-          }
-        })
-      }
-      // const qUsersWithoutNewCode = q
-      notyf.success('Código regenerado con exito')
-      sysVals().setIsLoadingComponent(false)
-      return
-    } else {
-      notyf.error('Error, intentelo de nuevo')
-      sysVals().setIsLoadingComponent(false)
-      return
-    }
-  } catch (error) {
-    notyf.error('Hubo un error regenerando el código')
-    sysVals().setIsLoadingComponent(false)
-    console.log(error);
+//           }
+//         })
+//       }
+//       // const qUsersWithoutNewCode = q
+//       notyf.success('Código regenerado con exito')
+//       sysVals().setIsLoadingComponent(false)
+//       return
+//     } else {
+//       notyf.error('Error, intentelo de nuevo')
+//       sysVals().setIsLoadingComponent(false)
+//       return
+//     }
+//   } catch (error) {
+//     notyf.error('Hubo un error regenerando el código')
+//     sysVals().setIsLoadingComponent(false)
+//     console.log(error);
 
-  }
-}
+//   }
+// }
 
 
 const handleRegenCodeV2 = async () => {

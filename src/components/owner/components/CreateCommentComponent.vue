@@ -1,36 +1,56 @@
 <!-- Create comment -->
 <template>
-    <div class="flex w-full p-4 bg-white shadow-lg ]">
-      <section class="w-full p-6 mt-10 rounded-lg shadow-md bg-slate-50">
-        <h2 class="mb-4 text-2xl font-bold font-signika text-sky-800">Crear Nuevo Comentario</h2>
-        <form class="space-y-4 font-poppins">
-            <div>
-                <label for="categoria" class="block text-sm font-medium text-gray-700">Categoría</label>
-                <div class="relative mt-1 rounded-md shadow-sm">
-                    <input v-model="category" type="text" id="categoria" name="categoria" class="block w-full p-3 pr-10 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-sky-900" placeholder="Escribe la categoría. Ejemplo: Servicios, Sugerencias, General, Información">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <i class="text-gray-400 fas fa-tags"></i>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <label for="mensaje" class="block text-sm font-medium text-gray-700">Mensaje</label>
+<div class="flex w-full p-4 border shadow-xl bg-slate-100 backdrop-blur-sm rounded-2xl border-gray-100/50">
+    <section class="w-full p-8 border shadow-inner rounded-xl bg-gradient-to-br from-white/50 to-gray-50/30 border-gray-200/20">
+        <h2 class="mb-6 text-3xl font-bold text-transparent font-signika bg-gradient-to-r from-sky-700 to-blue-600 bg-clip-text">
+            Crear Nuevo Comentario
+        </h2>
 
-                <div class="relative mt-1 rounded-md shadow-sm">
-                    <textarea v-model="message" id="mensaje" name="mensaje" rows="4" class="block w-full pr-10 border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Escriba su mensaje, este mensaje será visible para todos los propietarios de su edificio/condominio"></textarea>
+        <form class="space-y-6 font-poppins">
+            <div>
+                <label for="categoria" class="block mb-2 text-sm font-medium text-slate-600/90">Categoría</label>
+                <div class="relative mt-1 transition-shadow duration-200 rounded-lg shadow-sm hover:shadow-md">
+                    <input
+                        v-model="category"
+                        type="text"
+                        id="categoria"
+                        name="categoria"
+                        class="block w-full px-4 py-3 transition-all border rounded-lg outline-none pr-11 text-slate-700 border-gray-300/50 focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500/80 placeholder:text-slate-400/80"
+                        placeholder="Escribe la categoría. Ejemplo: Servicios, Sugerencias, General, Información">
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                        <i class="text-gray-400 fas fa-comment"></i>
+                        <i class="text-sm text-slate-400/80 fas fa-tags"></i>
                     </div>
                 </div>
             </div>
+
             <div>
-                <button @click.prevent="handleSendComment" type="submit" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
-                    <i class="mr-2 fas fa-paper-plane"></i> Enviar
+                <label for="mensaje" class="block mb-2 text-sm font-medium text-slate-600/90">Mensaje</label>
+                <div class="relative mt-1 transition-shadow duration-200 rounded-lg shadow-sm hover:shadow-md">
+                    <textarea
+                        v-model="message"
+                        id="mensaje"
+                        name="mensaje"
+                        rows="4"
+                        class="block w-full px-4 py-3 transition-all border rounded-lg outline-none resize-none pr-11 text-slate-700 border-gray-300/50 focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500/80 placeholder:text-slate-400/80"
+                        placeholder="Escriba su mensaje, este mensaje será visible para todos los propietarios de su edificio/condominio">
+                    </textarea>
+                    <div class="absolute flex items-center pr-3 pointer-events-none top-4 right-3">
+                        <i class="text-sm text-slate-400/80 fas fa-comment"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button
+                    @click.prevent="handleSendComment"
+                    type="submit"
+                    class="inline-flex justify-center w-full px-6 py-3 text-sm font-semibold text-white transition-all duration-200 bg-gradient-to-r from-sky-600 to-blue-500 rounded-lg shadow-md hover:shadow-lg hover:from-sky-700 hover:to-blue-600 transform hover:-translate-y-0.5">
+                    <i class="mr-2 text-sm fas fa-paper-plane"></i> Enviar Comentario
                 </button>
             </div>
         </form>
     </section>
-    </div>
+</div>
 </template>
 
 <script lang="ts" setup>

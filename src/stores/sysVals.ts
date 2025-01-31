@@ -18,6 +18,7 @@ export const sysVals = defineStore('sysVals', {
     isLoadingOwner: false,
     isLoadedOwner: true,
     asyncComponent: CreateCommentComponent,
+    asyncComponentText: 'CreateCommentComponent',
   }),
   getters: {
     getActualUserName: (state) => state.actualUserName,
@@ -35,6 +36,7 @@ export const sysVals = defineStore('sysVals', {
     getIsLoadingOwner: (state) => state.isLoadingOwner,
     getIsLoadedOwner: (state) => state.isLoadedOwner,
     getAsyncComponent: (state) => state.asyncComponent,
+    getAsyncComponentText: (state) => state.asyncComponentText,
   },
   actions: {
     setActualUserName(payload: string) {
@@ -81,6 +83,7 @@ export const sysVals = defineStore('sysVals', {
     },
     setAsyncComponent(component: any) {
       this.asyncComponent = component
+      this.asyncComponentText = component.__asyncResolved?.__name || ''
     },
   },
 })

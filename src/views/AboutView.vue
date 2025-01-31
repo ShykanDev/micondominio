@@ -1,37 +1,43 @@
 <template>
   <MainLayout>
     <template #main>
-      <div
-        class="box-border flex flex-wrap w-full gap-4 py-2 transition-all duration-300 ease-out md:gap-0 md:flex-nowrap rounded-bl-md rounded-br-mdrounded-bl-md justify-evenly bg-slate-200 font-poppins animate-fade-down">
-        <p @click="sysVals().setAsyncComponent(CreateCommentComponent)"
-          :class="currentComponent === CreateCommentComponent ? 'border-2 border-sky-700' : ''"
-          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
-          <i class="fas fa-comment"></i> Comentar
-        </p>
-        <p @click="sysVals().setAsyncComponent(CommentComponent)"
-          :class="currentComponent === CommentComponent ? 'border-2 border-sky-700' : ''"
-          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
-          <i class="fas fa-comments"></i> Comentarios
-        </p>
-        <p @click="sysVals().setAsyncComponent(AnnouncementComponent)"
-          :class="currentComponent === AnnouncementComponent ? 'border-2 border-sky-700' : ''"
-          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
-          <i class="fas fa-bullhorn"></i> Anuncios
-        </p>
-        <p @click="sysVals().setAsyncComponent(SurveyComponent)"
-          :class="currentComponent === SurveyComponent ? 'border-2 border-sky-700' : ''"
-          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
-          <i class="fas fa-poll"></i> Encuestas
-        </p>
-        <p @click="sysVals().setAsyncComponent(ComplaintsComponent)"
-          :class="currentComponent === ComplaintsComponent ? 'border-2 border-sky-700' : ''"
-          class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
-          <i class="fas fa-exclamation-triangle"></i> Quejas/Reportes
-        </p>
-        <!-- <p  @click="sysVals().setAsyncComponent(ReportComponent)" :class="currentComponent === ReportComponent ? 'border-2 border-sky-700' : ''" class="p-1 px-4 font-semibold bg-white rounded-md cursor-pointer hover:border-2 hover:border-sky-700 text-sky-900">
-          <i class="fas fa-file-alt"></i> Reportes
-        </p> -->
-      </div>
+      <div class="box-border sticky top-0 flex flex-wrap w-full gap-3 p-3 transition-all duration-300 ease-out border shadow-lg bg-slate-100 backdrop-blur-sm rounded-xl md:gap-2 md:flex-nowrap font-poppins animate-fade-down border-gray-100/50">
+        <!-- <small>{{ sysVals().getAsyncComponentText }}</small> -->
+    <p
+        @click="sysVals().setAsyncComponent(CreateCommentComponent)"
+        :class="sysVals().getAsyncComponentText === 'CreateCommentComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+        class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+        <i class="mr-2 fas fa-comment"></i>Comentar
+    </p>
+
+    <p
+        @click="sysVals().setAsyncComponent(CommentComponent)"
+        :class="sysVals().getAsyncComponentText === 'CommentComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+        class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+        <i class="mr-2 fas fa-comments"></i>Comentarios
+    </p>
+
+    <p
+        @click="sysVals().setAsyncComponent(AnnouncementComponent)"
+        :class="sysVals().getAsyncComponentText === 'AnnouncementComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+        class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+        <i class="mr-2 fas fa-bullhorn"></i>Anuncios
+    </p>
+
+    <p
+        @click="sysVals().setAsyncComponent(SurveyComponent)"
+        :class="sysVals().getAsyncComponentText === 'SurveyComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+        class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+        <i class="mr-2 fas fa-poll"></i>Encuestas
+    </p>
+
+    <p
+        @click="sysVals().setAsyncComponent(ComplaintsComponent)"
+        :class="sysVals().getAsyncComponentText === 'ComplaintsComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+        class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+        <i class="mr-2 fas fa-exclamation-triangle"></i>Quejas
+    </p>
+</div>
       <!-- <article class="w-full bg-white min-h-dvh"> -->
       <section v-if="sysVals().getIsLoadingOwner"
         class="fixed top-0 bottom-0 left-0 right-0 z-40 flex items-center justify-center w-full bg-white bg-opacity-100">
@@ -118,7 +124,7 @@ const checkInvitationCode = async () => {
 import LoadingBarCrazy from '@/components/animations/LoadingBarCrazy.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { sysVals } from '@/stores/sysVals';
-import { defineAsyncComponent, shallowRef } from 'vue';
+import { defineAsyncComponent, ref, shallowRef } from 'vue';
 
 const CommentComponent = defineAsyncComponent(() => import('../components/owner/CommentComponent.vue'));//comments list from firebase, and the first component that is loaded on mount
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/owner/components/AnnouncementComponent.vue'));//announcements list from firebase
@@ -129,9 +135,10 @@ const LoaderComponent = defineAsyncComponent(() => import('../components/owner/c
 // const ReportComponent = defineAsyncComponent(() => import('../components/owner/components/ReportsComponent.vue'));//report list from firebase
 
 const currentComponent = shallowRef(CreateCommentComponent);
-
+const styleCurrentComponent = ref('')
 const handleComponentChange = (componentName: any) => {
   currentComponent.value = componentName;
+  styleCurrentComponent.value = componentName;
 }
 
 </script>
