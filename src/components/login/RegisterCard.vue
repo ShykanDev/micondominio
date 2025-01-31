@@ -50,7 +50,7 @@
           <div v-if="type.toLowerCase() == 'propietario'" class="mb-4 animate-fade-up">
             <label for="owner" class="block font-medium text-sky-900">Número de departamento</label>
             <div class="relative">
-              <input v-model="departmentNumber" type="email" id="owner" name="owner"
+              <input v-model="departmentNumber" type="text" id="owner" name="owner"
                 placeholder="Ingresa el número de departamento"
                 class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
@@ -60,7 +60,7 @@
           <div v-if="type.toLowerCase() == 'propietario'" class="mb-4 animate-fade-up">
             <label for="invId" class="block font-medium text-sky-900">Código de invitación</label>
             <div class="relative">
-              <input v-model="invId" type="email" id="invId" name="invId" placeholder="Ingresa el código de invitación"
+              <input v-model="invId" type="text " id="invId" name="invId" placeholder="Ingresa el código de invitación"
                 class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
               <i class="absolute text-sky-800 fas fa-address-card left-3 top-3"></i>

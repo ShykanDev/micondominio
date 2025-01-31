@@ -83,6 +83,8 @@ const db = getFirestore();
 const complaintsCollectionRef = collection(db, `condominios/${sysVals().getAdminDocId}/complaints`);
 
 const getComplaints = async () => {
+  console.log('admin doc id ', sysVals().getAdminDocId);
+
   sysVals().setIsLoadingOwner(true);
   try {
     const snapshot = await getDocs(complaintsCollectionRef);
