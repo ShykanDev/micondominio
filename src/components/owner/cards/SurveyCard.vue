@@ -122,12 +122,12 @@ onMounted(async () => {
 const updateVotation = async () => {
   sysVals().setIsLoadingOwner(true);
   sysVals().setAsyncComponent(LoaderComponent)
-  const allowVotation = await verifyAlreadyVoted();
-  if (!allowVotation) {
-    sysVals().setIsLoadingOwner(false);
-    sysVals().setAsyncComponent(SurveyComponent)
-    return;
-  }
+  // const allowVotation = await verifyAlreadyVoted();
+  // if (!allowVotation) {
+  //   sysVals().setIsLoadingOwner(false);
+  //   sysVals().setAsyncComponent(SurveyComponent)
+  //   return;
+  // }
   try {
     console.log('Updating votation...');
     const docRef = doc(db, 'condominios', sysVals().getAdminDocId, 'surveys', props.surveyDocId);

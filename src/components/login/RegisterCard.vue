@@ -178,7 +178,7 @@ const handleCreation = async () => {
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, updateProfile } from "firebase/auth";
-import { getFirestore, collection, addDoc, getDocs, Timestamp, query, where, doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, Timestamp, query, where, doc as fBaseDoc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 // animations for toast
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
@@ -324,74 +324,74 @@ const handleCreationAdmin = async () => {
   }
 };
 
-const handleCreationOwner = async () => {
-  try {
-    if (!validateFields()) return;
+// const handleCreationOwner = async () => {
+//   try {
+//     if (!validateFields()) return;
 
-    loadingAnimation.value = true;
+//     loadingAnimation.value = true;
 
-    // // Verificar que el código de invitación existe
-    // const queryAdminCollectionId = query(condominiosRef, where('invitationId', '==', invId.value.trim()));
-    // const snapshot = await getDocs(queryAdminCollectionId);
+//     // // Verificar que el código de invitación existe
+//     // const queryAdminCollectionId = query(condominiosRef, where('invitationId', '==', invId.value.trim()));
+//     // const snapshot = await getDocs(queryAdminCollectionId);
 
-    // if (snapshot.empty) {
-    //   notyf.error("Código de invitación no encontrado.");
-    //   loadingAnimation.value = false;
-    //   return;
-    // }
+//     // if (snapshot.empty) {
+//     //   notyf.error("Código de invitación no encontrado.");
+//     //   loadingAnimation.value = false;
+//     //   return;
+//     // }
 
-    // Código de invitación válido, procedemos a crear el usuario
-    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    const user = userCredential.user;
+//     // Código de invitación válido, procedemos a crear el usuario
+//     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+//     const user = userCredential.user;
 
-    if (user) {
-      await updateProfile(user, { displayName: `${type.value} ${name.value}` });
-      await sendEmailVerification(user);
-      // Agregar al usuario a la subcolección de usuarios
-      const usersGeneralCollectionRef = collection(db, 'usersGeneral');
-      const usersGeneralDocRef = await addDoc(usersGeneralCollectionRef, {
-        deptNumber: departmentNumber.value,
-        creationDate: Timestamp.now(),
-        userUid: user.uid,
-        asociatedTo: snapshot.docs[0].data().createdBy,
-        invitationCode: snapshot.docs[0].data().invitationId,
-        asociatedToCondominiumId: snapshot.docs[0].data().condominiumId,
-      })
-      // Agregar al usuario a la subcolección correspondiente
-      // for (const doc of snapshot.docs) {
-      //   const usersSubcollectionRef = collection(db, `condominios/${doc.id}/usuarios`);
-      //   const userDocRef = await addDoc(usersSubcollectionRef, {
-      //     name: name.value,
-      //     deptNumber: departmentNumber.value,
-      //     creationDate: Timestamp.now(),
-      //     isBlocked: false,
-      //     blockedReason: '',
-      //     allowComments: true,
-      //     userUid: user.uid,
-      //     associatedTo: doc.data().createdBy
-      //   });
-        // await updateDoc(userDocRef, { docId: userDocRef.id }); //we could add in firebase the update only to the docId reference, and not the whole document
+//     if (user) {
+//       await updateProfile(user, { displayName: `${type.value} ${name.value}` });
+//       await sendEmailVerification(user);
+//       // Agregar al usuario a la subcolección de usuarios
+//       const usersGeneralCollectionRef = collection(db, 'usersGeneral');
+//       const usersGeneralDocRef = await addDoc(usersGeneralCollectionRef, {
+//         deptNumber: departmentNumber.value,
+//         creationDate: Timestamp.now(),
+//         userUid: user.uid,
+//         asociatedTo: snapshot.docs[0].data().createdBy,
+//         invitationCode: snapshot.docs[0].data().invitationId,
+//         asociatedToCondominiumId: snapshot.docs[0].data().condominiumId,
+//       })
+//       // Agregar al usuario a la subcolección correspondiente
+//       // for (const doc of snapshot.docs) {
+//       //   const usersSubcollectionRef = collection(db, `condominios/${doc.id}/usuarios`);
+//       //   const userDocRef = await addDoc(usersSubcollectionRef, {
+//       //     name: name.value,
+//       //     deptNumber: departmentNumber.value,
+//       //     creationDate: Timestamp.now(),
+//       //     isBlocked: false,
+//       //     blockedReason: '',
+//       //     allowComments: true,
+//       //     userUid: user.uid,
+//       //     associatedTo: doc.data().createdBy
+//       //   });
+//         // await updateDoc(userDocRef, { docId: userDocRef.id }); //we could add in firebase the update only to the docId reference, and not the whole document
 
-        // await updateDoc(usersGeneralDocRef, { this was originally wrong do not use it, and do not uncomment this comments needs to be deleted
-        //   userDataId: userDocRef.id
-        // })
-      }
-      notyf.success({
-        message: "Registro exitoso. Por favor, verifica tu correo electrónico.",
-        duration: 7000
-      });
-    // }
-    loadingAnimation.value = false;
+//         // await updateDoc(usersGeneralDocRef, { this was originally wrong do not use it, and do not uncomment this comments needs to be deleted
+//         //   userDataId: userDocRef.id
+//         // })
+//       }
+//       notyf.success({
+//         message: "Registro exitoso. Por favor, verifica tu correo electrónico.",
+//         duration: 7000
+//       });
+//     // }
+//     loadingAnimation.value = false;
 
-    router.push('/login');
+//     router.push('/login');
 
-  } catch (error) {
-    console.error(error);
-    notyf.error((error as Error).message);
-  } finally {
-    loadingAnimation.value = false;
-  }
-};
+//   } catch (error) {
+//     console.error(error);
+//     notyf.error((error as Error).message);
+//   } finally {
+//     loadingAnimation.value = false;
+//   }
+// };
 
 const handleCreationOwnerV2 = async () => {
   if (!validateFields()) return;
@@ -403,9 +403,10 @@ const handleCreationOwnerV2 = async () => {
       await updateProfile(user, { displayName: `${type.value} ${name.value}` });
       await sendEmailVerification(user);
 
+      //delete this once the test is over
+      console.log('user.uid from handleCreationOwnerV2', user.uid);
 
-
-      const preUsersRef = doc(db, 'preUsers', user.uid);
+      const preUsersRef = fBaseDoc(db, 'preUsers', user.uid);
       const newPreUserDocument = await setDoc(preUsersRef, {
         creationDate: Timestamp.now(),
         userUid: user.uid,
@@ -420,16 +421,16 @@ const handleCreationOwnerV2 = async () => {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        const doc = querySnapshot.docs[0];
-        const condominioRef = doc.ref;
+        const docVal = querySnapshot.docs[0];
+        const condominioRef = docVal.ref;
         console.log('Condominio found with this invitation id:', condominioRef.id);
-        console.log('Condominio data:', doc.data());
+        console.log('Condominio data:', docVal.data());
 
         // adding to the condominios users
-        const usersSubcollectionRef = collection(db, `condominios/${condominioRef.id}/usuarios`);
-        const userDocRef = await addDoc(usersSubcollectionRef, {
+        const usersSubcollectionRef = fBaseDoc(db, `condominios/${condominioRef.id}/usuarios/${user.uid}`);
+        const userDocRef = await setDoc(usersSubcollectionRef, {
         allowComments : true,
-        associatedTo : doc.data().createdBy,
+        associatedTo : docVal.data().createdBy,
         blockedReason : '',
         creationDate : Timestamp.now(),
         deptNumber : departmentNumber.value ,
@@ -440,32 +441,34 @@ const handleCreationOwnerV2 = async () => {
         userUid : user.uid
         })
 
-        await updateDoc(userDocRef, {
-          docId: userDocRef.id ,
-          firstCreation: false
-        });
 
 
         console.log('Condominio updated:', userDocRef);
 
 
         //  adding to the usersGeneral
-      // const usersGeneralCollectionRef = collection(db, 'usersGeneral');
-      // const usersGeneralDocRef = await addDoc(usersGeneralCollectionRef, {
-      //   asociatedTo: doc.data().createdBy,
-      //   asociatedToCondominiumId: doc.data().condominiumId,
-      //   creationDate: Timestamp.now(),
-      //   deptNumber: departmentNumber.value,
-      //   invitationCode: doc.data().invitationId,
-      //   // userDataId: , //if somehow i have a problem then I need to complete this
-      //   userUid: user.uid
-      // });
+      const usersGeneralCollectionRef = collection(db, 'usersGeneral');
+      const usersGeneralDocRef = await addDoc(usersGeneralCollectionRef, {
+        asociatedTo: docVal.data().createdBy,
+        asociatedToCondominiumId: docVal.data().condominiumId,
+        creationDate: Timestamp.now(),
+        deptNumber: departmentNumber.value,
+        invitationCode: docVal.data().invitationId,
+        // userDataId: userDocRef,
+        docId: user.uid,
+        userUid: user.uid
+      });
+      console.log('usersGeneral docRefId', usersGeneralDocRef);
+      console.log('user docRefId', userDocRef);
 
       } else {
         console.log('No condominio found with this invitation id');
       }
 
     }
+
+    notyf.success('Registro exitoso. Por favor, verifica tu correo electrónico.');
+    router.push('/login');
   } catch (error) {
     console.error(error);
     notyf.error((error as Error).message);

@@ -142,11 +142,11 @@ const signIn = async () => {
     console.log(sysVals().getActualUserName);
 
 
-    if (!user.emailVerified) {
-      notyf.error('Su correo no ha sido verificado, revise su correo y de click en el enlace de verificación')
-      sysVals().setIsLoadingLogin(false);
-      return;
-    }
+    // if (!user.emailVerified) {
+    //   notyf.error('Su correo no ha sido verificado, revise su correo y de click en el enlace de verificación')
+    //   sysVals().setIsLoadingLogin(false);
+    //   return;
+    // }
 
 
     if (user && user.displayName?.includes('administrador')) { //If user is admin set pinia values to admin mode and set user auth
@@ -171,6 +171,7 @@ const signIn = async () => {
 
     }
     else if (user && user.displayName && user.displayName.includes('propietario')) {//if user is owner set pinia values to owner mode ans set user auth
+      console.log('userDataPropietario:', user);
       sysVals().setIsAdmin(false);
       sysVals().setUserUid(credentials.user.uid);
       ownerVals().setOwnerName(user.displayName)

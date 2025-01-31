@@ -7,7 +7,7 @@
     <h2 class="text-2xl font-bold text-center text-sky-800 ">Comentarios de sus propietarios<i
         class="ml-2 fas fa-comment"></i><i class="ml-2 fas fa-users"></i></h2>
     <article class="flex flex-wrap gap-4 justify-evenly">
-      <CommentCard v-for="(comment, index) in commentsFirebase" :key="index" :comment="comment.announcement"
+      <CommentCard v-for="(comment, index) in commentsFirebase.sort((a,b) => b.date - a.date)" :key="index" :comment="comment.announcement"
         :user-name="comment.author" :user-type="comment.category" :date="new Date().toDateString(comment.date)"
         :comment-id="comment.documentId" />
     </article>

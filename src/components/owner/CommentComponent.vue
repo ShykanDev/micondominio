@@ -68,6 +68,7 @@ import CommentCard from './CommentCard.vue';
 import { sysVals } from '@/stores/sysVals';
 import { onMounted, ref } from 'vue';
 import { ownerVals } from '@/stores/ownerVals';
+import { create } from 'domain';
 
 const commentsFbase = ref<Array<object>>([])
 const db = getFirestore();
@@ -83,6 +84,7 @@ const getComments = async () => {
     snapshot.forEach(e => {
       commentsFbase.value.push(e.data())
     })
+    console.log(commentsFbase.value);
     sysVals().setIsLoadingOwner(false);
 
   } catch (error) {
@@ -115,23 +117,30 @@ const verifyAllowComments = async () => {
   return true;
 }
 const answerComment = async () => {
+  console.log('Admin Doc Id: ', sysVals().getAdminDocId);
+  sysVals().setIsLoadingOwner(true);
   try {
-    const allowComments = await verifyAllowComments();
-    if (!allowComments) return;
+    // const allowComments = await verifyAllowComments();
+    // if (!allowComments) return;
     const commentResponse = await addDoc(commentRef, {
       announcement: `Respuesta a ${ownerVals().getAnswerCommentTo}: ${response.value}`,
       author: ownerVals().getOwnerName,
       category: 'Respuesta a comentario',
       date: Timestamp.now(),
+      createdBy: sysVals().getUserUid
     })
     await updateDoc(commentResponse, {
       documentId: commentResponse.id
     })
+    ownerVals().setClosePopUpAnswerComment();
     notyf.success('Se ha respondido el comentario')
     response.value = '';
-    ownerVals().setClosePopUpAnswerComment();
+    commentsFbase.value = [];
+    getComments();
+    sysVals().setIsLoadingOwner(false);
   } catch (error) {
     console.log(error);
+    sysVals().setIsLoadingOwner(false);
 
   }
 }

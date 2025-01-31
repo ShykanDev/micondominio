@@ -115,11 +115,11 @@ const verifyAllowComments = async () => {
 
 const addComplaint = async () => {
   sysVals().setIsLoadingOwner(true);
-  const allowComments = await verifyAllowComments();
-  if (!allowComments) {
-    sysVals().setIsLoadingOwner(false);
-    return;
-  };
+   // const allowComments = await verifyAllowComments();
+  // if (!allowComments) {
+  //   sysVals().setIsLoadingOwner(false);
+  //   return;
+  // };
   try {
     const docRef = await addDoc(complaintsCollectionRef, {
       date: Timestamp.now(),

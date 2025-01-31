@@ -34,12 +34,13 @@
 </template>
 
 <script lang="ts" setup>
-import { addDoc, collection, doc, getDoc, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getFirestore, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { sysVals } from '../../../stores/sysVals';
 import { ref } from 'vue';
 import { ownerVals } from '@/stores/ownerVals';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css'; // for React, Vue and Svelte
+import { getAuth } from 'firebase/auth';
 // Create an instance of Notyf
 const notyf = new Notyf({
   duration: 6000,
@@ -56,48 +57,67 @@ const db = getFirestore();
 
 const category= ref('');
 const message = ref('');
-
+const auth = getAuth();
 const verifyAllowComments = async () => {
-  const userCanComment = doc(db, 'condominios', sysVals().getAdminDocId, 'usuarios', ownerVals().getUserDataId);
-  const docSnap = await getDoc(userCanComment);
-    if (!docSnap.exists()) {
-      console.log('No such document!');
-      return false;
-    } else {
-        if (!docSnap.data().allowComments){
-          notyf.error('Error al agregar el comentario, no tienes permiso para comentar en este dominio');
-          return false;
-        }
-    }
-    return true;
+  // const userCanComment = doc(db, 'condominios', sysVals().getAdminDocId, 'usuarios', ownerVals().getUserDataId);
+  // const docSnap = await getDoc(userCanComment);
+//     if (!docSnap.exists()) {
+//       console.log('No such document!');
+//       return false;
+//     } else {
+//         if (!docSnap.data().allowComments){
+//           notyf.error('Error al agregar el comentario, no tienes permiso para comentar en este dominio');
+//           return false;
+//         }
+//     }
+//     return true;
+// }
 }
-
 const handleSendComment = async () => {
   const messagesCollectionRef = collection(db, `condominios/${sysVals().getAdminDocId}/comments`);
   sysVals().setIsLoadingOwner(true);
   try {
-    const allowComments = await verifyAllowComments();
-    if (!allowComments){
-      sysVals().setIsLoadingOwner(false);
-      return;
-    }
+
       const docRef = await addDoc(messagesCollectionRef, {
         announcement: message.value,
         author: ownerVals().getOwnerName,
         category: category.value,
         date: Timestamp.now(),
         documentId: '',
+        condomainId: sysVals().getAdminDocId,
+        createdBy: sysVals().getUserUid
       })
       await updateDoc(docRef, {
           documentId: docRef.id
       })
+      // if (auth.currentUser) {
+      //   const messageCreatorCollectionRef = doc(db, `condominios/${sysVals().getAdminDocId}/comments/${docRef.id}/createdBy/${auth.currentUser.uid}`);
+      //   await setDoc(messageCreatorCollectionRef, {
+      //     creationDate: Timestamp.now(),
+      //     userUid: auth.currentUser.uid,
+      //     userName: ownerVals().getOwnerName,
+      //     announcement: message.value,
+      //     category: category.value
+      //   });
+      // } else {
+      //   console.log('No hay un usuario logueado');
+      //   notyf.error('No hay un usuario logueado');
+      //   sysVals().setIsLoadingOwner(false);
+      //   return;
+      // }
+
+
+
+
       sysVals().setIsLoadingOwner(false);
       notyf.success('Se ha agregado el comentario')
       category.value = '';
       message.value = '';
+
+
   } catch (error) {
     sysVals().setIsLoadingOwner(false);
-
+    notyf.error('Error al agregar el comentario')
       console.log(error);
 
   }
