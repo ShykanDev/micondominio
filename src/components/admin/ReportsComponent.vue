@@ -20,7 +20,10 @@ const getComplaints = async () => {
   try {
     const snapshot = await getDocs(surveysCollectionRef);
     snapshot.forEach(e => {
-      complaints.value.push(e.data())
+      complaints.value.push({
+        ...e.data(),
+        documentId: e.id
+      });
     })
   } catch (error) {
     console.log(error);

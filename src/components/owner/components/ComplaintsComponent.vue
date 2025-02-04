@@ -89,8 +89,12 @@ const getComplaints = async () => {
   try {
     const snapshot = await getDocs(complaintsCollectionRef);
     snapshot.forEach(e => {
-      complaintsList.value.push(e.data())
-    })
+      complaintsList.value.push({
+        ...e.data(),        // todos los datos del documento
+        documentId: e.id    // agregamos el id del documento
+      });
+      console.log(e.id);
+    });
     sysVals().setIsLoadingOwner(false);
 
   } catch (error) {
@@ -133,9 +137,6 @@ const addComplaint = async () => {
       documentId: '',
       userName: ownerVals().getOwnerName,
       userUid: sysVals().getUserUid
-    })
-    await updateDoc(docRef, {
-      documentId: docRef.id
     })
     sysVals().setIsLoadingOwner(false);
 

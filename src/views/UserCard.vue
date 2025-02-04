@@ -55,6 +55,8 @@
       :class="!allowComments ? 'bg-yellow-600 hover:bg-red-700 focus:ring-red-500' : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'">
       {{ allowComments ? 'Deshabilitar Comentarios' : 'Habilitar Comentarios' }}
     </button>
+
+    <!-- Botón de renovar acceso -->
     <button @click="handleRegenCode"
       class="px-4 py-2 mt-2 text-sm text-white rounded-lg bg-slate-600 hover:bg-blue-700 focus:ring-blue-500 focus:outline-none focus:ring-2">
       <i class="mr-2 fas fa-redo"></i>
@@ -76,6 +78,9 @@
         {{ isBlocked ? `${comment}` : '' }}
       </p>
     </div>
+
+
+
   </div>
 </template>
 
@@ -151,22 +156,26 @@ const formattedDate = computed(() => {
 const db = getFirestore();
 const handleBlock = async (type: string) => {
   sysVals().setIsLoadingComponent(true)
-
   const condominiumId = sysVals().getCondominiumId;
   if (!condominiumId) {
     notyf.error('ID del condominio no encontrado');
     sysVals().setIsLoadingComponent(false);
     return;
   }
-  const userDoc = doc(db, 'condominios', condominiumId, 'usuarios', props.docId) // reference to the user docId
+  console.log(props.docId);
+
+  const userDoc = doc(db, 'condominios', condominiumId, 'usuarios', props.userUid) // reference to the user docId (doc id is the uiser uid btw)
+  console.log(props.allowComments)
   try {
+    console.log("Trying to update allowComments")
     await updateDoc(userDoc, {
       allowComments: !props.allowComments
     })
+    console.log("Updated allowComments")
     sysVals().setIsLoadingComponent(false)
     notyf.success('Operación realizada')
-    sysVals().setIsLoadingComponent(false)
-
+    console.log(props.allowComments);
+    sysVals().setIsLoadingComponent(false);
   }
   catch (error) {
     console.log(error);
@@ -176,24 +185,6 @@ const handleBlock = async (type: string) => {
     sysVals().setIsLoadingComponent(false)
   }
 }
-
-
-
-
-
-
-/**
- * Asynchronously toggles the 'isBlocked' status of a user in the Firestore database.
- *
- * This function performs the following steps:
- * 1. Sets the loading state to true using a system value.
- * 2. Queries the 'usersGeneral' collection in Firestore for a document where the 'userUid' matches the provided prop.
- * 3. If the user is found, it toggles their 'isBlocked' status in both the 'usersGeneral' collection and the 'usuarios' subcollection
- *    within the current condominium.
- * 4. If the user is not found, displays an error notification.
- * 5. Displays error notifications for any errors encountered during the process.
- * 6. Resets the loading state to false once the operation is complete.
- */
 
 const handleBlockUser = async () => {
   sysVals().setIsLoadingComponent(true)
@@ -211,12 +202,25 @@ const handleBlockUser = async () => {
       await updateDoc(userDoc, {
         isBlocked: !querySnapshot.docs[0].data().isBlocked,
       })
-      console .log('Usuario bloqueado en usersGeneral:' + !querySnapshot.docs[0].data().isBlocked);
-      const userDoc2 = doc(db, 'condominios', sysVals().getCondominiumId, 'usuarios', props.docId) // reference to the user docId
-      await updateDoc(userDoc2, {
-        isBlocked: !querySnapshot.docs[0].data().isBlocked,
-      })
 
+      console.log("Trying to update isBlocked in condominios")
+
+      // getting the users in the condominios collection
+      const usersCollection = collection(db, 'condominios', sysVals().getCondominiumId, 'usuarios')
+      const qGetUsers = query(usersCollection, where('associatedTo', '==', sysVals().getUserUid));
+      const querySnapshot2 = await getDocs(qGetUsers);
+      if (querySnapshot2.empty) {
+        notyf.error('Usuario no encontrado');
+        sysVals().setIsLoadingComponent(false);
+        return
+      } else{
+        console.log(querySnapshot2.docs[0].data());
+        await updateDoc(doc(db, 'condominios', sysVals().getCondominiumId, 'usuarios', querySnapshot2.docs[0].id), {
+          isBlocked: !querySnapshot.docs[0].data().isBlocked
+        })
+      }
+
+      console.log('Finished updating isBlocked in condominios')
       sysVals().setIsLoadingComponent(false)
       notyf.success('Operación realizada')
     }
@@ -231,19 +235,20 @@ const handleBlockUser = async () => {
 const handleRegenCode = async () => {
   sysVals().setIsLoadingComponent(true);
   try {
-    const userDoc = collection(db, 'usersGeneral') // reference to the user docId
-    const qGetUser = query(userDoc, where('userUid', '==', props.userUid));
-    const querySnapshot = await getDocs(qGetUser);
-    if (querySnapshot.empty) {
+    const usersGeneralCollection = collection(db, 'usersGeneral');
+    const qGetUser = query(usersGeneralCollection, where('asociatedTo', '==', sysVals().getUserUid));
+    const qGetUserSnapshot = await getDocs(qGetUser);
+    if (qGetUserSnapshot.empty) {
       notyf.error('Usuario no encontrado');
       sysVals().setIsLoadingComponent(false);
       return
     } else {
-      const userDoc = doc(db, 'usersGeneral', querySnapshot.docs[0].id) // reference to the user docId
+      console.log(qGetUserSnapshot.docs[0].data());
+      const userDoc = doc(db, 'usersGeneral', qGetUserSnapshot.docs[0].id) // reference to the user docId
       await updateDoc(userDoc, {
         invitationCode: sysVals().getInvitationCode,
       })
-      notyf.success('Operación realizada')
+      notyf.success(`Se ha regenerado el código al usuario`);
       sysVals().setIsLoadingComponent(false);
     }
 

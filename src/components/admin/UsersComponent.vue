@@ -37,7 +37,7 @@ const getUsers = async () => {
     const auth = getAuth();
 
     if (auth.currentUser) {
-  console.log('auth.currentUser.uid', auth.currentUser.uid)
+  // console.log('auth.currentUser.uid', auth.currentUser.uid)
 } else {
   console.log('No hay un usuario logueado')
 }

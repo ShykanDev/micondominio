@@ -180,7 +180,7 @@ const signIn = async () => {
       // checking if invitationId exists on fb
 
 
-
+      console.log('Start the function to check if user uid is on usersGeneral, if an error is thrown, it means that the rules are blocking the user');
       // now checking if user uid is on usersGeneral and who is asociated to
       const usersGenneralCollectionRef = collection(db, 'usersGeneral');
       const qIsUserInUsersGeneral = query(usersGenneralCollectionRef, where('userUid', '==', user.uid));
@@ -194,9 +194,12 @@ const signIn = async () => {
         }
         // now verifying that the condominium exists on fb
         const condominiosInvitationIdRef = doc(db, 'condominios', snapshot.docs[0].data().asociatedToCondominiumId);
+        console.log('Starting the function to check if the condominium exists on fb')
         const snapshotCondominios = await getDoc(condominiosInvitationIdRef);
 
         if (snapshotCondominios.exists()) {
+          console.log('If you cant see this message, it means that the rules are blocking the user');
+          // checking if the invitation code is the same as the one in the condominios document, if firebase throws an error, it means that the rules are blocking the user
           if (snapshot.docs[0].data().invitationCode !== snapshotCondominios.data().invitationId) {
             notyf.error('No se puede iniciar sesión, el código asociado a esta cuenta no se encontró en el sistema, por favor contacte al administrador de su condominio');
             sysVals().setIsLoadingLogin(false);

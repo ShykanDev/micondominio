@@ -10,7 +10,8 @@
         <div class="flex justify-end space-x-4 font-signika">
           <button @click="ownerVals().setShowReportComment(false)"
             class="px-4 py-2 text-gray-700 bg-gray-300 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50">Cancelar</button>
-          <button @click="ownerVals().setShowReportComment(false)"
+          <button @click="
+          addComplaint"
             class="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">Reportar</button>
         </div>
       </div>
@@ -76,6 +77,7 @@ const db = getFirestore();
 const response = ref('');
 
 
+
 const getComments = async () => {
   sysVals().setIsLoadingOwner(true);
   const collectionCommentsRef = collection(db, `condominios/${sysVals().getAdminDocId}/comments`);
@@ -91,6 +93,33 @@ const getComments = async () => {
     console.log(error);
     sysVals().setIsLoadingOwner(false);
 
+  }
+}
+const complaintsCollectionRef = collection(db, `condominios/${sysVals().getAdminDocId}/complaints`);
+
+const addComplaint = async () => {
+  sysVals().setIsLoadingOwner(true);
+  try {
+    const docRef = await addDoc(complaintsCollectionRef, {
+      date: Timestamp.now(),
+      complaint: `El usuario ${ownerVals().getOwnerName} ha realizado una queja, ha reportado el comentario de: ${ownerVals().getReportCommentData.userReported} con contenido: '${ownerVals().getReportCommentData.comment}'`,
+      complaintCategory: 'Reporte de comentario',
+      resolved: false,
+      resolvedDate: '',
+      resolvedBy: '',
+      documentId: '',
+      userName: ownerVals().getOwnerName,
+      userUid: sysVals().getUserUid,
+    })
+    sysVals().setIsLoadingOwner(false);
+    notyf.success('Se ha agregado el reporte del comentario')
+    ownerVals().setShowReportComment(false)
+    ownerVals().setReportCommentData({})
+    ownerVals().setShowReportComment(false)
+  } catch (error) {
+    sysVals().setIsLoadingOwner(false);
+    console.log(error);
+    ownerVals().setShowReportComment(false)
   }
 }
 

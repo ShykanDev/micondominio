@@ -7,8 +7,8 @@
             userName.includes('administrador') ? 'text-sky-400' : 'text-gray-400/80',
             'fas fa-user-circle']"></i>
 
-        <div class="font-poppins flex-1">
-            <div class="flex justify-between items-start">
+        <div class="flex-1 font-poppins">
+            <div class="flex items-start justify-between">
                 <div>
                     <h2 class="text-lg font-semibold tracking-tight">
                         {{ filteredUserName }}
@@ -34,9 +34,9 @@
     <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-dashed"
         :class="userName.includes('administrador') ? 'border-slate-700' : 'border-gray-100'">
 
-        <div class="flex items-center text-xs space-x-2"
+        <div class="flex items-center space-x-2 text-xs"
             :class="userName.includes('administrador') ? 'text-slate-400' : 'text-gray-400'">
-            <i class="fas fa-calendar-alt text-sm"></i>
+            <i class="text-sm fas fa-calendar-alt"></i>
             <span>{{ formattedDate }}</span>
         </div>
 
@@ -44,14 +44,19 @@
             <button @click="ownerVals().setShowPopUpAnswerComment(true, filteredUserName)"
                     class="px-3 py-1.5 flex items-center rounded-lg font-medium transition-all duration-200
                            hover:bg-sky-500 bg-sky-400/90 text-white shadow-sm hover:shadow-sky-200/50">
-                <i class="fas fa-reply mr-2 text-sm"></i>
+                <i class="mr-2 text-sm fas fa-reply"></i>
                 Responder
             </button>
 
-            <button @click="ownerVals().setShowReportComment(true)"
+            <button @click="ownerVals().setReportCommentData({
+              comment: props.comment,
+              userReported: props.userName,
+              userThatReports: ownerVals().getOwnerName,
+              date:Timestamp.now()
+            })"
                     :class="['p-2 rounded-lg hover:bg-rose-50/50 transition-colors',
                              userName.includes('administrador') ? 'hover:text-rose-300' : 'hover:text-rose-500']">
-                <i class="fas fa-flag text-sm"></i>
+                <i class="text-sm fas fa-flag"></i>
             </button>
         </div>
     </div>
@@ -61,7 +66,7 @@
 <script lang="ts" setup>
 import { ownerVals } from '@/stores/ownerVals';
 import { computed } from 'vue';
-
+import { Timestamp } from 'firebase/firestore';
 const props = defineProps({
   userName: {
     type: String,
