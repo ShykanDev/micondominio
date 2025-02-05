@@ -181,7 +181,7 @@ const ReportsComponent = defineAsyncComponent(() => import('../components/admin/
 const ComplaintComponent = defineAsyncComponent(() => import('../components/admin/ComplaintComponent.vue'));
 
 
-const currentComponent = shallowRef(AnnouncementComponent);
+const currentComponent = shallowRef(NotifsComponent);
 
 const changeComponent = (componentName: any) => {
   currentComponent.value = componentName;

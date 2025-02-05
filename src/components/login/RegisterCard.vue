@@ -281,12 +281,13 @@ const handleCreationAdmin = async () => {
       const surveysCollectionRef = collection(db, `condominios/${condominioRef.id}/surveys`);
 
       const announcementDoc = await addDoc(anunciosRef, {
-        title: `Bienvenidos al condominio ${condominium.value}}`,
-        content: "Bienvenidos a nuestro condominio. Aquí puedes encontrar información sobre tus inquilinos, servicios, y mucho más",
-        author: 'Administración',
-        date: new Date(),
-        isUrgent: false,
-        fromAdmin: false
+        announcementId: '',
+        category: "Bienvenida",
+        creationDate: Timestamp.now(),
+        description: "Bienvenidos a nuestro condominio. Aquí puedes encontrar información sobre tus inquilinos, servicios, y mucho más",
+        imageUrl:'https://images.unsplash.com/photo-1674746760908-461a3f97175d?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        title: `Bienvenidos al condominio ${condominium.value}`,
+        urgent: false
       });
 
       await updateDoc(announcementDoc, { announcementId: announcementDoc.id });
@@ -295,6 +296,7 @@ const handleCreationAdmin = async () => {
         announcement: "Bienvenido a la sección de comentarios, puedes dejar tus opiniones y sugerencias sobre el condominio, responder a otros comentarios o aportar nuevas ideas, recuerda que tus comentarios los podrán ver los demás propietarios, recuerda que siempre debe ser respetuoso con los demás al interactuar.",
         category: "Bienvenida",
         date: Timestamp.now(),
+        imageUrl: 'https://images.unsplash.com/photo-1674746760908-461a3f97175d?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         author: user.displayName,
         isUrgent: false,
         fromAdmin: false

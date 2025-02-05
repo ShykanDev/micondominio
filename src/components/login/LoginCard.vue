@@ -174,7 +174,8 @@ const signIn = async () => {
       console.log('userDataPropietario:', user);
       sysVals().setIsAdmin(false);
       sysVals().setUserUid(credentials.user.uid);
-      ownerVals().setOwnerName(user.displayName)
+      ownerVals().setOwnerName(user.displayName);
+
 
 
       // checking if invitationId exists on fb

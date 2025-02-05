@@ -207,16 +207,20 @@ const handleBlockUser = async () => {
 
       // getting the users in the condominios collection
       const usersCollection = collection(db, 'condominios', sysVals().getCondominiumId, 'usuarios')
-      const qGetUsers = query(usersCollection, where('associatedTo', '==', sysVals().getUserUid));
+      const qGetUsers = query(usersCollection, where('userUid', '==', props.userUid), where('associatedTo', '==', sysVals().getUserUid));
       const querySnapshot2 = await getDocs(qGetUsers);
       if (querySnapshot2.empty) {
         notyf.error('Usuario no encontrado');
         sysVals().setIsLoadingComponent(false);
         return
       } else{
-        console.log(querySnapshot2.docs[0].data());
+        console.log(`props userUid: ${props.userUid}`);
+
+        querySnapshot2.forEach((doc) => {
+          console.log(doc.id, " => ", doc.data());
+        })
         await updateDoc(doc(db, 'condominios', sysVals().getCondominiumId, 'usuarios', querySnapshot2.docs[0].id), {
-          isBlocked: !querySnapshot.docs[0].data().isBlocked
+          isBlocked: !querySnapshot2.docs[0].data().isBlocked
         })
       }
 

@@ -4,7 +4,8 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import App from './App.vue'
 import router from './router'
-
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
 // TODO: Add SDKs for Firebase products that you want to use
@@ -27,5 +28,5 @@ const app = createApp(App)
 
 app.use(createPinia().use(piniaPluginPersistedstate))
 app.use(router)
-
+app.use(VueViewer)
 app.mount('#app')

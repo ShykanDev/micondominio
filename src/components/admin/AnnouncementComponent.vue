@@ -1,6 +1,7 @@
 <template>
-  <AnnouncementCard v-show="titulo" class="fixed shadow-2xl bottom-3 left-3" :title="titulo" :description="descripcion"
-    :date="new Date().toDateString()" :category="category" :is-urgent="urgente" />
+  <AnnouncementCard v-if="titulo.length > 0" class="fixed overflow-auto shadow-2xl bottom-3 left-3 max-h-56" :title="titulo" :description="descripcion"
+    :date="new Date().toDateString()" :category="category" :is-urgent="urgente" :is-edition="true"  :img="currentImage" >
+  </AnnouncementCard>
   <section class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md font-poppins">
     <h2 class="mb-4 text-2xl font-bold text-sky-800"><i class="fas fa-bullhorn"></i> Nuevo Anuncio</h2>
     <form @submit.prevent="handleSubmit">
@@ -33,8 +34,15 @@
             class="mr-2 fas fa-image text-sky-600"></i> Imagen</label>
         <input
           class="flex w-full text-sm text-gray-400 bg-white border border-blue-300 rounded-md border-input file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
-          type="file" id="picture" @change="handleFileChange" />
+          type="file" id="picture" @change="handleFileChange"
+          accept="image/*"
+          />
+          <div>
+        <button type="button" v-if="currentImage" @click="cancelImage" class="px-4 py-2 rounded-md cursor-pointer text-sky-800 hover:text-sky-600 bg-slate-100 hover:bg-slate-200"><i class="mr-2 fas fa-times"></i> Cancelar Imagen</button>
       </div>
+      </div>
+      <!-- button to cancel the image -->
+
 
       <div class="flex items-center mt-3 mb-4">
         <input v-model="urgente" type="checkbox" id="urgente" name="urgente" class="mr-2" />
@@ -78,12 +86,16 @@ const descripcion = ref("");
 const urgente = ref(false);
 const category = ref("");
 const selectedFile = ref<File | null>(null);
-
+const currentImage = ref<string | null>("");
+const showAnnouncement = ref(false);
 // Capturar el archivo seleccionado
 const handleFileChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
     selectedFile.value = target.files[0];
+  }
+  if (selectedFile.value) {
+    currentImage.value = URL.createObjectURL(selectedFile.value);
   }
 };
 
@@ -186,6 +198,10 @@ const uploadImageToFreeImageHost = async (imageFile) => {
   }
 };
 
+const cancelImage = () => {
+  selectedFile.value = null;
+  currentImage.value = null;
+}
 
 // uploadImageToFreeImageHost
 // Manejar el envío del formulario

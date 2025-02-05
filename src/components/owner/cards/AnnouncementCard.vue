@@ -1,78 +1,122 @@
 <template>
-    <div :class="{'border-[2px] border-red-700': isUrgent, 'border-none' : !isUrgent}" class="max-w-sm p-6 mx-auto mt-10 rounded-lg shadow-md bg-slate-50 font-poppins">
-        <div v-if="!isUrgent" class="flex items-center mb-4">
-            <i class="mr-3 text-xl text-blue-600 fas fa-bullhorn"></i>
-            <h2 class="text-lg font-bold text-gray-800">Anuncio del administrador</h2>
-        </div>
-        <div v-if="isUrgent" class="flex items-center mb-4">
-            <i class="mr-3 text-xl text-red-600 fas fa-bullhorn animate-pulse"></i>
-            <h2 class="text-lg font-bold text-rose-800">Anuncio urgente del administrador</h2>
-        </div>
-        <div>
-            <h3 class="text-lg font-semibold text-gray-800 break-all">{{ title }}</h3>
-        </div>
-        <p class="mb-4 text-gray-700 break-all">{{ description }}</p>
-        <div class="flex items-center mb-4 text-gray-600">
-            <i class="mr-2 fas fa-calendar-alt"></i>
-            <span>{{ formattedDate }}</span>
-        </div>
-        <div class="flex items-center mb-4 text-gray-600">
-            <i class="mr-2 fas fa-tags"></i>
-            <span  class="break-all">Categoría: {{ category }}</span>
-        </div>
-        <div>
-          <img v-if="img != ''" :src="img" alt="Imagen del anuncio del administrador">
-        </div>
-        <div class="inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-  <!-- Card Container -->
-  <div class="w-full max-w-sm p-6 transition-all duration-300 bg-white shadow-2xl md:max-w-md rounded-xl">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-4">
-      <h3 class="text-xl font-semibold text-gray-800">Nueva Respuesta</h3>
-      <button class="text-gray-400 transition-colors hover:text-gray-600">
-        <i class="fas fa-times"></i>
-      </button>
+<div :class="{ 'border-l-4 border-red-500': isUrgent, 'border-l-4 border-blue-500': !isUrgent }"
+     class="relative max-w-sm p-8 mx-auto mt-10 transition-shadow duration-300 shadow-lg rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 font-poppins hover:shadow-xl"
+     >
+
+  <!-- Header -->
+  <div class="flex items-center p-4 mb-6 rounded-lg" :class="{ 'bg-red-50': isUrgent, 'bg-blue-50': !isUrgent }">
+    <div class="flex items-center flex-1">
+      <i class="mr-4 text-2xl" :class="{
+        'text-red-500 animate-pulse': isUrgent,
+        'text-blue-600': !isUrgent,
+        'fas fa-exclamation-circle': isUrgent,
+        'fas fa-info-circle': !isUrgent
+      }"></i>
+      <h2 class="text-base font-bold tracking-wide" :class="{ 'text-red-700': isUrgent, 'text-blue-800': !isUrgent }">
+        {{ isUrgent ? '⚠️ Urgencia Administrativa' : 'Comunicado Oficial' }}
+      </h2>
+    </div>
+    <span class="px-3 py-1 text-xs font-semibold rounded-full" :class="{
+      'bg-red-100 text-red-700': isUrgent,
+      'bg-blue-100 text-blue-700': !isUrgent
+    }">
+      {{ formattedDate }}
+    </span>
+  </div>
+
+  <!-- Contenido Principal (Oculto por defecto) -->
+  <div  class="space-y-6">
+    <!-- Titulo y Descripción -->
+    <div class="mb-6">
+      <h3 class="mb-3 text-2xl font-bold tracking-tight text-gray-900">{{ title }}</h3>
+      <p class="p-4 leading-relaxed text-gray-700 bg-white border rounded-lg border-slate-200">
+        {{ description }}
+      </p>
     </div>
 
-    <!-- Formulario -->
-    <form class="space-y-4">
-      <!-- Campo Título -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Título</label>
-        <div class="relative">
-          <input type="text"
-                 class="w-full px-4 py-2 transition-all border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                 placeholder="Ingresa un título">
-          <i class="absolute text-gray-400 fas fa-heading right-3 top-3"></i>
+    <!-- Metadatos -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="flex items-center p-3 bg-white border rounded-lg border-slate-200">
+        <i class="mr-3 text-blue-500 fas fa-tag"></i>
+        <div>
+          <p class="mb-1 text-xs text-gray-500">Categoría</p>
+          <p class="font-medium text-gray-800">{{ category }}</p>
         </div>
       </div>
-
-      <!-- Campo Contenido -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Comentario</label>
-        <div class="relative">
-          <textarea
-            class="w-full h-32 px-4 py-2 transition-all border border-gray-300 rounded-lg outline-none resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Escribe tu comentario..."></textarea>
-          <i class="absolute text-gray-400 fas fa-comment-dots right-3 top-3"></i>
+      <div class="flex items-center p-1 bg-white border rounded-lg border-slate-200">
+        <i class="mr-3 text-purple-500 fas fa-user-shield"></i>
+        <div>
+          <p class="mb-1 text-xs text-gray-500">Publicado por</p>
+          <p class="text-sm text-gray-800 font-base">Administración</p>
         </div>
       </div>
+    </div>
 
-      <!-- Botón Enviar -->
-      <button @click="sendAnswer()" type="submit"
-              class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center space-x-2">
-        <i class="fas fa-paper-plane"></i>
-        <span>Enviar Comentario</span>
-      </button>
-    </form>
+    <!-- Imagen -->
+    <div class="relative overflow-hidden transition-all duration-300 border-2 group rounded-xl border-slate-200 hover:border-blue-300">
+      <img v-if="img != ''" :src="img"
+           class="object-cover w-full h-64 transition-transform duration-300 transform group-hover:scale-105">
+      <div @click="show"
+           class="absolute inset-0 flex items-end justify-center p-6 transition-opacity duration-300 opacity-0 cursor-pointer bg-gradient-to-t from-black/60 to-transparent group-hover:opacity-100">
+        <button class="flex items-center px-5 py-2 space-x-2 text-gray-800 transition-colors rounded-full bg-white/90 hover:bg-white">
+          <i class="text-blue-600 fas fa-expand-arrows-alt"></i>
+          <span class="font-medium">Ampliar Imagen</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulario de Respuesta -->
+    <div class="p-6 mt-8 bg-white border shadow-inner rounded-xl border-slate-100">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-bold text-gray-900">Responder al Comunicado</h3>
+        <button class="text-gray-400 transition-colors hover:text-gray-600">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <form class="space-y-5">
+        <!-- Campo Título -->
+        <div>
+          <label class="block mb-2 text-sm font-semibold text-gray-700">Título de tu respuesta</label>
+          <div class="relative">
+            <input type="text"
+                   v-model="titleAnswer"
+                   class="w-full px-4 py-3 placeholder-gray-400 transition-all border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
+                   placeholder="Ej: Solicitud de información adicional">
+            <i class="absolute text-gray-400 fas fa-heading right-4 top-4"></i>
+          </div>
+        </div>
+
+        <!-- Campo Comentario -->
+        <div>
+          <label class="block mb-2 text-sm font-semibold text-gray-700">Tu mensaje</label>
+          <div class="relative">
+            <textarea
+              class="w-full h-32 px-4 py-3 placeholder-gray-400 transition-all border rounded-lg resize-none border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
+              v-model="commentAnswer"
+              placeholder="Escribe aquí tu consulta o comentario..."></textarea>
+            <i class="absolute text-gray-400 fas fa-comment-dots right-4 top-4"></i>
+          </div>
+        </div>
+
+        <!-- Botón de Envío -->
+        <button @click.prevent="sendAnswer()"
+                type="button"
+                class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 px-6 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center space-x-3 shadow-lg hover:shadow-blue-200">
+          <i class="transition-transform duration-300 fas fa-paper-plane group-hover:translate-x-1"></i>
+          <span>Enviar Respuesta</span>
+        </button>
+      </form>
+    </div>
   </div>
 </div>
-
-    </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { sysVals } from '@/stores/sysVals';
+import { addDoc, collection, getFirestore, Timestamp } from 'firebase/firestore';
+import { computed, ref } from 'vue';
+import 'notyf/notyf.min.css';
 
 const props = defineProps({
   title: {
@@ -99,6 +143,10 @@ const props = defineProps({
     type: String,
     default: '', // Imagen vacía como valor por defecto
   },
+  announcementId: {
+    type: String,
+    default: '',
+  }
 });
 
 
@@ -111,11 +159,58 @@ const formattedDate = computed(() => {
   return props.date; // Si es un string, devolver tal cual
 });
 
-const sendAnswer = async() => {
+const notyf = new Notyf({
+  duration: 4000,
+  position: {
+    x: 'left',
+    y: 'top'
+  },
+  ripple: true,
+  dismissible: true
+})
 
+
+// values for the answer form
+const db = getFirestore();
+const titleAnswer = ref('');
+const commentAnswer = ref('');
+const sendAnswer = async () => {
+  console.log('user Uid,', sysVals().getUserUid);
+
+
+  const userAnswersCollection = collection(db, `condominios/${sysVals().getAdminDocId}/announcementsAnswers/`);
+  try {
+    await addDoc(userAnswersCollection, {
+      title: titleAnswer.value,
+      answer: commentAnswer.value,
+      creationDate:Timestamp.now(),
+      imgUrl:'',
+      associatedTo:props.announcementId,
+      senderId:sysVals().getUserUid,
+      senderName:ownerVals().getOwnerName
+    });
+    notyf.success('Respuesta enviada exitosamente');
+
+    titleAnswer.value = '';
+    commentAnswer.value = '';
+
+
+  } catch (error) {
+    notyf.error('Error al enviar la respuesta');
+    console.log(error);
+  }
 }
+import { api as viewerApi } from 'v-viewer'
+import { Notyf } from 'notyf';
+import { ownerVals } from '@/stores/ownerVals';
+  const images = [
+    props.img
+  ]
+  const show = () => {
+    viewerApi({
+      images
+    })
+  }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

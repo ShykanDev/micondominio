@@ -32,6 +32,7 @@
           <!-- Contenido de texto -->
           <div class="p-4 text-white md:w-1/2 lg:w-1/2">
             <h1 class="mb-4 text-3xl font-bold md:text-4xl">
+              <i class="mr-2 fas fa-building"></i>
               Historias y Gestión de Condominios
             </h1>
 

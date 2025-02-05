@@ -28,9 +28,53 @@
       <LoadingImage />
     </div>
     <!-- nota para el administrador diciendo que si agrega la imagen solo se visualizará una vez que se cree el anuncio -->
-    <small v-if="isEdition" class="text-sm text-gray-600"><i class="mr-2 fas fa-info-circle"></i>Nota: La imagen solo se
-      visualizará una vez que se publique el anuncio</small>
-    <button @click="deleteAnnouncement" class="p-1 my-2 text-white rounded-lg bg-rose-800">
+    <!-- <small v-if="isEdition" class="text-sm text-gray-600"><i class="mr-2 fas fa-info-circle"></i>Nota: La imagen solo se
+      visualizará una vez que se publique el anuncio</small> -->
+      <h3 v-if="!isEdition" class="pb-2 my-6 text-lg font-semibold text-gray-700 border-b font-poppins">
+    <i class="mr-2 text-blue-500 fas fa-comments"></i>
+    Respuestas de los propietarios
+</h3>
+
+<div v-if="!isEdition" class="space-y-4">
+    <div v-for="(response, index) in responses.sort((a, b) => b.creationDate - a.creationDate)" :key="index"
+         class="p-4 transition-shadow bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md">
+        <div class="flex items-start justify-between">
+            <div class="flex-1">
+                <!-- Header con título y fecha -->
+                <div class="flex items-center mb-2">
+                    <i class="mr-2 text-gray-500 fas fa-user-circle"></i>
+                    <h4 class="text-sm font-medium text-gray-800">{{ response.title }}</h4>
+                </div>
+
+                <!-- Contenido de la respuesta -->
+                <div class="pl-3 ml-4 border-l-2 border-blue-200">
+                    <p class="text-sm leading-relaxed text-gray-600">
+                        <i class="mr-2 text-blue-400 fas fa-comment-dots"></i>
+                        {{ response.answer }}
+                    </p>
+                </div>
+
+                <!-- Footer con metadatos -->
+                <div class="flex items-center mt-3 space-x-3 text-xs text-gray-500">
+                    <div>
+                        <i class="mr-1 text-gray-400 fas fa-user"></i>
+                        {{ response.senderName }}
+                    </div>
+                    <div>
+                        <i class="mr-1 text-gray-400 fas fa-clock"></i>
+                        {{ formatDate(response.creationDate) }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ícono decorativo -->
+            <div class="ml-4 text-blue-400">
+                <i class="text-lg fas fa-envelope-open-text"></i>
+            </div>
+        </div>
+    </div>
+</div>
+    <button v-if="!isEdition" @click="deleteAnnouncement" class="p-1 my-5 text-white rounded-lg bg-rose-800">
       <i class="mr-2 fas fa-trash"></i>
       Eliminar
     </button>
@@ -70,6 +114,10 @@ const props = defineProps({
   announcementId: {
     type: String,
     required: true
+  },
+  responses:{
+    type: Array,
+    required: true
   }
 })
 const formattedDate = computed(() => {
@@ -80,6 +128,13 @@ const formattedDate = computed(() => {
   }
   return props.date; // Si es un string, devolver tal cual
 });
+
+// function to format date based on timestamp not computed but with params
+const formatDate = (timestamp: any) => {
+  const date = timestamp.toDate();
+  return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+};
+
 
 const db = getFirestore();
 

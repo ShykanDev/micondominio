@@ -145,6 +145,87 @@
         <p class="text-gray-400">Designed by <span class="text-white">PACA</span></p>
       </div>
     </div>
+
+    <section class="p-6 rounded-lg shadow-xl bg-slate-800">
+  <h3 class="mb-6 text-2xl font-bold text-slate-100">Leyes de Condominio</h3>
+
+  <div class="space-y-3">
+    <!-- CDMX -->
+    <a
+      href="https://www.congresocdmx.gob.mx/archivos/transparencia/LEY_DE_PROPIEDAD_EN_CONDOMINIO_DE_INMUEBLES_PARA_EL_DISTRITO_FEDERAL.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-between p-4 transition-all border rounded-lg group bg-slate-700 hover:bg-slate-600 border-slate-600"
+    >
+      <div class="flex items-center space-x-4">
+        <i class="text-2xl text-blue-400 fas fa-file-pdf group-hover:text-blue-300"></i>
+        <span class="text-lg font-medium text-slate-100 group-hover:text-white">Ley de Condominio CDMX</span>
+      </div>
+      <i class="fas fa-chevron-right text-slate-400 group-hover:text-blue-300"></i>
+    </a>
+
+    <!-- Guadalajara -->
+    <a
+      href="https://admosfera.mx/LeydeCondominios.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-between p-4 transition-all border rounded-lg group bg-slate-700 hover:bg-slate-600 border-slate-600"
+    >
+      <div class="flex items-center space-x-4">
+        <i class="text-2xl text-blue-400 fas fa-file-contract group-hover:text-blue-300"></i>
+        <span class="text-lg font-medium text-slate-100 group-hover:text-white">Ley de Condominio Guadalajara</span>
+      </div>
+      <i class="fas fa-chevron-right text-slate-400 group-hover:text-blue-300"></i>
+    </a>
+
+    <!-- Monterrey -->
+    <a
+      href="http://hcnl.gob.mx/trabajo_legislativo/leyes/pdf/91.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="flex items-center justify-between p-4 transition-all border rounded-lg group bg-slate-700 hover:bg-slate-600 border-slate-600"
+    >
+      <div class="flex items-center space-x-4">
+        <i class="text-2xl text-blue-400 fas fa-file-signature group-hover:text-blue-300"></i>
+        <span class="text-lg font-medium text-slate-100 group-hover:text-white">Ley de Condominio Monterrey</span>
+      </div>
+      <i class="fas fa-chevron-right text-slate-400 group-hover:text-blue-300"></i>
+    </a>
+  </div>
+</section>
+<section class="p-5 mt-6 border rounded-lg bg-slate-700 border-slate-600">
+  <div class="flex items-start space-x-4">
+    <!-- Icono de advertencia -->
+    <i class="mt-1 text-xl text-yellow-400 fas fa-exclamation-triangle"></i>
+
+    <div class="flex-1">
+      <p class="text-sm leading-relaxed text-slate-200">
+        <strong class="font-medium">Aviso Legal:</strong> La información proporcionada en este sitio
+        <span class="inline-block">
+          <i class="mx-1 text-xs fas fa-external-link-alt text-slate-400"></i>
+        </span>
+        es de carácter meramente informativo y recopilada de fuentes públicas disponibles en internet.
+        No nos responsabilizamos por la exactitud, actualidad o integridad de los contenidos en sitios
+        externos. Los enlaces a terceros están sujetos a sus propias políticas de privacidad y términos
+        de uso. Recomendamos verificar siempre la información directamente con las fuentes oficiales
+        correspondientes.
+      </p>
+
+      <!-- Enlace a políticas -->
+      <div class="flex items-center mt-3 space-x-2">
+        <i class="text-sm fas fa-balance-scale text-slate-400"></i>
+        <a
+          href="/terms"
+          class="text-sm text-blue-300 transition-colors hover:text-blue-200"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Consulta nuestros términos completos de uso
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
   </footer>
 </template>
 
