@@ -454,6 +454,7 @@ console.log('Código de invitación:', codigoInvitacion);
 onMounted(() => {
   invId.value = String(codigoInvitacion);
   type.value = String(tipoCuenta);
+  hasInvId.value = Boolean(codigoInvitacion);
 })
 </script>
 
