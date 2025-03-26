@@ -2,8 +2,8 @@
   <MainLayout>
     <template #main>
       <div v-if="showPopUpRenCode"
-        class="fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fade animate-duration-500">
-        <div class="w-full max-w-sm p-6 bg-white rounded-lg shadow-md font-poppins animate-jump">
+        class="flex fixed top-0 right-0 bottom-0 left-0 z-50 justify-center items-center bg-black bg-opacity-50 animate-fade animate-duration-500">
+        <div class="p-6 w-full max-w-sm bg-white rounded-lg shadow-md font-poppins animate-jump">
           <h2 class="mb-4 text-xl font-semibold text-gray-800">¿Desea regenerar el código?</h2>
           <div class="flex items-center mb-4">
             <i class="text-4xl text-yellow-500 fas fa-exclamation-triangle"></i>
@@ -13,11 +13,11 @@
           </div>
           <div class="flex justify-between">
             <button @click="handleShowPopupRenCode"
-              class="px-4 py-2 text-white rounded bg-sky-800 hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-opacity-50">
+              class="px-4 py-2 text-white bg-sky-800 rounded hover:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-opacity-50">
               Cancelar
             </button>
             <button @click="handleRegenCodeV2"
-              class="px-4 py-2 text-white rounded bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
+              class="px-4 py-2 text-white bg-rose-500 rounded hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-opacity-50">
               <i class="mr-2 fas fa-sync"></i>Regenerar
             </button>
           </div>
@@ -32,53 +32,59 @@
           </div>
           <nav class="mt-4 text-base font-poppins">
             <ul>
-              <li class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
+                <a href="#" class="flex items-center">
+                  <i class="mr-3 fas fa-plus"></i>
+                  Agregar Pago de Mantenimiento
+                </a>
+              </li>
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-plus"></i>
                   Nueva Encuesta
                 </a>
               </li>
-              <li class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(AnnouncementComponent)">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(AnnouncementComponent)">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-bell"></i>
                   Nuevo Anuncio
                 </a>
               </li>
-              <li @click="changeComponent(CommentsComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(CommentsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-comment"></i>
                   Comentarios
                 </a>
               </li>
-              <li @click="changeComponent(SurveysComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(SurveysComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-poll"></i>
                   Encuestas
                 </a>
               </li>
-              <li @click="changeComponent(AnnouncementsComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(AnnouncementsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-bullhorn"></i>
                   Anuncios
                 </a>
               </li>
-              <li @click="changeComponent(UsersComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(UsersComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-users"></i>
                   Usuarios
                 </a>
               </li>
-              <li @click="changeComponent(ReportsComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(ReportsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-exclamation"></i>
                   Reportes/Quejas
                 </a>
               </li>
-              <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <i class="mr-3 fas fa-home"></i>
                 Volver al Inicio
               </RouterLink>
-              <p @click="handleLogout" class="flex items-center p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <p @click="handleLogout" class="flex items-center p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <i class="mr-3 fas fa-sign-out-alt"></i>
                 Cerrar Sesión
               </p>
@@ -88,10 +94,10 @@
                   Código de Invitación:
                 </span>
                 <div>
-                  <small class="text-xs italic "><i class="mr-3 fas fa-info"></i>Comparta este QR con sus propietarios para que puedan escanear el QR para
+                  <small class="text-xs italic"><i class="mr-3 fas fa-info"></i>Comparta este QR con sus propietarios para que puedan escanear el QR para
                     acceder a su organización.</small>
                 </div>
-                <div class="flex items-center justify-center p-1 bg-white">
+                <div class="flex justify-center items-center p-1 bg-white">
                   <QrCode :value="qrVals().getLink" class="w-64 h-64"></QrCode>
                 </div>
                 <div class="flex flex-wrap justify-center my-2 font-poppins">
@@ -99,16 +105,16 @@
                     }}</span>
                   <button @click="handleCopy" class="p-1 ml-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">Copiar Código</button>
                 </div>
-                <small class="text-xs italic "><i class="mr-3 fas fa-share"></i>Comparta este código con
+                <small class="text-xs italic"><i class="mr-3 fas fa-share"></i>Comparta este código con
                   sus propietarios para que puedan acceder a su organización.</small>
               </li>
-              <li class="p-4 transition-colors duration-100 ease-in hover:bg-white hover:text-sky-950 hover:border-[1px] hover:border-sky-950 ">
+              <li class="p-4 transition-colors duration-100 ease-in hover:bg-white hover:text-sky-950  hover:border-[1px] hover:border-sky-950 ">
                 <span class="flex items-center font-poppins selection:bg-red-500">
                   Regenerar Código de Invitación:
                 </span>
                 <div class="flex flex-wrap justify-center my-2">
                   <button @click="handleShowPopupRenCode"
-                    class="flex items-center p-1 ml-2 space-x-1 bg-white border-2 rounded-lg text-sky-700 font-poppins hover:bg-sky-800 hover:text-white border-sky-700">
+                    class="flex items-center p-1 ml-2 space-x-1 text-sky-700 bg-white rounded-lg border-2 border-sky-700 font-poppins hover:bg-sky-800 hover:text-white">
 
                     Regenerar
                     <i class="ml-1 fas fa-sync hover:animate-spin"></i>
@@ -116,7 +122,7 @@
                   </button>
                 </div>
 
-                <small class="text-xs italic "><i class="mr-3 fas fa-info"></i>Regenerar el código
+                <small class="text-xs italic"><i class="mr-3 fas fa-info"></i>Regenerar el código
                   necesitará que usted comparta nuevamente su código de invitación con todos sus propietarios, el código
                   anterior dejará de funcionar y sus propietarios no podrán acceder usando el anterior código. </small>
               </li>
@@ -133,9 +139,9 @@
               <i class="fas fa-bars"></i>
             </button>
           </div>
-          <h1 class="mb-6 text-3xl font-semibold text-center font-poppins text-sky-700">Panel de Administración</h1>
+          <h1 class="mb-6 text-3xl font-semibold text-center text-sky-700 font-poppins">Panel de Administración</h1>
           <div v-if="sysVals().getIsLoadingComponent"
-            class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white/30">
+            class="flex fixed top-0 right-0 bottom-0 left-0 justify-center items-center bg-white/30">
             <LoadingDatabase></LoadingDatabase>
           </div>
           <div v-if="!sysVals().getIsLoadingComponent" class="">
@@ -337,57 +343,57 @@ const handleLogout = async() => {
           </div>
           <nav class="mt-4 text-base font-poppins">
             <ul>
-              <li class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-plus"></i>
                   Nueva Encuesta
                 </a>
               </li>
-              <li class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(AnnouncementComponent)">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(AnnouncementComponent)">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-bell"></i>
                   Nuevo Anuncio
                 </a>
               </li>
-              <li @click="changeComponent(CommentsComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(CommentsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-comment"></i>
                   Comentarios
                 </a>
               </li>
-              <li @click="changeComponent(SurveysComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(SurveysComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-poll"></i>
                   Encuestas
                 </a>
               </li>
-              <li @click="changeComponent(AnnouncementsComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(AnnouncementsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-bullhorn"></i>
                   Anuncios
                 </a>
               </li>
-              <li @click="changeComponent(UsersComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(UsersComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-users"></i>
                   Usuarios
                 </a>
               </li>
-              <li @click="changeComponent(ReportsComponent)" class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li @click="changeComponent(ReportsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-exclamation"></i>
                   Reportes/Quejas
                 </a>
               </li>
-              <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <i class="mr-3 fas fa-home"></i>
                 Volver al Inicio
               </RouterLink>
-              <p @click="handleLogout" class="flex items-center p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <p @click="handleLogout" class="flex items-center p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <i class="mr-3 fas fa-sign-out-alt"></i>
                 Cerrar Sesión
               </p>
-              <li class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <span class="flex items-center selection:bg-red-500">
                   <i class="mr-3 fas fa-code"></i>
                   Código de Invitación:
@@ -396,7 +402,7 @@ const handleLogout = async() => {
                   <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-info"></i>Comparta este QR con sus propietarios para que puedan escanear el QR para
                     acceder a su organización.</small>
                 </div>
-                <div class="flex items-center justify-center p-1 bg-white">
+                <div class="flex justify-center items-center p-1 bg-white">
                   <QrCode :value="qrVals().getLink" class="w-64 h-64"></QrCode>
                 </div>
                 <div class="flex flex-wrap justify-center my-2 font-poppins">
@@ -407,13 +413,13 @@ const handleLogout = async() => {
                 <small class="text-xs italic text-slate-300"><i class="mr-3 fas fa-share"></i>Comparta este código con
                   sus propietarios para que puedan acceder a su organización.</small>
               </li>
-              <li class="p-4 transition-colors duration-100 ease-out hover:bg-gray-300 hover:text-sky-950">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <span class="flex items-center font-poppins selection:bg-red-500">
                   Regenerar Código de Invitación:
                 </span>
                 <div class="flex flex-wrap justify-center my-2">
                   <button @click="handleShowPopupRenCode"
-                    class="flex items-center p-1 ml-2 space-x-1 bg-white rounded-lg text-sky-700 font-poppins">
+                    class="flex items-center p-1 ml-2 space-x-1 text-sky-700 bg-white rounded-lg font-poppins">
 
                     Regenerar
                     <i class="ml-1 fas fa-sync"></i>
@@ -438,9 +444,9 @@ const handleLogout = async() => {
               <i class="fas fa-bars"></i>
             </button>
           </div>
-          <h1 class="mb-6 text-3xl font-semibold text-center font-poppins text-sky-700">Panel de Administración</h1>
+          <h1 class="mb-6 text-3xl font-semibold text-center text-sky-700 font-poppins">Panel de Administración</h1>
           <div v-if="sysVals().getIsLoadingComponent"
-            class="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-white/30">
+            class="flex fixed top-0 right-0 bottom-0 left-0 justify-center items-center bg-white/30">
             <LoadingDatabase></LoadingDatabase>
           </div>
           <div v-if="!sysVals().getIsLoadingComponent" class="">

@@ -3,27 +3,27 @@
     <MainLayout>
       <template #main>
         <section
-          class="relative z-10 flex flex-col items-center justify-center min-h-screen bg-center bg-cover font-poppins lg:flex-row lg:items-start"
+          class="flex relative z-10 flex-col justify-center items-center min-h-[800px] bg-center bg-cover font-poppins lg:flex-row lg:items-start"
           style="background-image: url('https://images.unsplash.com/photo-1554902843-260acd0993f8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-          <section class="absolute top-0 left-0 w-full h-full bg-black opacity-50 -z-10"></section>
+          <section class="absolute top-0 left-0 w-full h-full bg-black opacity-50 -z-10  max-h-[800px]"></section>
 
           <!-- Contenedor de imágenes -->
           <!-- <div class="flex"> -->
-          <div class="grid grid-cols-2 gap-4 p-4 md:w-1/2 lg:grid-cols-2 ">
-            <img alt="I 1" class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+          <div class="grid grid-cols-2 gap-4 p-4 md:w-1/2 lg:grid-cols-2">
+            <img alt="I 1" class="mx-auto w-full max-w-md rounded-3xl border-2 border-white"
               src="https://images.pexels.com/photos/4240571/pexels-photo-4240571.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
-            <img alt="I 2" class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+            <img alt="I 2" class="mx-auto w-full max-w-md rounded-3xl border-2 border-white"
               src="https://images.pexels.com/photos/416405/pexels-photo-416405.jpeg?auto=compress&cs=tinysrgb&w=600" />
-            <img alt="I 3" class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+            <img alt="I 3" class="mx-auto w-full max-w-md rounded-3xl border-2 border-white"
               src="https://images.pexels.com/photos/7433832/pexels-photo-7433832.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" />
-            <img alt="I 4" class="w-full max-w-md mx-auto border-2 border-white rounded-3xl"
+            <img alt="I 4" class="mx-auto w-full max-w-md rounded-3xl border-2 border-white"
               src="https://images.pexels.com/photos/7433825/pexels-photo-7433825.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" />
             <div v-if="!sysVals().getIsUserAuth"
-              class="flex justify-between w-full col-span-2 space-x-4 md:col-span-2 mt-9">
-              <RouterLink :to="{ name: 'login' }" class="px-4 py-2 text-xl text-white rounded bg-sky-800">
+              class="flex col-span-2 justify-between mt-9 space-x-4 w-full md:col-span-2">
+              <RouterLink :to="{ name: 'login' }" class="px-4 py-2 text-xl text-white bg-sky-800 rounded">
                 Iniciar Sesión
               </RouterLink>
-              <RouterLink :to="{ name: 'register' }" class="px-4 py-2 text-xl bg-white rounded text-sky-800">
+              <RouterLink :to="{ name: 'register' }" class="px-4 py-2 text-xl text-sky-800 bg-white rounded">
                 Registrarse
               </RouterLink>
             </div>
@@ -70,7 +70,7 @@
 
         <section class="container px-4 py-2 mx-auto font-poppins">
           <div class="grid grid-cols-1 gap-6 p-4 px-2 my-4 md:grid-cols-3 font-poppins">
-            <div class="p-4 bg-white border border-red-800 rounded-lg shadow-md card">
+            <div class="p-4 bg-white rounded-lg border border-red-800 shadow-md card">
               <h3 class="text-xl font-semibold text-red-800">Conocer Experiencias Similares</h3>
               <hr class="my-2">
               <p class="text-sm">Aquí puedes leer lo que otros usuarios han experimentado con sus administradores de
@@ -85,10 +85,10 @@
               </ul>
               <img
                 src="https://images.pexels.com/photos/1647919/pexels-photo-1647919.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Imagen ejemplo" class="mt-4 rounded-lg ">
+                alt="Imagen ejemplo" class="mt-4 rounded-lg">
             </div>
 
-            <div class="p-4 bg-white border rounded-lg shadow-md border-sky-800 card">
+            <div class="p-4 bg-white rounded-lg border border-sky-800 shadow-md card">
               <h3 class="text-xl font-semibold text-sky-800">Compartir Experiencias Propias</h3>
               <hr class="my-2">
               <p class="text-sm">Comparte lo que has vivido con tu administrador de edificio o condominio. Tus
@@ -102,10 +102,10 @@
               </ul>
               <img
                 src="https://images.pexels.com/photos/1181619/pexels-photo-1181619.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Imagen ejemplo" class="w-full mt-4 rounded-lg">
+                alt="Imagen ejemplo" class="mt-4 w-full rounded-lg">
             </div>
 
-            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800 card">
+            <div class="p-4 bg-white rounded-lg border border-emerald-800 shadow-md card">
               <h3 class="text-xl font-semibold text-emerald-800">Comentar las Administraciones</h3>
               <hr class="my-2">
               <p class="text-sm">En esta sección puedes leer sobre las vivencias de otros con sus administradores. Aquí
@@ -119,7 +119,7 @@
               </ul>
               <img
                 src="https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=600"
-                alt="Imagen ejemplo" class="w-full mt-4 rounded-lg">
+                alt="Imagen ejemplo" class="mt-4 w-full rounded-lg">
             </div>
           </div>
         </section>
@@ -144,7 +144,7 @@
           <!-- Tarjetas de administradores -->
           <div class="grid grid-cols-1 gap-6 py-3 md:grid-cols-3 font-poppins">
             <!-- Card 1 -->
-            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800">
+            <div class="p-4 bg-white rounded-lg border border-emerald-800 shadow-md">
               <h3 class="mb-2 text-xl font-semibold text-emerald-800">Compromiso con la Comunidad</h3>
               <hr class="mb-4 border-t-2 border-gray-300">
               <ul class="pl-5 space-y-2 list-disc">
@@ -155,13 +155,13 @@
                 <li>Fomentamos un ambiente de respeto mutuo entre todos los residentes.</li>
                 <li>Nos aseguramos de que las áreas comunes estén siempre en condiciones óptimas.</li>
               </ul>
-              <img class="w-full mt-4 rounded-lg"
+              <img class="mt-4 w-full rounded-lg"
                 src="https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Imagen de comunidad">
             </div>
 
             <!-- Card 2 -->
-            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800">
+            <div class="p-4 bg-white rounded-lg border border-emerald-800 shadow-md">
               <h3 class="mb-2 text-xl font-semibold text-emerald-800">Experiencias Positivas con el Mantenimiento</h3>
               <hr class="mb-4 border-t-2 border-gray-300">
               <ul class="pl-5 space-y-2 list-disc">
@@ -171,13 +171,13 @@
                 <li>Nos aseguramos de que las instalaciones sean seguras para todos los residentes.</li>
                 <li>Nos comprometemos a realizar mejoras continuas basadas en las necesidades de la comunidad.</li>
               </ul>
-              <img class="w-full mt-4 rounded-lg"
+              <img class="mt-4 w-full rounded-lg"
                 src="https://images.pexels.com/photos/3184395/pexels-photo-3184395.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Imagen de mantenimiento">
             </div>
 
             <!-- Card 3 -->
-            <div class="p-4 bg-white border rounded-lg shadow-md border-emerald-800">
+            <div class="p-4 bg-white rounded-lg border border-emerald-800 shadow-md">
               <h3 class="mb-2 text-xl font-semibold text-emerald-800">La Atención al Inquilino es Nuestra Prioridad</h3>
               <hr class="mb-4 border-t-2 border-gray-300">
               <ul class="pl-5 space-y-2 list-disc">
@@ -187,7 +187,7 @@
                 <li>Nos adaptamos a las necesidades individuales para ofrecer un mejor servicio.</li>
                 <li>Estamos comprometidos en crear un ambiente armónico donde todos puedan sentirse cómodos.</li>
               </ul>
-              <img class="w-full mt-4 rounded-lg"
+              <img class="mt-4 w-full rounded-lg"
                 src="https://images.pexels.com/photos/3184300/pexels-photo-3184300.jpeg?auto=compress&cs=tinysrgb&w=600"
                 alt="Imagen de atención">
 
@@ -212,9 +212,9 @@
         <section class="py-12 bg-gray-100 font-poppins">
           <div class="container px-6 mx-auto">
             <!-- Título y Resumen -->
-            <div class="flex items-center justify-between space-x-6">
+            <div class="flex justify-between items-center space-x-6">
               <!-- Left Section -->
-              <div class="flex flex-col items-center w-full md:w-2/3 ">
+              <div class="flex flex-col items-center w-full md:w-2/3">
                 <h2 class="mb-4 text-3xl font-semibold text-emerald-800">Gestiona Mejor tus Inquilinos/Propietarios</h2>
                 <p class="mb-6 text-lg">
                   ¿Deseas tener un mejor control y gestionar de forma más eficiente tus inquilinos/propietarios? Aquí
@@ -227,7 +227,7 @@
               </div>
 
               <!-- Right Section (Puntos Clave) -->
-              <div class="flex flex-col items-center w-full p-6 bg-white rounded-lg shadow-md md:w-1/3">
+              <div class="flex flex-col items-center p-6 w-full bg-white rounded-lg shadow-md md:w-1/3">
                 <h3 class="mb-4 text-2xl font-semibold text-emerald-800">Beneficios de Gestionar desde Aquí</h3>
                 <ul class="pl-5 space-y-3 text-lg list-disc">
                   <li>Poder dar anuncios fácilmente a todos los inquilinos/propietarios.</li>
@@ -241,7 +241,7 @@
 
             <!-- Llamado a la acción -->
             <div class="mt-12 text-center">
-              <RouterLink class="px-4 py-2 text-xl text-white rounded bg-sky-800" :to="{ name: 'register' }">Registrarse
+              <RouterLink class="px-4 py-2 text-xl text-white bg-sky-800 rounded" :to="{ name: 'register' }">Registrarse
                 Ahora</RouterLink>
             </div>
           </div>
@@ -249,9 +249,9 @@
         <section class="py-12 bg-gray-100 font-poppins">
           <div class="container px-6 mx-auto">
             <!-- Título y Resumen -->
-            <div class="flex flex-wrap items-center justify-between space-x-6 md:flex-nowrap">
+            <div class="flex flex-wrap justify-between items-center space-x-6 md:flex-nowrap">
               <!-- Right Section (Puntos Clave) -->
-              <div class="w-full p-6 bg-white border rounded-lg shadow-md md:w-1/3 border-sky-800">
+              <div class="p-6 w-full bg-white rounded-lg border border-sky-800 shadow-md md:w-1/3">
                 <h3 class="mb-4 text-2xl font-semibold text-sky-800">Gestiona de Forma Más Fácil desde Tu Móvil</h3>
                 <ul class="pl-5 space-y-3 text-lg list-disc">
                   <li>Accede a todos los anuncios de tus inquilinos desde cualquier lugar.</li>
@@ -360,7 +360,7 @@
         <section class="container px-4 py-8 mx-auto font-poppins">
           <div class="flex flex-col justify-between sm:flex-row">
             <!-- Div 1: Título, Resumen y Lista -->
-            <div class="flex flex-col items-center justify-center w-full mb-6 sm:w-1/2 sm:mb-0">
+            <div class="flex flex-col justify-center items-center mb-6 w-full sm:w-1/2 sm:mb-0">
               <h2 class="mb-4 text-2xl font-semibold text-rose-800">Elige la versión que más te convenga</h2>
               <h3 class="mb-4 text-lg">Con nuestra plataforma, puedes elegir entre la versión web o la aplicación móvil.
                 Ambos son multiplataforma y tus datos se sincronizan automáticamente.</h3>
@@ -375,41 +375,41 @@
             </div>
 
             <!-- Div 2: Tarjetas -->
-            <div class="grid w-full grid-cols-1 gap-6 sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="grid grid-cols-1 gap-6 w-full sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3">
               <!-- Beneficios del Administrador -->
               <!-- Card 1 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+              <div class="p-4 text-center bg-white rounded-lg border border-rose-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-rose-700">Dar anuncios</h4>
                 <p class="text-sm">Permite al administrador comunicar información importante a todos los propietarios de
                   manera eficiente.</p>
               </div>
               <!-- Card 2 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+              <div class="p-4 text-center bg-white rounded-lg border border-rose-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-rose-700">Crear encuestas</h4>
                 <p class="text-sm">Facilita la toma de decisiones mediante encuestas rápidas y efectivas para los
                   propietarios.</p>
               </div>
               <!-- Card 3 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+              <div class="p-4 text-center bg-white rounded-lg border border-rose-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-rose-700">Ver comentarios</h4>
                 <p class="text-sm">Accede a los comentarios de los propietarios para estar al tanto de sus opiniones y
                   sugerencias.</p>
               </div>
               <!-- Beneficios del Propietario -->
               <!-- Card 4 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+              <div class="p-4 text-center bg-white rounded-lg border border-rose-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-rose-700">Votar en encuestas</h4>
                 <p class="text-sm">Participa en las decisiones del condominio mediante el voto en encuestas creadas por
                   el administrador.</p>
               </div>
               <!-- Card 5 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+              <div class="p-4 text-center bg-white rounded-lg border border-rose-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-rose-700">Ver anuncios</h4>
                 <p class="text-sm">Mantente informado sobre las actualizaciones y noticias importantes del condominio.
                 </p>
               </div>
               <!-- Card 6 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-rose-700">
+              <div class="p-4 text-center bg-white rounded-lg border border-rose-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-rose-700">Reportar fallas</h4>
                 <p class="text-sm">Informa rápidamente al administrador sobre problemas o fallas en el condominio.</p>
               </div>
@@ -418,41 +418,41 @@
           </div>
         </section>
         <section class="container px-4 py-8 mx-auto font-poppins">
-          <div class="flex flex-col justify-between sm:flex-row ">
+          <div class="flex flex-col justify-between sm:flex-row">
             <!-- Div 1: Tarjetas -->
-            <div class="grid w-full grid-cols-1 gap-6 mb-6 sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3 sm:mb-0">
+            <div class="grid grid-cols-1 gap-6 mb-6 w-full sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3 sm:mb-0">
               <!-- Card 1 -->
-              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+              <div class="p-4 text-center bg-white rounded-lg border border-orange-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-orange-700">Gestión en Movimiento</h4>
                 <p class="text-sm">Con la app móvil, puedes realizar tareas clave como registrar pagos, revisar reportes
                   o asignar tareas mientras te desplazas.</p>
               </div>
               <!-- Card 2 -->
-              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+              <div class="p-4 text-center bg-white rounded-lg border border-orange-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-orange-700 break-all">Notificaciones Instantáneas</h4>
                 <p class="text-sm">Recibe alertas en tiempo real sobre actividades importantes, como avisos de pago o
                   cambios en el calendario de eventos del condominio.</p>
               </div>
               <!-- Card 3 -->
-              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+              <div class="p-4 text-center bg-white rounded-lg border border-orange-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-orange-700">Diseño Intuitivo</h4>
                 <p class="text-sm">La interfaz móvil está diseñada para ser fácil de usar, permitiéndote acceder
                   rápidamente a las funciones que necesitas sin complicaciones.</p>
               </div>
               <!-- Card 4 -->
-              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+              <div class="p-4 text-center bg-white rounded-lg border border-orange-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-orange-700">Soporte en Todo Momento</h4>
                 <p class="text-sm">Nuestro equipo de soporte está disponible a través de la app para resolver cualquier
                   problema que enfrentes en minutos.</p>
               </div>
               <!-- Card 5 -->
-              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+              <div class="p-4 text-center bg-white rounded-lg border border-orange-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-orange-700 break-all">Sincronización Automática</h4>
                 <p class="text-sm">Todo lo que hagas en la app móvil se sincroniza al instante con la plataforma web,
                   asegurando que no pierdas información.</p>
               </div>
               <!-- Card 6 -->
-              <div class="p-4 text-center bg-white border border-orange-700 rounded-lg shadow-lg">
+              <div class="p-4 text-center bg-white rounded-lg border border-orange-700 shadow-lg">
                 <h4 class="mb-2 text-xl font-semibold text-orange-700">Acceso Seguro</h4>
                 <p class="text-sm">La aplicación está protegida con cifrado avanzado, garantizando que tus datos
                   personales y los del condominio estén seguros.</p>
@@ -460,7 +460,7 @@
             </div>
 
             <!-- Div 2: Título, Resumen y Lista -->
-            <div class="flex flex-col items-center justify-center w-full sm:w-1/2">
+            <div class="flex flex-col justify-center items-center w-full sm:w-1/2">
               <h2 class="mb-4 text-2xl font-semibold text-orange-700">Disfruta de los beneficios de la app móvil</h2>
               <h3 class="px-3 mb-4 text-center">Nuestra aplicación para dispositivos móviles está diseñada para
                 brindarte comodidad, rapidez y control en la gestión de tu condominio, sin importar dónde estés.</h3>
@@ -479,8 +479,8 @@
         <section class="container px-4 py-8 mx-auto font-poppins">
           <div class="flex flex-col justify-between sm:flex-row">
             <!-- Div 1: Título, Resumen y Lista -->
-            <div class="flex flex-col items-center w-full mb-6 justify-evenly sm:w-1/2 sm:mb-0">
-              <h2 class="mb-4 text-2xl font-semibold break-all text-emerald-700">Elige la versión que más te convenga
+            <div class="flex flex-col justify-evenly items-center mb-6 w-full sm:w-1/2 sm:mb-0">
+              <h2 class="mb-4 text-2xl font-semibold text-emerald-700 break-all">Elige la versión que más te convenga
               </h2>
               <h3 class="mb-4 text-lg">Con nuestra plataforma, puedes elegir entre la versión web o la aplicación móvil.
                 Ambos son multiplataforma y tus datos se sincronizan automáticamente.</h3>
@@ -495,44 +495,44 @@
             </div>
 
             <!-- Div 2: Tarjetas -->
-            <div class="grid w-full grid-cols-1 gap-6 sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="grid grid-cols-1 gap-6 w-full sm:w-1/2 sm:grid-cols-2 lg:grid-cols-3">
               <!-- Card 1 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
-                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Control Total de tu Condominio</h4>
+              <div class="p-4 text-center bg-white rounded-lg border border-emerald-700 shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-emerald-700 break-all">Control Total de tu Condominio</h4>
                 <p class="text-sm">Gestiona todos los aspectos de tu condominio desde cualquier dispositivo. Con nuestra
                   plataforma podrás administrar las tareas de mantenimiento, pago de servicios y más, sin importar donde
                   te encuentres.</p>
               </div>
               <!-- Card 2 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
-                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Acceso Multiplataforma</h4>
+              <div class="p-4 text-center bg-white rounded-lg border border-emerald-700 shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-emerald-700 break-all">Acceso Multiplataforma</h4>
                 <p class="text-sm">Accede a todas las funcionalidades de la plataforma desde cualquier dispositivo: ya
                   sea desde tu computador, teléfono móvil o tablet. Sincronización automática de datos en todos tus
                   dispositivos.</p>
               </div>
               <!-- Card 3 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
-                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700 ">Actualizaciones Constantes</h4>
+              <div class="p-4 text-center bg-white rounded-lg border border-emerald-700 shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-emerald-700 break-all">Actualizaciones Constantes</h4>
                 <p class="text-sm">Nuestra plataforma está en constante mejora, ofreciéndote nuevas características y
                   optimizaciones, garantizando una experiencia más fluida y eficiente para la gestión de tu condominio.
                 </p>
               </div>
               <!-- Card 4 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
-                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Gestión de Empleados Simplificada</h4>
+              <div class="p-4 text-center bg-white rounded-lg border border-emerald-700 shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-emerald-700 break-all">Gestión de Empleados Simplificada</h4>
                 <p class="text-sm">Lleva un control detallado de tus empleados, asigna tareas, revisa reportes y
                   gestiona horarios. Con nuestras herramientas, administrar tu equipo será más fácil que nunca.</p>
               </div>
               <!-- Card 5 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
-                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Seguridad Avanzada</h4>
+              <div class="p-4 text-center bg-white rounded-lg border border-emerald-700 shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-emerald-700 break-all">Seguridad Avanzada</h4>
                 <p class="text-sm">Tu información está protegida con el más alto nivel de seguridad. Nuestra plataforma
                   cumple con las normas de seguridad más estrictas para garantizar que tus datos estén siempre a salvo.
                 </p>
               </div>
               <!-- Card 6 -->
-              <div class="p-4 text-center bg-white border rounded-lg shadow-lg border-emerald-700">
-                <h4 class="mb-2 text-xl font-semibold break-all text-emerald-700">Soporte al Cliente Rápido</h4>
+              <div class="p-4 text-center bg-white rounded-lg border border-emerald-700 shadow-lg">
+                <h4 class="mb-2 text-xl font-semibold text-emerald-700 break-all">Soporte al Cliente Rápido</h4>
                 <p class="text-sm">En todo momento, podrás contar con nuestro equipo de soporte para resolver cualquier
                   duda o inconveniente que tengas. Estamos aquí para ayudarte a gestionar tu condominio sin estrés.</p>
               </div>
@@ -546,13 +546,13 @@
             :summary="news.summary" :imgUrl="news.img" :source="news.source" />
         </section>
 
-        <div class="relative w-full p-6 mx-auto my-4 bg-white border-2 border-gray-300 rounded-lg px">
-   <div class="absolute px-4 font-bold text-white transform -translate-x-1/2 bg-slate-800 -top-4 left-1/2">
+        <div class="relative p-6 mx-auto my-4 w-full bg-white rounded-lg border-2 border-gray-300 px">
+   <div class="absolute -top-4 left-1/2 px-4 font-bold text-white transform -translate-x-1/2 bg-slate-800">
     Publicidad
    </div>
    <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
-    <a class="block p-4 transition-shadow duration-300 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-lg" href="https://miarrendatario.com">
-     <img alt="Imagen representativa de MiArrendatario.com mostrando una casa en alquiler" class="object-cover w-full h-40 mb-4 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/yP6hS9CfBfrgokW2rHb78uJduxDq3I2e6N00u91AAwf32yhQB.jpg" width="300"/>
+    <a class="block p-4 bg-gray-50 rounded-lg border border-gray-200 transition-shadow duration-300 hover:shadow-lg" href="https://miarrendatario.com">
+     <img alt="Imagen representativa de MiArrendatario.com mostrando una casa en alquiler" class="object-cover mb-4 w-full h-40 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/yP6hS9CfBfrgokW2rHb78uJduxDq3I2e6N00u91AAwf32yhQB.jpg" width="300"/>
      <h2 class="mb-2 text-xl font-bold text-rose-800">
       MiArrendatario.com
      </h2>
@@ -560,8 +560,8 @@
       Busca, explore y conozca todas las experiencias al rentar un mueble. Sea arrendador o arrendatario, podrá saber cómo ha sido el inquilino o dueño a base de experiencias de terceros.
      </p>
     </a>
-    <a class="block p-4 transition-shadow duration-300 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-lg" href="https://oficiomaestro.com">
-     <img alt="Imagen representativa de MaestroOficio.com mostrando herramientas de trabajo" class="object-cover w-full h-40 mb-4 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/lEHYUZ72E0rFNp5eAMNkKw1z3MfQUSi3YMkc1tvojPRutcIUA.jpg" width="300"/>
+    <a class="block p-4 bg-gray-50 rounded-lg border border-gray-200 transition-shadow duration-300 hover:shadow-lg" href="https://oficiomaestro.com">
+     <img alt="Imagen representativa de MaestroOficio.com mostrando herramientas de trabajo" class="object-cover mb-4 w-full h-40 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/lEHYUZ72E0rFNp5eAMNkKw1z3MfQUSi3YMkc1tvojPRutcIUA.jpg" width="300"/>
      <h2 class="mb-2 text-xl font-bold text-rose-800">
       MaestroOficio.com
      </h2>
@@ -569,8 +569,8 @@
       Oficios, profesiones y maestros. Conozca por experiencias de terceros, recomendaciones, advertencias, sugerencias y más acerca de las personas o empresas que ofrecen sus trabajos y servicios de algún oficio o profesión.
      </p>
     </a>
-    <a class="block p-4 transition-shadow duration-300 border border-gray-200 rounded-lg bg-gray-50 hover:shadow-lg" href="https://misreclamos.com">
-     <img alt="Imagen representativa de MisReclamos.com mostrando una persona escribiendo una queja" class="object-cover w-full h-40 mb-4 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/L1VyeutPjBWhYiZME011VBAHSPeNP2DugKs9JN6nQmswtcIUA.jpg" width="300"/>
+    <a class="block p-4 bg-gray-50 rounded-lg border border-gray-200 transition-shadow duration-300 hover:shadow-lg" href="https://misreclamos.com">
+     <img alt="Imagen representativa de MisReclamos.com mostrando una persona escribiendo una queja" class="object-cover mb-4 w-full h-40 rounded-lg lg:h-60" height="200" src="https://storage.googleapis.com/a1aa/image/L1VyeutPjBWhYiZME011VBAHSPeNP2DugKs9JN6nQmswtcIUA.jpg" width="300"/>
      <h2 class="mb-2 text-xl font-bold text-rose-800">
       MisReclamos.com
      </h2>

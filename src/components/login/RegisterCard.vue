@@ -1,14 +1,14 @@
 <template>
-  <section class="font-roboto font-poppins ">
+  <section class="font-roboto font-poppins">
     <section v-if="loadingAnimation"
-      class="fixed top-0 bottom-0 left-0 right-0 z-40 flex flex-col items-center justify-center transition-opacity duration-500 ease-in-out bg-white bg-opacity-100 animate-fade">
-      <p class="text-2xl font-semibold text-sky-800 font-poppins ">Creando Cuenta <span
+      class="flex fixed top-0 right-0 bottom-0 left-0 z-40 flex-col justify-center items-center bg-white bg-opacity-100 transition-opacity duration-500 ease-in-out animate-fade">
+      <p class="text-2xl font-semibold text-sky-800 font-poppins">Creando Cuenta <span
           class="animate-pulse animate-delay-0">.</span> <span class="animate-pulse animate-delay-300">.</span> <span
           class="animate-pulse animate-delay-400">.</span></p>
       <!-- /* From Uiverse.io by TamaniPhiri */  -->
-      <div class="flex flex-col items-center justify-center w-full gap-4">
+      <div class="flex flex-col gap-4 justify-center items-center w-full">
         <div
-          class="flex items-center justify-center text-4xl text-blue-400 border-8 border-gray-300 rounded-full w-28 h-28 animate-spin border-t-blue-400">
+          class="flex justify-center items-center w-28 h-28 text-4xl text-blue-400 rounded-full border-8 border-gray-300 animate-spin border-t-blue-400">
           <!-- <svg viewBox="0 0 24 24" fill="currentColor" height="1em" width="1em" class="animate-ping">
       <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"></path>
     </svg> -->
@@ -16,56 +16,59 @@
       </div>
     </section>
 
-    <div class="flex items-center justify-center px-3 py-2 bg-white bg-opacity-50 ">
-      <div class="w-full max-w-4xl p-8 bg-white rounded-lg shadow-lg">
+    <div class="flex justify-center items-center px-3 py-2 bg-white bg-opacity-50">
+      <div class="p-8 w-full max-w-4xl bg-white rounded-lg shadow-lg">
         <h2 class="mb-6 text-4xl font-bold text-center text-sky-900">Crear una Cuenta</h2>
         <form>
           <div class="mb-4">
             <label for="nombre" class="block font-medium text-sky-900">Nombre</label>
             <div class="relative">
               <input v-model="name" type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-user left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-user"></i>
             </div>
           </div>
           <div class="mb-4">
             <label for="tipo-cuenta" class="block font-medium text-sky-900">Tipo de Cuenta</label>
             <div class="relative">
-              <select v-model="type" id="tipo-cuenta" name="tipo-cuenta"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <select :disabled="hasInvId" v-model="type" id="tipo-cuenta" name="tipo-cuenta"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
+                :class="{'bg-green-600 text-white placeholder:text-white' : hasInvId}"
                 required>
                 <option value="" disabled selected>Selecciona el tipo de cuenta</option>
                 <option value="propietario">Propietario/Inquilino</option>
                 <option value="administrador">Administrador</option>
               </select>
-              <i class="absolute text-sky-800 fas fa-user-tag left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-user-tag"></i>
             </div>
-            <div class="mt-2 text-sm text-gray-600">
+            <div v-if="!hasInvId" class="mt-2 text-sm text-gray-600">
               <i class="mr-1 fas fa-info-circle"></i>
               La cuenta por defecto es de <strong>Propietario/Inquilino</strong>. Seleccione
               <strong>Administrador</strong> si usted es responsable de la administración de un edificio o condominio.
             </div>
+            <p v-if="hasInvId" class="text-green-600"><i class="mr-1 fas fa-check"></i>Se ha ingresado el <strong>Tipo de cuenta</strong> via QR, puede omitir este campo.</p>
           </div>
           <div v-if="type.toLowerCase() == 'propietario'" class="mb-4 animate-fade-up">
             <label for="owner" class="block font-medium text-sky-900">Número de departamento</label>
             <div class="relative">
               <input v-model="departmentNumber" type="text" id="owner" name="owner"
                 placeholder="Ingresa el número de departamento"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-hashtag left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-hashtag"></i>
             </div>
           </div>
           <div v-if="type.toLowerCase() == 'propietario'" class="mb-4 animate-fade-up">
             <label for="invId" class="block font-medium text-sky-900">Código de invitación</label>
             <div class="relative">
-              <input v-model="invId" type="text " id="invId" name="invId" placeholder="Ingresa el código de invitación"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <input v-model="invId" :disabled="hasInvId" :class="{'bg-green-500 text-white placeholder:text-white' : hasInvId}" type="text " id="invId" name="invId" placeholder="Ingresa el código de invitación"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-address-card left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-address-card"></i>
+              <p v-if="hasInvId" class="text-green-600"><i class="mr-1 fas fa-check"></i>Se ha ingresado el <strong>Código de invitación</strong> via QR, puede omitir este campo.</p>
             </div>
-            <div>
+            <div v-if="!hasInvId">
               <small class="text-xs italic text-slate-500"><i class="mr-1 fas fa-info-circle"></i>Ingresa el código de
                 invitación de tu departamento, pregunta al administrador, por el código.</small>
             </div>
@@ -76,18 +79,18 @@
             <div class="relative">
               <input v-model="condominium" type="email" id="condominium" name="condominium"
                 placeholder="Ingresa el nombre del condominio "
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-building left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-building"></i>
             </div>
           </div>
           <div class="mb-4">
             <label for="correo" class="block font-medium text-sky-900">Correo Electrónico</label>
             <div class="relative">
               <input v-model="email" type="email" id="correo" name="correo" placeholder="Ingresa tu correo electrónico"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-envelope left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-envelope"></i>
             </div>
           </div>
           <div class="mb-4">
@@ -95,9 +98,9 @@
             <div class="relative">
               <input v-model="password" type="password" id="contrasena" name="contrasena"
                 placeholder="Ingresa tu contraseña"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-lock left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-lock"></i>
             </div>
           </div>
           <div class="mb-4">
@@ -105,14 +108,14 @@
             <div class="relative">
               <input v-model="cPassword" type="password" id="confirmar-contrasena" name="confirmar-contrasena"
                 placeholder="Confirma tu contraseña"
-                class="w-full px-3 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="px-3 py-2 pl-10 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required>
-              <i class="absolute text-sky-800 fas fa-lock left-3 top-3"></i>
+              <i class="absolute top-3 left-3 text-sky-800 fas fa-lock"></i>
             </div>
           </div>
           <div class="mb-6">
             <button @click.prevent="logUser(type)" type="submit"
-              class="w-full px-3 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Crear
+              class="px-3 py-2 w-full text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Crear
               Cuenta</button>
           </div>
           <div>
@@ -226,11 +229,23 @@ const router = useRouter();
 const condominiosRef = collection(db, "condominios");
 
 const validateFields = () => {
-  if (!name.value || !email.value || !password.value || !cPassword.value || !type.value) {
+  if (type.value.toLowerCase() == 'propietario' && !departmentNumber.value) {
+    notyf.error("Por favor, completa el número de departamento.");
+    return false;
+  }
+  if (type.value.toLowerCase() == 'propietario' && !invId.value) {
+    notyf.error("Por favor, completa el código de invitación.");
+    return false;
+  }
+  if (!name.value || !password.value || !cPassword.value || !type.value) {
     notyf.error("Por favor, completa todos los campos.");
     return false;
   }
-
+  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regexEmail.test(email.value)) {
+    notyf.error("Por favor, ingresa un correo electrónico válido.");
+    return false;
+  }
   if (password.value !== cPassword.value) {
     notyf.error("Las contraseñas no coinciden.");
     return false;
@@ -427,7 +442,10 @@ const logUser = (type: string) => {
 }
 // Obtener los parámetros
 const tipoCuenta = route.query.tipoCuenta || ''; // Valor por defecto si no está presente
-const codigoInvitacion = route.query.codigoInvitacion || '  ';
+const codigoInvitacion = route.query.codigoInvitacion || '';
+//variable that will contain the boolean to see if user entered the code via url
+const hasInvId = ref(false);
+
 
 console.log('Tipo de cuenta:', tipoCuenta);
 console.log('Código de invitación:', codigoInvitacion);
