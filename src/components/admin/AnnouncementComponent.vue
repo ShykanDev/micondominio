@@ -1,22 +1,22 @@
 <template>
-  <AnnouncementCard v-if="titulo.length > 0" class="fixed overflow-auto shadow-2xl bottom-3 left-3 max-h-56" :title="titulo" :description="descripcion"
+  <AnnouncementCard v-if="titulo.length > 0" class="overflow-auto fixed bottom-3 left-3 max-h-56 shadow-2xl" :title="titulo" :description="descripcion"
     :date="new Date().toDateString()" :category="category" :is-urgent="urgente" :is-edition="true"  :img="currentImage" >
   </AnnouncementCard>
-  <section class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md font-poppins">
+  <section class="p-6 mx-auto mt-10 max-w-4xl bg-white rounded-lg shadow-md font-poppins">
     <h2 class="mb-4 text-2xl font-bold text-sky-800"><i class="fas fa-bullhorn"></i> Nuevo Anuncio</h2>
     <form @submit.prevent="handleSubmit">
       <div class="mb-4">
         <label for="titulo" class="block mb-2 font-bold text-sky-800"><i class="fas fa-heading"></i> Título del
           Anuncio</label>
         <input v-model="titulo" type="text" id="titulo" name="titulo"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ingrese el título del anuncio" />
       </div>
       <div class="mb-4">
         <label for="category" class="block mb-2 font-bold text-sky-800"><i class="fas fa-tag"></i> Categoría del
           Anuncio</label>
         <input v-model="category" type="text" id="category" name="category"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ingrese la categoría del anuncio e.g. Pago de mantenimiento, etc." />
       </div>
 
@@ -24,21 +24,21 @@
         <label for="descripcion" class="block mb-2 font-bold text-sky-800"><i class="fas fa-align-left"></i>
           Descripción</label>
         <textarea v-model="descripcion" id="descripcion" name="descripcion"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ingrese la descripción del anuncio"></textarea>
       </div>
 
-      <div class="grid w-full max-w-xs items-center gap-1.5">
+      <div class="grid gap-1.5 items-center w-full max-w-xs">
         <label
           class="text-sm font-medium leading-none text-gray-400 peer-disabled:cursor-not-allowed peer-disabled:opacity-70"><i
-            class="mr-2 fas fa-image text-sky-600"></i> Imagen</label>
+            class="mr-2 text-sky-600 fas fa-image"></i> Imagen</label>
         <input
-          class="flex w-full text-sm text-gray-400 bg-white border border-blue-300 rounded-md border-input file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+          class="flex w-full text-sm text-gray-400 bg-white rounded-md border border-blue-300 border-input file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
           type="file" id="picture" @change="handleFileChange"
           accept="image/*"
           />
           <div>
-        <button type="button" v-if="currentImage" @click="cancelImage" class="px-4 py-2 rounded-md cursor-pointer text-sky-800 hover:text-sky-600 bg-slate-100 hover:bg-slate-200"><i class="mr-2 fas fa-times"></i> Cancelar Imagen</button>
+        <button type="button" v-if="currentImage" @click="cancelImage" class="px-4 py-2 text-sky-800 rounded-md cursor-pointer hover:text-sky-600 bg-slate-100 hover:bg-slate-200"><i class="mr-2 fas fa-times"></i> Cancelar Imagen</button>
       </div>
       </div>
       <!-- button to cancel the image -->
@@ -46,7 +46,7 @@
 
       <div class="flex items-center mt-3 mb-4">
         <input v-model="urgente" type="checkbox" id="urgente" name="urgente" class="mr-2" />
-        <label for="urgente" class="font-bold cursor-pointer text-sky-800"><i class="fas fa-exclamation-circle"></i> ¿Es
+        <label for="urgente" class="font-bold text-sky-800 cursor-pointer"><i class="fas fa-exclamation-circle"></i> ¿Es
           Urgente?</label>
       </div>
 

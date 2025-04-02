@@ -32,10 +32,16 @@
           </div>
           <nav class="mt-4 text-base font-poppins">
             <ul>
-              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(PaymentComponent)">
                 <a href="#" class="flex items-center">
-                  <i class="mr-3 fas fa-plus"></i>
+                  <v-icon name="ri-building-fill" class="mr-3"></v-icon>
                   Agregar Pago de Mantenimiento
+                </a>
+              </li>
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(HistoryPayment)">
+                <a href="#" class="flex items-center">
+               <v-icon name="fa-file-invoice" class="mr-3"/>
+                  Historial de pago de mantenimiento
                 </a>
               </li>
               <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
@@ -78,6 +84,12 @@
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-exclamation"></i>
                   Reportes/Quejas
+                </a>
+              </li>
+              <li @click="changeComponent(PrivateReportsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
+                <a href="#" class="flex items-center">
+                  <v-icon name="ri-chat-private-line" class="mr-3"></v-icon>
+                  Reportes Privados
                 </a>
               </li>
               <RouterLink :to="{ name: 'home' }" class="flex items-center p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
@@ -184,8 +196,9 @@ const SurveysComponent = defineAsyncComponent(() => import('../components/admin/
 const AnnouncementsComponent = defineAsyncComponent(() => import('../components/admin/AnnouncementsComponent.vue'));
 const UsersComponent = defineAsyncComponent(() => import('../components/admin/UsersComponent.vue'));
 const ReportsComponent = defineAsyncComponent(() => import('../components/admin/ReportsComponent.vue'));
-const ComplaintComponent = defineAsyncComponent(() => import('../components/admin/ComplaintComponent.vue'));
-
+const PrivateReportsComponent = defineAsyncComponent(() => import('../components/admin/PrivateReports.vue'));
+const PaymentComponent = defineAsyncComponent(() => import('../components/admin/PaymentComponent.vue'));
+const HistoryPayment = defineAsyncComponent(() => import('../components/admin/HistoryPayment.vue'));
 
 const currentComponent = shallowRef(NotifsComponent);
 

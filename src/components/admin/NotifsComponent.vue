@@ -1,23 +1,23 @@
 <template>
   <section>
-    <SurveyVotation v-show="surveyTitle" class="fixed z-40 bottom-3 left-2" :survey-description="surveyDescription"
+    <SurveyVotation v-show="surveyTitle" class="fixed left-2 bottom-3 z-40" :survey-description="surveyDescription"
       :survey-title="surveyTitle" :survey-options="survey.options" />
   </section>
-  <section class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-md font-poppins">
-    <h2 class="mb-4 text-2xl font-bold text-sky-800"><i class="fas fa-poll text-sky-900"></i> Crear Encuesta</h2>
+  <section class="p-6 mx-auto mt-10 max-w-4xl bg-white rounded-lg shadow-md font-poppins">
+    <h2 class="mb-4 text-2xl font-bold text-sky-800"><i class="text-sky-900 fas fa-poll"></i> Crear Encuesta</h2>
     <form @submit.prevent="">
       <div class="mb-4">
         <label for="titulo" class="block mb-2 font-bold text-sky-700"><i class="fas fa-heading"></i> Título de la
           Encuesta</label>
         <input v-model="surveyTitle" type="text" id="titulo" name="titulo"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ingrese el título de la encuesta">
       </div>
       <div class="mb-4 text-sky-800">
         <label for="descripcion" class="block mb-2 font-bold text-sky-700"><i class="fas fa-align-left"></i>
           Descripción</label>
         <textarea v-model="surveyDescription" id="descripcion" name="descripcion"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ingrese la descripción de la encuesta"></textarea>
       </div>
       <div class="flex flex-wrap my-3 space-x-2 font-poppins">
@@ -32,7 +32,7 @@
         <div id="opciones-container">
           <div class="flex items-center mb-2">
             <input @keypress.prevent.enter="addOption" v-model="surveyOption" type="text" name="opciones[]"
-              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Ingrese una opción">
           </div>
         </div>
@@ -83,6 +83,7 @@ const survey = ref({
 });
 
 const addOption = () => {
+  if (!surveyOption.value) return;
   survey.value.options.push({ option: surveyOption.value, numberVotes: 0 });
   surveyOption.value = '';
 }
@@ -100,7 +101,12 @@ const surveysCollectionRef = collection(db, `condominios/${sysVals().getCondomin
 // Enviando la encuesta a Firebase
 const submitSurvey = async () => {
   sysVals().setIsLoadingComponent(true)
-
+//validations
+if (!surveyTitle.value || !surveyDescription.value || survey.value.options.length === 0) {
+  notyf.error('Todos los campos son obligatorios');
+  sysVals().setIsLoadingComponent(false)
+  return;
+}
   try {
     // Agregar la encuesta a la colección
     const surveyToFbase = await addDoc(surveysCollectionRef, {
