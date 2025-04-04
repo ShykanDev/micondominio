@@ -1,11 +1,11 @@
 <template>
 <div :class="{ 'border-l-4 border-red-500': isUrgent, 'border-l-4 border-blue-500': !isUrgent }"
-     class="relative max-w-sm p-8 mx-auto mt-10 transition-shadow duration-300 shadow-lg rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 font-poppins hover:shadow-xl"
+     class="relative p-8 mx-auto mt-10 max-w-sm bg-gradient-to-br rounded-xl shadow-lg transition-shadow duration-300 from-slate-50 to-slate-100 font-poppins hover:shadow-xl"
      >
 
   <!-- Header -->
   <div class="flex items-center p-4 mb-6 rounded-lg" :class="{ 'bg-red-50': isUrgent, 'bg-blue-50': !isUrgent }">
-    <div class="flex items-center flex-1">
+    <div class="flex flex-1 items-center">
       <i class="mr-4 text-2xl" :class="{
         'text-red-500 animate-pulse': isUrgent,
         'text-blue-600': !isUrgent,
@@ -29,21 +29,21 @@
     <!-- Titulo y Descripción -->
     <div class="mb-6">
       <h3 class="mb-3 text-2xl font-bold tracking-tight text-gray-900">{{ title }}</h3>
-      <p class="p-4 leading-relaxed text-gray-700 bg-white border rounded-lg border-slate-200">
+      <p class="p-4 leading-relaxed text-gray-700 bg-white rounded-lg border border-slate-200">
         {{ description }}
       </p>
     </div>
 
     <!-- Metadatos -->
     <div class="grid grid-cols-2 gap-4 mb-6">
-      <div class="flex items-center p-3 bg-white border rounded-lg border-slate-200">
+      <div class="flex items-center p-3 bg-white rounded-lg border border-slate-200">
         <i class="mr-3 text-blue-500 fas fa-tag"></i>
         <div>
           <p class="mb-1 text-xs text-gray-500">Categoría</p>
           <p class="font-medium text-gray-800">{{ category }}</p>
         </div>
       </div>
-      <div class="flex items-center p-1 bg-white border rounded-lg border-slate-200">
+      <div class="flex items-center p-1 bg-white rounded-lg border border-slate-200">
         <i class="mr-3 text-purple-500 fas fa-user-shield"></i>
         <div>
           <p class="mb-1 text-xs text-gray-500">Publicado por</p>
@@ -53,12 +53,12 @@
     </div>
 
     <!-- Imagen -->
-    <div class="relative overflow-hidden transition-all duration-300 border-2 group rounded-xl border-slate-200 hover:border-blue-300">
+    <div class="overflow-hidden relative rounded-xl border-2 transition-all duration-300 group border-slate-200 hover:border-blue-300">
       <img v-if="img != ''" :src="img"
            class="object-cover w-full h-64 transition-transform duration-300 transform group-hover:scale-105">
       <div @click="show"
-           class="absolute inset-0 flex items-end justify-center p-6 transition-opacity duration-300 opacity-0 cursor-pointer bg-gradient-to-t from-black/60 to-transparent group-hover:opacity-100">
-        <button class="flex items-center px-5 py-2 space-x-2 text-gray-800 transition-colors rounded-full bg-white/90 hover:bg-white">
+           class="flex absolute inset-0 justify-center items-end p-6 bg-gradient-to-t to-transparent opacity-0 transition-opacity duration-300 cursor-pointer from-black/60 group-hover:opacity-100">
+        <button class="flex items-center px-5 py-2 space-x-2 text-gray-800 rounded-full transition-colors bg-white/90 hover:bg-white">
           <i class="text-blue-600 fas fa-expand-arrows-alt"></i>
           <span class="font-medium">Ampliar Imagen</span>
         </button>
@@ -66,12 +66,10 @@
     </div>
 
     <!-- Formulario de Respuesta -->
-    <div class="p-6 mt-8 bg-white border shadow-inner rounded-xl border-slate-100">
-      <div class="flex items-center justify-between mb-6">
+    <div class="p-6 mt-8 bg-white rounded-xl border shadow-inner border-slate-100">
+      <div class="flex justify-between items-center mb-6">
         <h3 class="text-xl font-bold text-gray-900">Responder al Comunicado</h3>
-        <button class="text-gray-400 transition-colors hover:text-gray-600">
-          <i class="fas fa-times"></i>
-        </button>
+
       </div>
 
       <form class="space-y-5">
@@ -81,9 +79,9 @@
           <div class="relative">
             <input type="text"
                    v-model="titleAnswer"
-                   class="w-full px-4 py-3 placeholder-gray-400 transition-all border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
+                   class="px-4 py-3 w-full placeholder-gray-400 rounded-lg border transition-all border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
                    placeholder="Ej: Solicitud de información adicional">
-            <i class="absolute text-gray-400 fas fa-heading right-4 top-4"></i>
+            <i class="absolute top-4 right-4 text-gray-400 fas fa-heading"></i>
           </div>
         </div>
 
@@ -92,10 +90,10 @@
           <label class="block mb-2 text-sm font-semibold text-gray-700">Tu mensaje</label>
           <div class="relative">
             <textarea
-              class="w-full h-32 px-4 py-3 placeholder-gray-400 transition-all border rounded-lg resize-none border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
+              class="px-4 py-3 w-full h-32 placeholder-gray-400 rounded-lg border transition-all resize-none border-slate-300 focus:ring-2 focus:ring-blue-400 focus:border-blue-400 focus:outline-none"
               v-model="commentAnswer"
               placeholder="Escribe aquí tu consulta o comentario..."></textarea>
-            <i class="absolute text-gray-400 fas fa-comment-dots right-4 top-4"></i>
+            <i class="absolute top-4 right-4 text-gray-400 fas fa-comment-dots"></i>
           </div>
         </div>
 

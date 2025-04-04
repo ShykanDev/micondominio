@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-50">
+  <header class="relative sticky top-0 z-50">
     <div
       class="flex justify-between px-4 py-4 mx-auto w-full text-white bg-white rounded-br-md rounded-bl-md shadow-lg">
       <div class="flex items-center text-xl font-bold text-gray-800">
@@ -50,7 +50,13 @@
         <RouterLink v-if="sysVals().getIsAdmin" :to="{ name: 'dashboard' }"
           class="p-1 font-medium text-white bg-sky-900 rounded-md transition-colors duration-100 ease-out hover:bg-sky-700 hover:text-white">
           Panel de Administración</RouterLink>
-          <v-icon name="io-notifications-outline" class="mr-3 text-black" scale="1.6"></v-icon>
+          <article class="relative p-1" >
+            <div class="absolute w-full h-full cursor-pointer" @click.stop="toggleNotification">
+
+            </div>
+            <v-icon v-if="!notyfValues().getNewNotification && ownerVals().getOwnerName" ref="notificationElement" id="notificationBell" name="io-notifications-outline" class="mr-3 text-black cursor-pointer" scale="1.6" ></v-icon>
+            <v-icon v-if="notyfValues().getNewNotification && ownerVals().getOwnerName" ref="notificationElement" id="notificationBellActive" name="md-notificationsactive" animation="ring" class="mr-3 text-rose-700 cursor-pointer" scale="1.6" ></v-icon>
+“          </article>
       </nav>
       <button @click="toggleMobileMenu" id="menu-btn" class="text-gray-600 md:hidden focus:outline-none">
         <i class="fas fa-bars"></i>
@@ -96,6 +102,14 @@
           Panel de Administración</RouterLink>
       </nav>
     </div>
+  <!-- Notification view -->
+  <article id="notificationView" class="absolute right-4 top-20 animate-jump-out animate-reverse animate-duration-300  shadow-md text-center py-2 bg-white rounded-3xl border font-poppins p-2 border-sky-800 min-w-[450px] overflow-auto max-w-[450px] min-h-60" v-if="isNotificationOpen">
+    <h2 v-if="notyfValues().getNewNotification" class="select-none">No hay notificaciones nuevas</h2>
+    <!-- Notification content -->
+     <article class="p-2 m-1 rounded-3xl border border-slate-200">
+      <h2 class="select-none">{{ notyfValues().getLatestNotification }}</h2>
+     </article>
+  </article>
   </header>
   <main class="overflow-hidden">
     <section v-if="sysVals().getIsLoadingLogin"
@@ -235,9 +249,11 @@ import LineLoading from '@/components/animations/LineLoading.vue';
 import { preferencesVals } from '@/stores/preferences';
 import { sysVals } from '@/stores/sysVals';
 import { getAuth, signOut } from 'firebase/auth';
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { IoNotificationsOutline } from "oh-vue-icons/icons";
+import { notyfValues } from '@/stores/notyfAlert';
+import { ownerVals } from '@/stores/ownerVals';
+
 const constDomains = [
   "<span class=\"text-sky-500\">gastos</span><span class=\"text-sky-800\">comunes</span><span class=\"text-sky-700\">condominio</span><span class=\"text-emerald-500\">.com</span>",
   "<span class=\"text-sky-500\">gastos</span><span class=\"text-sky-800\">comunes</span><span class=\"text-sky-700\">edificio</span><span class=\"text-emerald-500\">.com</span>",
@@ -248,7 +264,7 @@ const constDomains = [
 ];
 
 const currentDomain = ref(constDomains[0]);
-
+const notificationElement = ref<HTMLElement | null>(null);
 const aleatDomain = () => {
   setInterval(() => {
     currentDomain.value = constDomains[Math.floor(Math.random() * constDomains.length)];
@@ -271,6 +287,34 @@ const handleLogout = async() => {
   await signOut(auth)
   window.location.reload()
 }
+
+
+// Value for the notification view element
+const notificationView = ref<HTMLElement | null>(null);
+
+//function to toggle the notification view
+const isNotificationOpen = ref(false);
+
+const toggleNotification = () => {
+  isNotificationOpen.value = !isNotificationOpen.value;
+  console.log('Clicked, notification open: ', isNotificationOpen.value);
+  notyfValues().setNewNotification(false)
+  notyfValues().setComponentNotification('');
+  notyfValues().setNotificationContent('No hay notificaciones nuevas');
+}
+const closeNotification = (event: MouseEvent) => {
+  if ((event.target as HTMLElement).id !== 'notificationBell' && (event.target as HTMLElement).id !== 'notificationView') {
+    isNotificationOpen.value = false;
+  }
+};
+
+document.addEventListener('click', closeNotification);
+
+onUnmounted(() => {
+  document.removeEventListener('click', closeNotification);
+});
+
+
 </script>
 
 <style scoped>

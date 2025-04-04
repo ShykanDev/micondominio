@@ -27,7 +27,7 @@
         <!-- Sidebar -->
         <div id="sidebar" :class="['w-64 bg-slate-900 text-white', isSidebarHidden ? 'hidden' : '']"
           class="animate-fade-right">
-          <div class="p-4 text-2xl font-bold text-center border-b border-gray-700">
+          <div class="p-4 text-2xl font-bold text-center border-b border-gray-700 select-none">
             Admin Dashboard
           </div>
           <nav class="mt-4 text-base font-poppins">
