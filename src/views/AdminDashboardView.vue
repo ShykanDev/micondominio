@@ -62,6 +62,12 @@
                   Nuevo Anuncio
                 </a>
               </li>
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(ChatWithOwnerComponent)">
+                <a href="#" class="flex items-center">
+                  <v-icon name="fa-comment-dots" class="mr-3"></v-icon>
+                  Chatear con un propietario
+                </a>
+              </li>
               <li @click="changeComponent(CommentsComponent)" class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-comment"></i>
@@ -205,6 +211,7 @@ const ReportsComponent = defineAsyncComponent(() => import('../components/admin/
 const PrivateReportsComponent = defineAsyncComponent(() => import('../components/admin/PrivateReports.vue'));
 const PaymentComponent = defineAsyncComponent(() => import('../components/admin/PaymentComponent.vue'));
 const HistoryPayment = defineAsyncComponent(() => import('../components/admin/HistoryPayment.vue'));
+const ChatWithOwnerComponent = defineAsyncComponent(() => import('../components/admin/ChatWithOwnerComponent.vue'));
 
 const currentComponent = shallowRef(NotifsComponent);
 

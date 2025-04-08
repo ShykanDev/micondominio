@@ -8,8 +8,8 @@ import 'viewerjs/dist/viewer.css'
 import VueViewer from 'v-viewer'
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { FaFlag, RiZhihuFill, RiBuildingFill, LaFileInvoiceDollarSolid,MdShorttextRound,BiTextParagraph, RiImageAddLine,IoCloseCircle,FaFileInvoice, FaTrashAlt,RiChatPrivateLine,IoNotificationsOutline,MdNotificationsactive, GiHouseKeys , FaHouseUser,GiMoneyStack, GiTakeMyMoney,BiCardChecklist, RiCalendar2Line, RiHome2Line, RiInformationLine, BiCurrencyExchange, BiTrashFill} from "oh-vue-icons/icons";
-addIcons(FaFlag, RiZhihuFill, RiBuildingFill, LaFileInvoiceDollarSolid,MdShorttextRound, BiTextParagraph, RiImageAddLine,IoCloseCircle,FaFileInvoice, FaTrashAlt,RiChatPrivateLine,IoNotificationsOutline,MdNotificationsactive, GiHouseKeys, FaHouseUser,GiMoneyStack, GiTakeMyMoney, BiCardChecklist, RiCalendar2Line, RiHome2Line, RiInformationLine, BiCurrencyExchange, BiTrashFill);
+import { FaFlag, RiZhihuFill, RiBuildingFill, LaFileInvoiceDollarSolid,MdShorttextRound,BiTextParagraph, RiImageAddLine,IoCloseCircle,FaFileInvoice, FaTrashAlt,RiChatPrivateLine,IoNotificationsOutline,MdNotificationsactive, GiHouseKeys , FaHouseUser,GiMoneyStack, GiTakeMyMoney,BiCardChecklist, RiCalendar2Line, RiHome2Line, RiInformationLine, BiCurrencyExchange, BiTrashFill, FaCommentDots} from "oh-vue-icons/icons";
+addIcons(FaFlag, RiZhihuFill, RiBuildingFill, LaFileInvoiceDollarSolid,MdShorttextRound, BiTextParagraph, RiImageAddLine,IoCloseCircle,FaFileInvoice, FaTrashAlt,RiChatPrivateLine,IoNotificationsOutline,MdNotificationsactive, GiHouseKeys, FaHouseUser,GiMoneyStack, GiTakeMyMoney, BiCardChecklist, RiCalendar2Line, RiHome2Line, RiInformationLine, BiCurrencyExchange, BiTrashFill,FaCommentDots);
 
 
 // Import the functions you need from the SDKs you need

@@ -1,5 +1,5 @@
 <template>
-   <div class="w-full max-w-md p-6 rounded-lg shadow-lg hover:border-[1px] hover:border-sky-700 bg-slate-50">
+   <div class="w-full max-w-md p-6 rounded-lg shadow-lg hover:border-[1px] border border-sky-900 hover:border-sky-600 bg-slate-50">
         <div class="flex items-center mb-4">
             <i class="mr-3 text-3xl text-gray-500 fas fa-user-circle"></i>
             <div>
@@ -17,8 +17,8 @@
         <p class="mb-4 text-gray-700">
             {{ comment }}
         </p>
-        <div class="flex items-center justify-between min-w-60">
-            <div class="flex items-center w-full text-gray-500 ">
+        <div class="flex justify-between items-center min-w-60">
+            <div class="flex items-center w-full text-gray-500">
                 <i class="mr-1 fas fa-calendar-alt"></i>
                 <span class="text-xs">{{ date }}</span>
             </div>

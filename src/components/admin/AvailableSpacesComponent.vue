@@ -15,9 +15,9 @@
       </button>
     </article>
     </article>
-    <div class="flex gap-4 justify-center mt-4 w-full">
+    <div class="flex flex-wrap gap-4 justify-center mt-4 w-full sm:flex-nowrap">
       <!-- For sale spaces -->
-      <div class="p-4 w-1/2 bg-white rounded-3xl border border-slate-300 hover:border-slate-500">
+      <div class="p-4 w-full bg-white rounded-3xl border sm:w-1/2 border-slate-300 hover:border-slate-500">
         <div class="flex justify-center items-center">
           <v-icon name="gi-money-stack" class="mr-3 text-sky-800" scale="1.9" />
 
@@ -44,9 +44,34 @@
           <i class="mr-2 fas fa-plus"></i>
           Agregar
         </button>
+        <!-- Input to add image -->
+        <div class="relative p-4 bg-white rounded-xl shadow-sm transition-all duration-200 group hover:shadow-md">
+                <div class="flex gap-2 items-center mb-3">
+                    <v-icon name="ri-image-add-line" class="text-sky-700" scale="1.4"/>
+                    <label class="text-lg font-semibold text-sky-800">Adjuntar Imagen</label>
+                </div>
+
+                <div class="relative">
+                    <input type="file" id="file" class="hidden" @change="handleFileChange" accept="image/*">
+                    <label for="file"
+                           class="flex gap-2 justify-center items-center px-4 py-3 w-full text-lg text-sky-700 bg-sky-50 rounded-lg border-2 border-sky-200 border-dashed transition-all cursor-pointer hover:bg-sky-100 hover:border-sky-300">
+                        <v-icon name="hi-solid-cloud-upload" class="text-sky-500" scale="1.2"/>
+                        <span>Seleccionar archivo</span>
+                    </label>
+
+                    <div v-if="previewImage" class="relative mt-4 group">
+                        <img :src="previewImage" class="object-cover max-w-full h-48 rounded-lg border-2 border-sky-100 shadow-sm">
+                        <button @click="previewImage = null"
+                                class="absolute -top-3 -right-3 p-2 text-white bg-red-500 rounded-full shadow-lg transition-transform hover:scale-110">
+                            <v-icon name="md-close-round" class="text-white" scale="0.9"/>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
       </div>
       <!-- For rent spaces -->
-      <div class="p-4 w-1/2 bg-white rounded-3xl border border-slate-300 hover:border-slate-500">
+      <div class="p-4 w-full bg-white rounded-3xl border border-slate-300 hover:border-slate-500 sm:w-1/2">
         <div class="flex justify-center items-center">
           <v-icon name="gi-take-my-money" class="mr-3 text-sky-800" scale="1.9" />
 
@@ -69,6 +94,31 @@
           <i class="mr-2 fas fa-plus"></i>
           Agregar
         </button>
+         <!-- Input to add image -->
+         <div class="relative p-4 bg-white rounded-xl shadow-sm transition-all duration-200 group hover:shadow-md">
+                <div class="flex gap-2 items-center mb-3">
+                    <v-icon name="ri-image-add-line" class="text-sky-700" scale="1.4"/>
+                    <label class="text-lg font-semibold text-sky-800">Adjuntar Imagen</label>
+                </div>
+
+                <div class="relative">
+                    <input type="file" id="file-rent" class="hidden" @change="handleFileChange2" accept="image/*">
+                    <label for="file-rent"
+                           class="flex gap-2 justify-center items-center px-4 py-3 w-full text-lg text-sky-700 bg-sky-50 rounded-lg border-2 border-sky-200 border-dashed transition-all cursor-pointer hover:bg-sky-100 hover:border-sky-300">
+                        <v-icon name="hi-solid-cloud-upload" class="text-sky-500" scale="1.2"/>
+                        <span>Seleccionar archivo</span>
+                    </label>
+
+                    <div v-if="previewImage2" class="relative mt-4 group">
+                        <img :src="previewImage2" class="object-cover max-w-full h-48 rounded-lg border-2 border-sky-100 shadow-sm">
+                        <button @click="previewImage2 = null"
+                                class="absolute -top-3 -right-3 p-2 text-white bg-red-500 rounded-full shadow-lg transition-transform hover:scale-110">
+                            <v-icon name="md-close-round" class="text-white" scale="0.9"/>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
       </div>
     </div>
   </div>
@@ -81,7 +131,7 @@
       <h4 class="text-lg text-center text-gray-600 font-poppins">Aquí aparecerán todas sus  publicaciones que usted ha hecho</h4>
       <article class="overflow-y-auto text-center max-h-[950px] py-3">
         <div v-if="!gettingData && availableSpaces.length > 0" class="flex flex-wrap gap-4 justify-around items-center">
-          <AvailableSpaceCard @delete-space="emmitFunc1" v-for="space in availableSpaces" :key="space.id" :title="space.title" :description="space.description" :type="space.type" :date="space.date" :documentId="space.documentId" />
+          <AvailableSpaceCard @delete-space="emmitFunc1" v-for="space in availableSpaces" :key="space.id" :title="space.title" :description="space.description" :type="space.type" :date="space.date" :documentId="space.documentId" :image="space.image" />
         </div>
         <div v-if="gettingData" class="flex flex-wrap gap-4 justify-around items-center">
           <CardAnimation :class="(i % 2 === 0 ? 'animate-fade' : 'animate-fade')" class="cursor-wait" v-for="i in 12" :key="i" />
@@ -143,6 +193,8 @@ const db = getFirestore();
 const collectionRef = collection(db, `condominios/${sysVals().getAdminDocId}/availableSpaces`);
 const q = query(collectionRef, where('type', '!=', 'saled'));
 
+
+
 //Get data from firebase (both sale and rent)
 const getData = async () => {
   try {
@@ -181,17 +233,39 @@ const validateFields = (type: 'sale' | 'rent') => {
   return true;
 }
 
-
+const selectedFile = ref<File | null>(null)
+const selectedFile2 = ref<File | null>(null)
+const previewImage = ref<string | null>(null)
+const previewImage2 = ref<string | null>(null)
 
 const sendData = async (type: 'sale' | 'rent') => {
   if (!validateFields(type)) return;
+  let imageUrl = '';
+  if (type === 'sale' && selectedFile.value) {
+    imageUrl = await uploadImageToFreeImageHost(selectedFile.value);
+    if (!imageUrl) {
+      sysVals().setIsLoadingComponent(false);
+      notyf.error('Error al subir la imagen.');
+      return;
+    }
+  }
+  let imageUrl2 = '';
+  if (type === 'rent' && selectedFile2.value) {
+     imageUrl2 = await uploadImageToFreeImageHost(selectedFile2.value);
+    if (!imageUrl2) {
+      sysVals().setIsLoadingComponent(false);
+      notyf.error('Error al subir la imagen.');
+      return;
+    }
+  }
   try {
     sysVals().setIsLoadingComponent(true);
     await addDoc(collectionRef, {
       title: type === 'sale' ? saleTitle.value : rentTitle.value,
       description: type === 'sale' ? saleDescription.value : rentDescription.value,
       type: type,
-      date: Timestamp.now()
+      date: Timestamp.now(),
+      image: type === 'sale' ? imageUrl : imageUrl2
     });
 //Once the data is sent, reset the fields
     saleTitle.value = '';
@@ -221,6 +295,63 @@ const emmitFunc1 = async(data: string) => {
   console.log(data);
 
 }
+
+
+
+
+const handleFileChange = (event: Event) => {
+  previewImage.value = null
+  selectedFile.value = null
+
+  const target = event.target as HTMLInputElement
+  if (target.files && target.files[0]) {
+    selectedFile.value = target.files[0]
+    previewImage.value = URL.createObjectURL(target.files[0])
+  }
+}
+
+const handleFileChange2 = (event: Event) => {
+  previewImage2.value = null
+  selectedFile2.value = null
+
+  const target = event.target as HTMLInputElement
+  if (target.files && target.files[0]) {
+    selectedFile2.value = target.files[0]
+    previewImage2.value = URL.createObjectURL(target.files[0])
+  }
+}
+
+const uploadImageToFreeImageHost = async (imageFile: File) => {
+   sysVals().setIsLoadingComponent(true);
+
+   const formData = new FormData();
+   formData.append('image', imageFile); // The image you want to upload
+   formData.append('key', 'c1c5eb1a375c6b1069d7f5c0622751be');
+
+   try {
+     const response = await fetch('https://api.imgbb.com/1/upload', {
+       method: 'POST',
+       body: formData,
+     });
+
+     const data = await response.json();
+     if (data.success) {
+       console.log('Image uploaded successfully:', data.data.url); // Image URL
+       // You can save the image URL or do something with it here
+       return data.data.url;
+     } else {
+       console.error('Error uploading image:', data.error.message);
+       notyf.error('Error al subir la imagen');
+     }
+   } catch (error) {
+     console.error('Error during upload:', error);
+     notyf.error('Error al subir la imagen');
+   } finally {
+     sysVals().setIsLoadingComponent(false); // Stop the loading spinner
+   }
+ };
+
+
 </script>
 
 <style scoped></style>

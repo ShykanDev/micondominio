@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 mx-auto space-y-4 max-w-md bg-white rounded-2xl shadow-lg">
     <h2 class="flex gap-2 items-center text-xl font-bold">
-      <v-icon name="ri-home-2-line" class="text-blue-500" />
+
       {{ title }}
     </h2>
     <p class="flex gap-2 items-start text-gray-600">
@@ -20,6 +20,9 @@
       {{ type === 'sale' ? 'Venta' : 'Renta' }}
 
     </span>
+    <article class="flex justify-center w-full">
+      <img v-if="image" :src="image" class="object-cover w-full rounded-lg">
+    </article>
     <div class="flex justify-end w-full">
 
       <article @click="deleteSpace" class="flex gap-1 items-center p-1 px-2 bg-white rounded-2xl border border-red-700 cursor-pointer">
@@ -53,7 +56,8 @@ const props = defineProps({
   description: String,
   type: String,
   date: Object, // Firebase Timestamp
-  documentId: String
+  documentId: String,
+  image: String
 })
 
 const formattedDate = computed(() => {
