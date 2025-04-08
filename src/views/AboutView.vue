@@ -40,8 +40,6 @@
         <LoadingBarCrazy />
       </section>
       <!-- </article> -->
-
-
       <article class="relative w-full bg-white min-h-dvh">
         <component :is="sysVals().getAsyncComponent"/>
         <!-- Notification view -->
@@ -111,12 +109,6 @@ const isNotificationOpen = ref(false);
 const toggleNotification = () => {
   isNotificationOpen.value = !isNotificationOpen.value;
 }
-
-
-
-
-
-
 </script>
 
 <style scoped></style>

@@ -44,6 +44,12 @@
                   Historial de pago de mantenimiento
                 </a>
               </li>
+              <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(AvailableSpacesComponent)">
+                <a href="#" class="flex items-center">
+               <v-icon name="gi-house-keys" class="mr-3" scale="1.5"/>
+                  Espacios disponibles
+                </a>
+              </li>
               <li class="p-4 transition-colors duration-100 ease-out cursor-pointer hover:bg-gray-300 hover:text-sky-950" @click="changeComponent(NotifsComponent)">
                 <a href="#" class="flex items-center">
                   <i class="mr-3 fas fa-plus"></i>
@@ -184,7 +190,7 @@ import { qrVals } from '@/stores/qrVals';
 import { getAuth, signOut } from 'firebase/auth';
 import { getDoc } from 'firebase/firestore/lite';
 import { v4 as uuidv4 } from 'uuid';
-
+import AvailableSpacesComponent from '@/components/admin/AvailableSpacesComponent.vue';
 
 
 const isSidebarHidden = ref(false);
