@@ -98,6 +98,18 @@ const db = getFirestore();
 // Referencia a la colección de encuestas
 const surveysCollectionRef = collection(db, `condominios/${sysVals().getCondominiumId}/surveys`);
 
+const collectionNotif = collection(db, `condominios/${sysVals().getCondominiumId}/notifAlerts`);
+const  setFirebaseNewNotif = async (component: string, date: object, message: string) =>{
+  console.log("🔥 setFirebaseNewNotif fue llamado");
+  try {
+    await addDoc(collectionNotif, { component, date, message });
+    notyf.success('Notificación enviada');
+  } catch (error) {
+    console.log(error);
+    notyf.error('Error al enviar la notificación'+ error);
+  }
+}
+
 // Enviando la encuesta a Firebase
 const submitSurvey = async () => {
   sysVals().setIsLoadingComponent(true)
@@ -123,6 +135,7 @@ if (!surveyTitle.value || !surveyDescription.value || survey.value.options.lengt
       surveyDocId: surveyToFbase.id
     });
 
+    setFirebaseNewNotif('NotifsComponent', Timestamp.now(), 'Nueva Encuesta Disponible')
 
     // Limpiar los campos del formulario
     surveyTitle.value = '';

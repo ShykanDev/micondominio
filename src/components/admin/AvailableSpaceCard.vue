@@ -21,7 +21,7 @@
 
     </span>
     <article class="flex justify-center w-full">
-      <img v-if="image" :src="image" class="object-cover w-full rounded-lg">
+      <img v-if="image" :src="image" class="object-cover w-fullaad rounded-lg">
     </article>
     <div class="flex justify-end w-full">
 

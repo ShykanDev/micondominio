@@ -1,11 +1,11 @@
 <template>
-  <div class="cards-container">
-    <div v-for="(item, index) in users" :key="item.id" class="card">
+  <div v-if="!showChat" class="cards-container">
+    <div @click="setName(item.name,item.userUid)" v-for="(item, index) in users" :key="item.id" class="card">
       <h3><i class="fas fa-user"></i> {{ item.name }}</h3>
       <p><i class="fas fa-building"></i> Dept: {{ item.deptNumber }}</p>
       <p>
         <i class="fas fa-calendar-plus"></i>
-        Creado: {{ formatDate(item.creationDate.seconds) }}
+        Se unió el: {{ formatDate(item.creationDate.seconds) }}
       </p>
       <p>
         <i class="fas fa-comment-dots"></i>
@@ -18,13 +18,17 @@
       <button class="px-4 py-2 mt-5 text-white bg-sky-800 rounded-2xl"><v-icon name="fa-comment-dots" class="text-white"></v-icon> Iniciar chat</button>
     </div>
   </div>
+  <section>
+    <ChatComponent @emmit-call="toggleChat" v-if="showChat" :name="name" :receiver="receiver" />
+  </section>
 </template>
 
 
 <script lang="ts" setup>
 import { sysVals } from '@/stores/sysVals';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import ChatComponent from './ChatComponent.vue';
 
 
 //Firebase utils
@@ -40,41 +44,37 @@ const getUsers = async () => {
   users.value.push(...querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
 };
 
-getUsers();
 
+onMounted(() => {
+  getUsers();
+})
 
-const users = ref([
-  {
-    id: 'O2Zxr3WhfoVAPQLdAJnYi4tX0vK2',
-    firstCreation: true,
-    deptNumber: '87',
-    docId: '',
-    blockedReason: '',
-    creationDate: { seconds: 1741284759, nanoseconds: 748000000 },
-    isBlocked: false,
-    allowComments: true,
-    userUid: 'O2Zxr3WhfoVAPQLdAJnYi4tX0vK2',
-    associatedTo: 'G5wuoTUz1wZiwRCTits2Gf1loGK2',
-    name: 'Mariana Rodriguex',
-  },
-  {
-    id: 'm4KXc5D43nPOYgUe5jzZRsHSG3F3',
-    blockedReason: '',
-    firstCreation: true,
-    userUid: 'm4KXc5D43nPOYgUe5jzZRsHSG3F3',
-    associatedTo: 'G5wuoTUz1wZiwRCTits2Gf1loGK2',
-    deptNumber: '123C',
-    allowComments: true,
-    isBlocked: false,
-    name: 'Pablo Alejandro Carbajal Aburto',
-    docId: '',
-    creationDate: { seconds: 1741118459, nanoseconds: 563000000 },
-  },
-])
+const users = ref([])
 
 const formatDate = (seconds) => {
   const date = new Date(seconds * 1000)
   return date.toLocaleDateString()
+}
+
+const emmitCall = ()=> {
+  toggleChat()
+}
+const name = ref('')
+const receiver = ref('')
+
+const showChat = ref(false)
+
+const toggleChat = () => {
+  showChat.value = !showChat.value
+}
+
+const setName = (nameId: string , receiverId: string) => {
+  name.value = nameId;
+  receiver.value = receiverId;
+
+  console.log(nameId);
+
+  toggleChat();
 }
 </script>
 

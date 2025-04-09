@@ -250,6 +250,19 @@ const announcementsCollectionRef = collection(db, `condominios/${sysVals().getCo
 //   notyf.success('Posteado exitosamente');
 //   sysVals().setIsLoadingComponent(false)
 // };
+
+const collectionNotif = collection(db, `condominios/${sysVals().getCondominiumId}/notifAlerts`);
+const  setFirebaseNewNotif = async (component: string, date: object, message: string) =>{
+  console.log("🔥 setFirebaseNewNotif fue llamado");
+  try {
+    await addDoc(collectionNotif, { component, date, message });
+    notyf.success('Notificación enviada');
+  } catch (error) {
+    console.log(error);
+    notyf.error('Error al enviar la notificación'+ error);
+  }
+}
+
 const handleSubmit = async () => {
   sysVals().setIsLoadingComponent(true);
 
@@ -281,6 +294,7 @@ const handleSubmit = async () => {
       announcementId: announcementToFbase.id,
     });
 
+    setFirebaseNewNotif('AnnouncementComponent', Timestamp.now(), 'Nuevo anuncio del administrador')
     // Reiniciar valores
     titulo.value = '';
     descripcion.value = '';

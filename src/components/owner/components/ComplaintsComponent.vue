@@ -1,9 +1,9 @@
 <template>
   <div v-if="showAddComplaint"
-    class="fixed w-full max-w-md p-6 bg-white border-2 rounded-lg shadow-lg font-poppins bottom-2 left-2 border-rose-800">
+    class="fixed bottom-2 left-2 p-6 w-full max-w-md bg-white rounded-lg border-2 border-rose-800 shadow-lg font-poppins">
     <h2 class="mb-4 text-2xl font-bold text-gray-800">Levantar una Queja</h2>
     <button @click="toggleShowAddComplaint"
-      class="absolute px-4 py-2 text-white rounded-lg bg-slate-500 top-1 right-1 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+      class="absolute top-1 right-1 px-4 py-2 text-white rounded-lg bg-slate-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
       <i class="mr-2 fas fa-times"></i>
       Cerrar
     </button>
@@ -13,7 +13,7 @@
           <i class="fas fa-exclamation-circle"></i> Tipo de Queja
         </label>
         <input v-model="complaintCategory" type="text" id="tipo-queja"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Ingrese el tipo de queja e.g. Corte de luz">
       </div>
       <div class="mb-4">
@@ -21,8 +21,18 @@
           <i class="fas fa-align-left"></i> Resumen
         </label>
         <textarea v-model="complaint" id="resumen" rows="4"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="px-3 py-2 w-full rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Describa su queja"></textarea>
+      </div>
+      <div class="flex items-center space-x-2">
+        <input type="checkbox"
+               id="custom-checkbox"
+               class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 focus:ring-2"
+               v-model="vModelCheckbox"
+               >
+        <label for="custom-checkbox" class="text-sm font-medium text-gray-700">
+          Enviar mi queja de forma privada al administrador
+        </label>
       </div>
       <div class="flex justify-end">
         <button @click.prevent="addComplaint" type="submit"
@@ -33,11 +43,11 @@
     </form>
   </div>
   <button @click="toggleShowAddComplaint"
-    class="fixed px-4 py-2 text-white border-2 rounded-lg border-slate-600 bg-rose-500 font-poppins bottom-2 right-2 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500">
+    class="fixed right-2 bottom-2 px-4 py-2 text-white bg-rose-500 rounded-lg border-2 border-slate-600 font-poppins hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-rose-500">
     <i class="mr-2 fas fa-plus"></i>
     Nueva Queja
   </button>
-  <div class="flex flex-wrap p-4 space-y-4 bg-white rounded-lg shadow-lg justify-evenly">
+  <div class="flex flex-wrap justify-evenly p-4 space-y-4 bg-white rounded-lg shadow-lg">
     <ComplaintCard v-for="(e, index) in complaintsList.sort((a, b) => b.date - a.date)" :key="index"
       :complaint="e.complaint" :complaint-category="e.complaintCategory" :date="e.date" :document-id="e.documentId"
       :resolved="e.resolved" :resolved-by="e.resolvedBy" :resolved-date="e.resolvedDate" :user-name="e.userName"
@@ -60,7 +70,7 @@ const notyf = new Notyf({
   ripple: true,
 
 });
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, vModelCheckbox } from 'vue';
 import ComplaintCard from '../cards/ComplaintCard.vue';
 import { addDoc, collection, doc, getDoc, getDocs, getFirestore, Timestamp, updateDoc } from 'firebase/firestore';
 import { sysVals } from '@/stores/sysVals';
@@ -78,9 +88,10 @@ const toggleShowAddComplaint = () => {
 const complaint = ref('');
 const complaintCategory = ref('');
 
-
+const vModelCheckbox  = ref()
 const db = getFirestore();
 const complaintsCollectionRef = collection(db, `condominios/${sysVals().getAdminDocId}/complaints`);
+const privateComplaintsCollectionRef = collection(db, `condominios/${sysVals().getAdminDocId}/complaintsAdmin`);
 
 const getComplaints = async () => {
   console.log('admin doc id ', sysVals().getAdminDocId);
@@ -90,8 +101,8 @@ const getComplaints = async () => {
     const snapshot = await getDocs(complaintsCollectionRef);
     snapshot.forEach(e => {
       complaintsList.value.push({
-        ...e.data(),        // todos los datos del documento
-        documentId: e.id    // agregamos el id del documento
+        ...e.data(),
+        documentId: e.id
       });
       console.log(e.id);
     });
@@ -127,6 +138,7 @@ const addComplaint = async () => {
   //   return;
   // };
   try {
+    if (!vModelCheckbox.value){
     const docRef = await addDoc(complaintsCollectionRef, {
       date: Timestamp.now(),
       complaint: complaint.value,
@@ -144,6 +156,26 @@ const addComplaint = async () => {
     showAddComplaint.value = false
     complaint.value = ''
     complaintCategory.value = ''
+  }
+  else if(vModelCheckbox.value) {
+    const docRef = await addDoc(privateComplaintsCollectionRef, {
+      date: Timestamp.now(),
+      complaint: complaint.value,
+      complaintCategory: complaintCategory.value,
+      resolved: false,
+      resolvedDate: '',
+      resolvedBy: '',
+      documentId: '',
+      userName: ownerVals().getOwnerName,
+      userUid: sysVals().getUserUid
+    })
+    sysVals().setIsLoadingOwner(false);
+
+    notyf.success('Se ha agregado la queja')
+    showAddComplaint.value = false
+    complaint.value = ''
+    complaintCategory.value = ''
+  }
   } catch (error) {
     sysVals().setIsLoadingOwner(false);
 

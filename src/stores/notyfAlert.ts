@@ -1,6 +1,11 @@
 import type { INotyf } from "@/interfaces/INotyf";
 import { defineStore } from "pinia";
 
+
+
+
+
+
 export const notyfValues = defineStore('notyfValues', {
   state: () => ({
     newNotification: false,
@@ -8,6 +13,7 @@ export const notyfValues = defineStore('notyfValues', {
     notificationContent: '',
     oldNotification: {} as INotyf,
     latestNotification: {} as INotyf,
+    latestNotificationDate: {},
   }),
   actions: {
     setNewNotification(value: boolean) {
@@ -21,7 +27,13 @@ export const notyfValues = defineStore('notyfValues', {
     },
     setLatestNotification(value: INotyf) {
       this.latestNotification = value
-    }
+    },
+    setLatestNotificationDate(date:object){
+      this.latestNotificationDate = date;
+    },
+
+
+
   },
   getters: {
     getNewNotification(state): boolean {

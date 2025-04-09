@@ -163,7 +163,7 @@
               <i class="fas fa-bars"></i>
             </button>
           </div>
-          <h1 class="mb-6 text-3xl font-semibold text-center text-sky-700 font-poppins">Panel de Administración</h1>
+          <h1 class="hidden mb-6 text-3xl font-semibold text-center text-sky-700 font-poppins">Panel de Administración</h1>
           <div v-if="sysVals().getIsLoadingComponent"
             class="flex fixed top-0 right-0 bottom-0 left-0 justify-center items-center bg-white/30">
             <LoadingDatabase></LoadingDatabase>

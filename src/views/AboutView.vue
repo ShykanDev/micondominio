@@ -9,6 +9,11 @@
           class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
           <i class="mr-2 fas fa-comment"></i>Comentar
         </p>
+        <p @click="sysVals().setAsyncComponent(HistoryPayment)"
+          :class="sysVals().getAsyncComponentText === 'HistoryPayment' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+          class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+          <i class="mr-2 fas fa-home"></i>Pago de mantenimiento
+        </p>
 
         <p @click="sysVals().setAsyncComponent(CommentComponent)"
           :class="sysVals().getAsyncComponentText === 'CommentComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
@@ -59,15 +64,18 @@ import LoadingBarCrazy from '@/components/animations/LoadingBarCrazy.vue';
 import { notyfValues } from '@/stores/notyfAlert';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { sysVals } from '@/stores/sysVals';
-import { collection, getFirestore, onSnapshot } from 'firebase/firestore';
+import { collection, getFirestore, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { defineAsyncComponent, onMounted, onUnmounted, ref, shallowRef } from 'vue';
 import type { INotyf } from '@/interfaces/INotyf';
+
 
 const CommentComponent = defineAsyncComponent(() => import('../components/owner/CommentComponent.vue'));//comments list from firebase, and the first component that is loaded on mount
 const AnnouncementComponent = defineAsyncComponent(() => import('../components/owner/components/AnnouncementComponent.vue'));//announcements list from firebase
 const CreateCommentComponent = defineAsyncComponent(() => import('../components/owner/components/CreateCommentComponent.vue'));//create comment
 const SurveyComponent = defineAsyncComponent(() => import('../components/owner/components/SurveysComponent.vue'));//survey list from firebase
 const ComplaintsComponent = defineAsyncComponent(() => import('../components/owner/components/ComplaintsComponent.vue'));//complaint list from firebase
+const HistoryPayment = defineAsyncComponent(() => import('../components/owner/components/HistoryPayment.vue'));//complaint list from firebase
+
 
 const currentComponent = shallowRef(CreateCommentComponent);
 const styleCurrentComponent = ref('');
@@ -81,21 +89,24 @@ const handleComponentChange = (componentName: any) => {
 const isFetchAvailable = ref(false);
 
 const db = getFirestore();
-const unsub = onSnapshot(collection(db, `condominios/${sysVals().getAdminDocId}/notifAlerts`), (querySnapshot) => {
-  notyfValues().setLatestNotification(querySnapshot.docs[0].data() as INotyf); //set latest notification
-  querySnapshot.forEach((doc) => {
-    console.log(doc.data());
-    //set latest notification
-
-    notyfValues().setLatestNotification(doc.data() as INotyf);
-    notyfValues().setNewNotification(true);
+const unsub = onSnapshot(
+  query(
+    collection(db, `condominios/${sysVals().getAdminDocId}/notifAlerts`),
+    orderBy('date', 'asc')
+  ),
+  (querySnapshot) => {
+    console.log('Getting data');
+    notyfValues().setLatestNotification(querySnapshot.docs[0].data() as INotyf);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      notyfValues().setLatestNotification(doc.data() as INotyf);
+      notyfValues().setNewNotification(true);
+    });
   },
-    (error: any) => {
-      console.log(error);
-    }
-  );
-  console.log('Notifications fetched');
-});
+  (error: any) => {
+    console.log(error);
+  }
+);
 onMounted(() => {
   isFetchAvailable.value = true;
 })

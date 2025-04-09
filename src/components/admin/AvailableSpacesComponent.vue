@@ -238,6 +238,18 @@ const selectedFile2 = ref<File | null>(null)
 const previewImage = ref<string | null>(null)
 const previewImage2 = ref<string | null>(null)
 
+const collectionNotif = collection(db, `condominios/${sysVals().getCondominiumId}/notifAlerts`);
+const  setFirebaseNewNotif = async (component: string, date: object, message: string) =>{
+  console.log("🔥 setFirebaseNewNotif fue llamado");
+  try {
+    await addDoc(collectionNotif, { component, date, message });
+    notyf.success('Notificación enviada');
+  } catch (error) {
+    console.log(error);
+    notyf.error('Error al enviar la notificación'+ error);
+  }
+}
+
 const sendData = async (type: 'sale' | 'rent') => {
   if (!validateFields(type)) return;
   let imageUrl = '';
@@ -267,6 +279,7 @@ const sendData = async (type: 'sale' | 'rent') => {
       date: Timestamp.now(),
       image: type === 'sale' ? imageUrl : imageUrl2
     });
+    setFirebaseNewNotif('AvailableSpacesComponent', Timestamp.now(), 'Nuevo Espacio de Mantenimiento Disponible');
 //Once the data is sent, reset the fields
     saleTitle.value = '';
     saleDescription.value = '';

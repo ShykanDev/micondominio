@@ -51,8 +51,7 @@
           class="p-1 font-medium text-white bg-sky-900 rounded-md transition-colors duration-100 ease-out hover:bg-sky-700 hover:text-white">
           Panel de Administración</RouterLink>
           <article class="relative p-1" >
-            <div class="absolute w-full h-full cursor-pointer" @click.stop="toggleNotification">
-
+            <div class="absolute top-0 right-0 bottom-0 left-0 w-full h-full cursor-pointer bg-rose-800/0" @click.stop="toggleNotification">
             </div>
             <v-icon v-if="!notyfValues().getNewNotification && ownerVals().getOwnerName" ref="notificationElement" id="notificationBell" name="io-notifications-outline" class="mr-3 text-black cursor-pointer" scale="1.6" ></v-icon>
             <v-icon v-if="notyfValues().getNewNotification && ownerVals().getOwnerName" ref="notificationElement" id="notificationBellActive" name="md-notificationsactive" animation="ring" class="mr-3 text-rose-700 cursor-pointer" scale="1.6" ></v-icon>
@@ -106,8 +105,9 @@
   <article id="notificationView" class="absolute right-4 top-20 animate-jump-out animate-reverse animate-duration-300  shadow-md text-center py-2 bg-white rounded-3xl border font-poppins p-2 border-sky-800 min-w-[450px] overflow-auto max-w-[450px] min-h-60" v-if="isNotificationOpen">
     <h2 v-if="notyfValues().getNewNotification" class="select-none">No hay notificaciones nuevas</h2>
     <!-- Notification content -->
-     <article class="p-2 m-1 rounded-3xl border border-slate-200">
-      <h2 class="select-none">{{ notyfValues().getLatestNotification }}</h2>
+     <article class="relative p-2 py-4 m-1 rounded-3xl border cursor-pointer border-slate-200">
+      <h2 class="select-none">{{ notyfValues().getLatestNotification.message}}</h2>
+      <h5 class="absolute right-0 bottom-0 text-xs select-none text-slate-600">{{ formattedDate(notyfValues().getLatestNotification.date )}}</h5>
      </article>
   </article>
   </header>
@@ -253,6 +253,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { notyfValues } from '@/stores/notyfAlert';
 import { ownerVals } from '@/stores/ownerVals';
+import { Timestamp } from 'firebase/firestore';
 
 const constDomains = [
   "<span class=\"text-sky-500\">gastos</span><span class=\"text-sky-800\">comunes</span><span class=\"text-sky-700\">condominio</span><span class=\"text-emerald-500\">.com</span>",
@@ -314,7 +315,25 @@ onUnmounted(() => {
   document.removeEventListener('click', closeNotification);
 });
 
+const formattedDate = (timestampDate: any): string => {
+  // Si es un Timestamp de Firebase, convertirlo a Date
+  const date = timestampDate instanceof Timestamp
+    ? timestampDate.toDate()
+    : new Date(timestampDate);
 
+  // Obtener los componentes de la fecha
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+
+  // Formatear la fecha en español
+  return date.toLocaleDateString('es-ES', options);
+};
 </script>
 
 <style scoped>

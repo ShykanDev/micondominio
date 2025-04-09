@@ -111,6 +111,7 @@
 </template>
 
 <script lang="ts" setup>
+import { notyfValues } from '@/stores/notyfAlert';
 import { sysVals } from '@/stores/sysVals';
 import { addDoc, collection, getFirestore, Timestamp } from 'firebase/firestore';
 import { Notyf } from 'notyf'
@@ -179,6 +180,19 @@ const uploadImageToFreeImageHost = async (imageFile: File) => {
 const  db  = getFirestore();
 
  const collectionFb = collection(db,`condominios/${sysVals().getCondominiumId}/maintenanceHistory`);
+ const collectionNotif = collection(db, `condominios/${sysVals().getCondominiumId}/notifAlerts`);
+
+const  setFirebaseNewNotif = async (component: string, date: object, message: string) =>{
+  console.log("🔥 setFirebaseNewNotif fue llamado");
+  try {
+    await addDoc(collectionNotif, { component, date, message });
+
+    notyf.success('Notificación enviada');
+  } catch (error) {
+    console.log(error);
+    notyf.error('Error al enviar la notificación'+ error);
+  }
+}
 
  const sendDocument = async () =>   {
   //Validation for empty fields
@@ -189,7 +203,6 @@ const  db  = getFirestore();
    let imageUrl = '';
    if (selectedFile.value) {
      imageUrl = await uploadImageToFreeImageHost(selectedFile.value);
-
      if (!imageUrl) {
        sysVals().setIsLoadingComponent(false);
        notyf.error('Error al subir la imagen.');
@@ -203,6 +216,8 @@ const  db  = getFirestore();
         imgUrl: imageUrl,
         title:title.value
       })
+      setFirebaseNewNotif('PaymentComponent', Timestamp.now(), 'Nuevo Pago de Mantenimiento');
+
       notyf.success('Documento enviado correctamente')
       title.value = '';
       description.value = '';
