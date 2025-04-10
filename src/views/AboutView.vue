@@ -14,6 +14,11 @@
           class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
           <i class="mr-2 fas fa-home"></i>Pago de mantenimiento
         </p>
+        <p @click="sysVals().setAsyncComponent(ChatComponent)"
+          :class="sysVals().getAsyncComponentText == 'ChatComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+          class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+          <i class="mr-2 fas fa-user"></i> Hablar con el administrador
+        </p>
 
         <p @click="sysVals().setAsyncComponent(CommentComponent)"
           :class="sysVals().getAsyncComponentText === 'CommentComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
@@ -36,7 +41,12 @@
         <p @click="sysVals().setAsyncComponent(ComplaintsComponent)"
           :class="sysVals().getAsyncComponentText === 'ComplaintsComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
           class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
-          <i class="mr-2 fas fa-exclamation-triangle"></i>Quejas
+          <i class="mr-2 fas fa-exclamation-triangle"></i>Quejas Generales
+        </p>
+        <p @click="sysVals().setAsyncComponent(MyComplaintsComponent)"
+          :class="sysVals().getAsyncComponentText === 'MyComplaintsComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+          class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+          <i class="mr-2 fas fa-exclamation-triangle"></i> Mis Quejas Privadas
         </p>
       </div>
       <!-- <article class="w-full bg-white min-h-dvh"> -->
@@ -67,6 +77,7 @@ import { sysVals } from '@/stores/sysVals';
 import { collection, getFirestore, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { defineAsyncComponent, onMounted, onUnmounted, ref, shallowRef } from 'vue';
 import type { INotyf } from '@/interfaces/INotyf';
+import ChatComponent from '@/components/owner/ChatComponent.vue';
 
 
 const CommentComponent = defineAsyncComponent(() => import('../components/owner/CommentComponent.vue'));//comments list from firebase, and the first component that is loaded on mount
@@ -74,6 +85,7 @@ const AnnouncementComponent = defineAsyncComponent(() => import('../components/o
 const CreateCommentComponent = defineAsyncComponent(() => import('../components/owner/components/CreateCommentComponent.vue'));//create comment
 const SurveyComponent = defineAsyncComponent(() => import('../components/owner/components/SurveysComponent.vue'));//survey list from firebase
 const ComplaintsComponent = defineAsyncComponent(() => import('../components/owner/components/ComplaintsComponent.vue'));//complaint list from firebase
+const MyComplaintsComponent = defineAsyncComponent(() => import('../components/owner/components/MyComplaintsComponent.vue'));//complaint list from firebase
 const HistoryPayment = defineAsyncComponent(() => import('../components/owner/components/HistoryPayment.vue'));//complaint list from firebase
 
 
