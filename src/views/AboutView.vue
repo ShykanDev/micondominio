@@ -14,6 +14,11 @@
           class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
           <i class="mr-2 fas fa-home"></i>Pago de mantenimiento
         </p>
+        <p @click="sysVals().setAsyncComponent(AvailableSpacesComponent)"
+          :class="sysVals().getAsyncComponentText === 'AvailableSpacesComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
+          class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
+          <i class="mr-2 fas fa-building"></i>Espacios disponibles
+        </p>
         <p @click="sysVals().setAsyncComponent(ChatComponent)"
           :class="sysVals().getAsyncComponentText == 'ChatComponent' ? 'bg-gradient-to-r from-sky-600 to-blue-500 text-white shadow-md' : 'bg-white/90 hover:bg-gray-50/80 text-slate-600'"
           class="flex-1 min-w-[120px] px-4 py-2.5 text-sm font-medium text-center rounded-lg cursor-pointer transition-all duration-200 hover:shadow-sm hover:-translate-y-0.5 border border-gray-200/30">
@@ -87,7 +92,7 @@ const SurveyComponent = defineAsyncComponent(() => import('../components/owner/c
 const ComplaintsComponent = defineAsyncComponent(() => import('../components/owner/components/ComplaintsComponent.vue'));//complaint list from firebase
 const MyComplaintsComponent = defineAsyncComponent(() => import('../components/owner/components/MyComplaintsComponent.vue'));//complaint list from firebase
 const HistoryPayment = defineAsyncComponent(() => import('../components/owner/components/HistoryPayment.vue'));//complaint list from firebase
-
+const AvailableSpacesComponent = defineAsyncComponent(() => import('../components/owner/components/AvailableSpacesComponent.vue'));//complaint list from firebase
 
 const currentComponent = shallowRef(CreateCommentComponent);
 const styleCurrentComponent = ref('');
