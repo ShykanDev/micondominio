@@ -24,7 +24,7 @@
     "notyf": "^3.10.0",
     "oh-vue-icons": "^1.0.0-rc3",
     "pinia": "^2.3.0",
-    "pinia-plugin-persistedstate": "^4.2.0",
+    "pinia-plugin-persistedstate": "^4.5.0",
     "qrcode.vue": "^3.6.0",
     "tailwindcss-animated": "^1.1.2",
     "uuid": "^11.0.5",
