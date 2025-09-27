@@ -28,7 +28,7 @@
     "qrcode.vue": "^3.6.0",
     "tailwindcss-animated": "^1.1.2",
     "uuid": "^11.0.5",
-    "v-viewer": "^3.0.21",
+    "v-viewer": "^3.0.22",
     "viewerjs": "^1.11.7",
     "vue": "^3.5.13",
     "vue-chartjs": "^5.3.2",
